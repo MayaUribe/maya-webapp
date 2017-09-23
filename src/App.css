@@ -1,3 +1,8 @@
+body {
+  background-color: #fff;
+  font-family: Catamaran,Helvetica,Arial,sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -11,14 +16,14 @@
 
 .logo {
   color: #61dafb;
-  font-size: 47px;
   font-weight: 400;
   border: 1px solid;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  padding: 30px 40px 30px 20px;
+  width: 80px;
+  height: 80px;
+  padding: 20px 0px 0px 0px;
   margin: 0 auto;
+  font-size: 40px;
 }
 
 .subtitle {
