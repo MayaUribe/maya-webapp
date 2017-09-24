@@ -575,8 +575,21 @@ fieldset[disabled] .btn-primary:hover {
   background-color: #d2034a; }
 .btn-primary .badge {
   color: #d2034a;
-  background-color: white; }
-
+  background-color: white;
+}
+@media (max-width: 767px) {
+  .btn-md {
+    font-size: 16px !important;
+    font-weight: 700;
+    padding: 12px 32px !important;
+    border-radius: 3px;
+    color: white;
+    border-color: #c10244;
+    background-color: #d2034a;
+    font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+  }
+}
 .btn-xl {
   font-size: 18px;
   font-weight: 700;
@@ -586,7 +599,8 @@ fieldset[disabled] .btn-primary:hover {
   border-color: #c10244;
   background-color: #d2034a;
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+}
 .btn-xl.focus, .btn-xl:focus {
   color: white;
   border-color: #c10244;

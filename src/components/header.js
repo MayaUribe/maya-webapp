@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../img/logo-130.png';
+import FaBars from '../../node_modules/react-icons/lib/fa/bars';
 
 class Header extends Component {
   render() {
@@ -10,7 +11,7 @@ class Header extends Component {
             <a className="navbar-brand js-scroll-trigger" href="#page-top"><img src={logo} width={62}/>Maya Uribe</a>
             <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               Menu
-              <i className="fa fa-bars"></i>
+              <FaBars className="icon" />
             </button>
             <div className="collapse navbar-collapse" id="navbarResponsive">
               <ul className="navbar-nav ml-auto">
@@ -33,7 +34,7 @@ class Header extends Component {
             <div className="intro-text">
               <div className="intro-heading">I'm a Software Developer</div>
               <div className="intro-lead-in">Hi there! My name is Maria Alejandra and I'm a Software Developer, </div>
-              <a className="btn btn-xl js-scroll-trigger" href="#services">Contact Me</a>
+              <a className="btn btn-xl btn-md btn-xs js-scroll-trigger" href="#services">Contact Me</a>
             </div>
           </div>
         </header>
