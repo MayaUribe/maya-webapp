@@ -67,7 +67,7 @@ body {
   -webkit-tap-highlight-color: #d2034a; }
 
 #mainNav {
-  background-color: #222222; }
+  background-color: #35b3b9; }
 #mainNav .navbar-toggler {
   font-size: 12px;
   right: 0;
@@ -83,7 +83,7 @@ body {
   font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
 }
 #mainNav .navbar-brand img {
-  margin-right: 10px;
+  margin-right: 7px;
 }
 #mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
   color: #bd0344;
@@ -93,7 +93,7 @@ body {
   font-weight: 400;
   padding: 0.75em 0;
   letter-spacing: 1px;
-  color: white;
+  color: #545454;
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-transform: uppercase; }
 #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
@@ -118,26 +118,16 @@ body {
   #mainNav.navbar-shrink {
     padding-top: 0;
     padding-bottom: 0;
-    background-color: #222222; }
+    background-color: #35b3b9;
+  }
   #mainNav.navbar-shrink .navbar-brand {
     font-size: 1.25em;
-    padding: 12px 0; } }
-
-/*header.masthead {
-  text-align: center;
-  color: white;
-  background-image: url("./img/header-bg.jpg");
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}*/
+    padding: 12px 0;
+  }
+}
 header.masthead {
   text-align: center;
-  color: white;
+  color: #545454;
   background-image: url("./img/header-bg.png");
   background-repeat: repeat;
   background-attachment: scroll;
@@ -148,9 +138,9 @@ header.masthead .intro-text {
   padding-bottom: 100px; }
 header.masthead .intro-text .intro-lead-in {
   font-size: 12px;
-  line-height: 12px;
+  line-height: 15px;
   margin-bottom: 25px;
-  font-weight: lighter;
+  font-weight: normal;
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 header.masthead .intro-text .intro-heading {
   font-size: 22px;
@@ -158,39 +148,46 @@ header.masthead .intro-text .intro-heading {
   line-height: 22px;
   margin-bottom: 15px;
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+}
 
 @media (min-width: 768px) {
   header.masthead .intro-text {
     padding-top: 300px;
-    padding-bottom: 200px; }
+    padding-bottom: 200px;
+  }
   header.masthead .intro-text .intro-lead-in {
     font-size: 22px;
-    line-height: 22px;
+    line-height: 30px;
     margin-bottom: 25px;
-    font-weight: lighter;
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    font-weight: normal;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
   header.masthead .intro-text .intro-heading {
     font-size: 36px;
     font-weight: 700;
     line-height: 36px;
     margin-bottom: 25px;
     font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    text-transform: uppercase; } }
+    text-transform: uppercase;
+  }
+}
 
 .service-heading {
   margin: 15px 0;
-  text-transform: none; }
-
+  text-transform: none;
+}
 #portfolio .portfolio-item {
   right: 0;
-  margin: 0 0 15px; }
+  margin: 0 0 15px;
+}
 #portfolio .portfolio-item .portfolio-link {
   position: relative;
   display: block;
   max-width: 400px;
   margin: 0 auto;
-  cursor: pointer; }
+  cursor: pointer;
+}
 #portfolio .portfolio-item .portfolio-link .portfolio-hover {
   position: absolute;
   width: 100%;
@@ -199,9 +196,11 @@ header.masthead .intro-text .intro-heading {
   -moz-transition: all ease 0.5s;
   transition: all ease 0.5s;
   opacity: 0;
-  background: rgba(254, 209, 54, 0.9); }
+  background: rgba(53, 179, 185, 0.9);
+}
 #portfolio .portfolio-item .portfolio-link .portfolio-hover:hover {
-  opacity: 1; }
+  opacity: 1;
+}
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
   font-size: 20px;
   position: absolute;
@@ -210,18 +209,22 @@ header.masthead .intro-text .intro-heading {
   height: 20px;
   margin-top: -12px;
   text-align: center;
-  color: white; }
+  color: white;
+}
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
-  margin-top: -12px; }
+  margin-top: -12px;
+}
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h3,
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h4 {
-  margin: 0; }
+  margin: 0;
+}
 #portfolio .portfolio-item .portfolio-caption {
   max-width: 400px;
   margin: 0 auto;
   padding: 25px;
   text-align: center;
-  background-color: white; }
+  background-color: white;
+}
 #portfolio .portfolio-item .portfolio-caption h4 {
   margin: 0;
   text-transform: none; }
@@ -574,8 +577,8 @@ fieldset[disabled] .btn-primary:hover {
   border-color: #d2034a;
   background-color: #d2034a; }
 .btn-primary .badge {
-  color: #d2034a;
-  background-color: white;
+  background-color: #d2034a;
+  color: white;
 }
 @media (max-width: 767px) {
   .btn-md {
@@ -588,6 +591,9 @@ fieldset[disabled] .btn-primary:hover {
     background-color: #d2034a;
     font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-transform: uppercase;
+  }
+  section h2.section-heading {
+    font-size: 22px;
   }
 }
 .btn-xl {
@@ -631,6 +637,17 @@ fieldset[disabled] .btn-xl:hover {
   border-color: #d2034a;
   background-color: #d2034a; }
 .btn-xl .badge {
+  background-color: #d2034a;
+  color: white;
+}
+.fa-3x {
+  font-size: 3em;
+}
+.badge {
+  background-color: #d2034a;
+  margin-right: 8px;
+}
+ul.list-inline.quicklinks {
+  text-transform: none;
   color: #d2034a;
-  background-color: white; }
-
+}
