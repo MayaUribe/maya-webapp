@@ -150,6 +150,7 @@ header.masthead .intro-text .intro-lead-in {
   font-size: 12px;
   line-height: 12px;
   margin-bottom: 25px;
+  font-weight: lighter;
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 header.masthead .intro-text .intro-heading {
   font-size: 22px;
@@ -167,6 +168,7 @@ header.masthead .intro-text .intro-heading {
     font-size: 22px;
     line-height: 22px;
     margin-bottom: 25px;
+    font-weight: lighter;
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
   header.masthead .intro-text .intro-heading {
     font-size: 36px;
