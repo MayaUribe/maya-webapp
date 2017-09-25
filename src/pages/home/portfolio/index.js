@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FaPlus from '../../node_modules/react-icons/lib/fa/plus';
-import {PROJECTS} from '../data/projects';
+import FaPlus from '../../../../node_modules/react-icons/lib/fa/plus';
+import {PROJECTS} from '../../../data/projects';
 
 class Portfolio extends Component {
   _renderTagRow(tag, i) {
