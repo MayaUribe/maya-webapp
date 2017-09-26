@@ -831,6 +831,15 @@ div#summary {
   line-height: 1.42857;
   background-color: #71799c;
   border-color: #71799c;
+  cursor: pointer;
+}
+
+.btn-circle:hover,
+.btn-circle:active,
+.btn-circle:active:focus,
+.btn-circle:focus {
+  background-color: #565d7b;
+  border-color: #616888;
 }
 
 .back-button {
