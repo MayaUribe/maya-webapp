@@ -334,7 +334,45 @@ export const PROJECTS = [
       {
         file: 'devices.js',
         language: 'javascript',
-        code: 'class Devices extends Component {\n' +
+        code: 'import React, {\n' +
+        '  StyleSheet,\n' +
+        '  View,\n' +
+        '  ScrollView,\n' +
+        '  Image,\n' +
+        '  Component\n' +
+        '} from \'react-native\';\n' +
+        '\n' +
+        'import {\n' +
+        '  ANDROID_WEAR,\n' +
+        '  FITBIT,\n' +
+        '  JAWBONE,\n' +
+        '  MY_FITNESS_PAL,\n' +
+        '  WITHINGS,\n' +
+        '  UNDER_ARMOUR\n' +
+        '} from \'../../../constants/screens\';\n' +
+        '\n' +
+        'import { H2 } from \'../../common/Heading\';\n' +
+        'import Home from \'../home/Home\';\n' +
+        'import Dimensions from \'Dimensions\';\n' +
+        'import SyncData from \'./SyncData\';\n' +
+        'import DevicesMenu from \'./DevicesMenu\';\n' +
+        'import Icon from \'react-native-vector-icons/Ionicons\';\n' +
+        'import IconButton from \'../../common/IconButton\';\n' +
+        'import Button from \'../../common/Button\';\n' +
+        'import DevicesService from \'../../../services/DevicesService\';\n' +
+        'import {JOURNEY} from \'../../../constants/screens\';\n' +
+        'import {INTRO_MODE} from \'../../../constants/planScreenMode\';\n' +
+        'var styles = require(\'./../../styles\');\n' +
+        '\n' +
+        'var userDevices = DevicesService.find();\n' +
+        'const iconsMap = {\'androidwearLogo\': require(\'./../../img/androidwearLogo.png\'),\n' +
+        '                  \'fitbitLogo\': require(\'./../../img/fitbitLogo.png\'),\n' +
+        '                  \'jawboneLogo\': require(\'./../../img/jawboneLogo.png\'),\n' +
+        '                  \'myfitnesspalLogo\': require(\'./../../img/myfitnesspalLogo.png\'),\n' +
+        '                  \'withingsLogo\': require(\'./../../img/withingsLogo.png\'),\n' +
+        '                  \'underarmourLogo\': require(\'./../../img/underarmourLogo.png\')};\n' +
+        '\n' +
+        'class Devices extends Component {\n' +
         '  static propTypes = {\n' +
         '    rightNav: React.PropTypes.bool,\n' +
         '    leftNav: React.PropTypes.bool\n' +
@@ -407,12 +445,23 @@ export const PROJECTS = [
         '\n' +
         '  _renderModal() {\n' +
         '    var boundClick = this._onPressCloseModal.bind(this);\n' +
-        '    return <SyncData handleClose={boundClick} title={this.state.title} text={this.state.text} confirmation={this.state.confirmation} showModal={this.state.showModal} icon={this.state.icon} mode={this.props.mode} navigator={this.props.navigator} />;\n' +
+        '    return <SyncData handleClose={boundClick}\n' +
+        '                     title={this.state.title}\n' +
+        '                     text={this.state.text} \n' +
+        '                     confirmation={this.state.confirmation}\n' +
+        '                     showModal={this.state.showModal}\n' +
+        '                     icon={this.state.icon}\n' +
+        '                     mode={this.props.mode}\n' +
+        '                     navigator={this.props.navigator} />;\n' +
         '  }\n' +
         '\n' +
         '  _renderOptionsModal() {\n' +
         '    var boundClick = this._onPressCloseOptionsModal.bind(this);\n' +
-        '    return <DevicesMenu handler={this.handler} handleCloseOptions={boundClick} showOptionsModal={this.state.showOptionsModal} deviceTitle={this.state.deviceTitle} data={this.state.data}/>;\n' +
+        '    return <DevicesMenu handler={this.handler}\n' +
+        '                        handleCloseOptions={boundClick}\n' +
+        '                        showOptionsModal={this.state.showOptionsModal}\n' +
+        '                        deviceTitle={this.state.deviceTitle}\n' +
+        '                        data={this.state.data} />;\n' +
         '  }\n' +
         '\n' +
         '  _getDeviceIcon(device) {\n' +
@@ -535,7 +584,7 @@ export const PROJECTS = [
         '  mode: React.PropTypes.string\n' +
         '};\n' +
         '\n' +
-        'export default Devices;'
+        'export default Devices;\n'
       }
     ]
   },
