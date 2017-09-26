@@ -1117,11 +1117,23 @@ export const PROJECTS = [
     id: 3,
     name: 'Casting Mobile',
     company: 'Scopic Software',
-    description: 'This is the project description',
+    description: 'Mobile application dedicated to review and rate voiceovers castings for different characters and languages for a movie.',
     thumbnail: '/img/portfolio/react-logo.png',
     image: 'img/portfolio/fit.png',
     logo: 'img/logos/scopic-logo.png',
-    tags: ['React Native', 'JS', 'CSS', 'Flexbox', 'Redux']
+    tags: ['React Native', 'JS', 'CSS', 'Flexbox', 'Redux'],
+    sampleCodes: [
+      {
+        file: '',
+        language: '',
+        code: ''
+      },
+      {
+        file: '',
+        language: '',
+        code: ''
+      }
+    ]
   },
   {
     id: 4,

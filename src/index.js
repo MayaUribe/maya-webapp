@@ -7,7 +7,7 @@ import Project from "./pages/project/index";
 import Home from "./pages/home/index";
 
 ReactDOM.render((
-  <Router history={browserHistory}>
+  <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
     <Route path="/" component={Home}/>
     <Route path="/project/:id" component={Project}/>
   </Router>
