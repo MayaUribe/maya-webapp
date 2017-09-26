@@ -1115,7 +1115,7 @@ export const PROJECTS = [
   },
   {
     id: 3,
-    name: 'Casting Mobile',
+    name: 'Voiceovers',
     company: 'Scopic Software',
     description: 'Mobile application dedicated to review and rate voiceovers castings for different characters and languages for a movie.',
     thumbnail: '/img/portfolio/react-logo.png',
@@ -1124,26 +1124,1830 @@ export const PROJECTS = [
     tags: ['React Native', 'JS', 'CSS', 'Flexbox', 'Redux'],
     sampleCodes: [
       {
-        file: '',
-        language: '',
-        code: ''
+        file: 'index.js',
+        language: 'javascript',
+        code: 'import React, {Component} from \'react\';\n' +
+        'import { StatusBar, Navigator, View, Text, Platform } from \'react-native\';\n' +
+        'import Castings from \'./screens/castings\';\n' +
+        'import MovieLanguage from \'./screens/language\';\n' +
+        'import Login from \'./screens/login\';\n' +
+        'import Characters from \'./screens/characters\';\n' +
+        'import Actors from \'./screens/actors\';\n' +
+        'import AppStorage from \'./storage/AppStorage\';\n' +
+        'import global from \'./components/styles/global\';\n' +
+        'import { connect } from \'react-redux\';\n' +
+        'import { mapStateToProps, mapDispatchToProps } from \'./screens/login/props\';\n' +
+        '\n' +
+        'import {\n' +
+        '  CASTINGS,\n' +
+        '  LOGIN,\n' +
+        '  MOVIE_LANGUAGE,\n' +
+        '  CHARACTERS,\n' +
+        '  ACTORS\n' +
+        '} from \'./share/constant\';\n' +
+        '\n' +
+        'class App extends Component {\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '    this.appStorage = new AppStorage();\n' +
+        '    this.renderScene = this.renderScene.bind(this);\n' +
+        '    this._checkInitialScreen();\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkInitialScreen() {\n' +
+        '    this.props.isLoggedUser();\n' +
+        '  }\n' +
+        '\n' +
+        '  renderScene(route, navigator) {\n' +
+        '    let ScreenComponent = null;\n' +
+        '\n' +
+        '    switch (route.name) {\n' +
+        '      case LOGIN:\n' +
+        '        ScreenComponent = Login;\n' +
+        '        break;\n' +
+        '      case CASTINGS:\n' +
+        '        ScreenComponent = Castings;\n' +
+        '        break;\n' +
+        '      case MOVIE_LANGUAGE:\n' +
+        '        ScreenComponent = MovieLanguage;\n' +
+        '        break;\n' +
+        '      case CHARACTERS:\n' +
+        '        ScreenComponent = Characters;\n' +
+        '        break;\n' +
+        '      case ACTORS:\n' +
+        '        ScreenComponent = Actors;\n' +
+        '        break;\n' +
+        '    }\n' +
+        '\n' +
+        '    if (ScreenComponent) {\n' +
+        '      return <ScreenComponent navigator={navigator} onMenuItemSelected={this.onMenuItemSelected.bind(this)} {...route.passProps} />;\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  onMenuItemSelected(item) {\n' +
+        '    switch (item) {\n' +
+        '      case \'Logout\':\n' +
+        '        this.appStorage.clearAllData();\n' +
+        '        break;\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    let content;\n' +
+        '    let bgColor = (Platform.OS === \'ios\' ? \'white\' : \'#262a2e\');\n' +
+        '\n' +
+        '    if (this.props.screen) {\n' +
+        '      content = (\n' +
+        '        <View style={{ flex: 1 }}>\n' +
+        '          <StatusBar backgroundColor={bgColor} barStyle="light-content" />\n' +
+        '          <Navigator style={{ flex: 1 }}\n' +
+        '                     initialRoute={{ name: this.props.screen }}\n' +
+        '                     renderScene={this.renderScene.bind(this)} />\n' +
+        '        </View>\n' +
+        '      );\n' +
+        '    } else {\n' +
+        '      content = (<View style={global.content}>\n' +
+        '                  <View style={{flex: 1, justifyContent: \'center\', alignItems: \'center\'}}>\n' +
+        '                    <Text style={{fontFamily: \'OpenSans\', fontSize: 20, color: \'#FFF\'}}>Loading...</Text>\n' +
+        '                    <Text style={{fontFamily: \'OpenSans\', fontSize: 20, color: \'#FFF\'}}>Please wait</Text>\n' +
+        '                  </View>\n' +
+        '                </View>);\n' +
+        '    }\n' +
+        '    return (\n' +
+        '      content\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'module.exports = connect(mapStateToProps, mapDispatchToProps)(App);'
       },
       {
-        file: '',
-        language: '',
-        code: ''
+        file: 'characterReducer.js',
+        language: 'javascript',
+        code: '\'use strict\';\n' +
+        '\n' +
+        'import ActionType from \'../share/actionTypes\';\n' +
+        'import _ from \'lodash\';\n' +
+        '\n' +
+        'const INITIAL_STATE = {\n' +
+        '  isLoading: false,\n' +
+        '  isLoadingList: false,\n' +
+        '  isLoadingFilter: false,\n' +
+        '  characters: [],\n' +
+        '  charactersFilter: [],\n' +
+        '  movie: null,\n' +
+        '  language: null\n' +
+        '};\n' +
+        '\n' +
+        'function characters(state = INITIAL_STATE, action) {\n' +
+        '  switch (action.type) {\n' +
+        '    case ActionType.CHARACTER_LIST_FETCHING:\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        ...action.payload\n' +
+        '      };\n' +
+        '    case ActionType.CHARACTER_LIST_FETCHED:\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        ...action.payload\n' +
+        '      };\n' +
+        '    case ActionType.CHARACTER_FILTERING:\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        ...action.payload\n' +
+        '      };\n' +
+        '    case ActionType.CHARACTER_FILTER:\n' +
+        '      let filterResult = [];\n' +
+        '\n' +
+        '      if (action.payload.filterText.length === 0) {\n' +
+        '        filterResult = state.characters;\n' +
+        '      } else {\n' +
+        '        filterResult = _.filter(state.characters, (item) => {\n' +
+        '          return _.contains(item.characterName.toLowerCase(), action.payload.filterText.toLowerCase());\n' +
+        '        });\n' +
+        '      }\n' +
+        '\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        charactersFilter: filterResult,\n' +
+        '        isLoadingFilter: action.payload.isLoadingFilter\n' +
+        '      };\n' +
+        '    case ActionType.VOICEOVERS_FETCHING:\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        ...action.payload\n' +
+        '      };\n' +
+        '    case ActionType.VOICEOVERS_FETCHED:\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        ...action.payload\n' +
+        '      };\n' +
+        '    default:\n' +
+        '      return state;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'module.exports = characters;\n'
+      },
+      {
+        file: 'casting.js',
+        language: 'javascript',
+        code: '\'use strict\';\n' +
+        '\n' +
+        'import React, {Component} from \'react\';\n' +
+        'import ListComponent from \'../../components/list\';\n' +
+        'import CastingRow from \'./CastingRow\';\n' +
+        'import SearchBar from \'../../components/search-bar\';\n' +
+        'import Storage from \'./../../modules/storage\';\n' +
+        'import Menu from \'../../components/menu\';\n' +
+        'const SideMenu = require(\'react-native-side-menu\');\n' +
+        'let TimerMixin = require(\'react-timer-mixin\');\n' +
+        'let reactMixin = require(\'react-mixin\');\n' +
+        'import { connect } from \'react-redux\';\n' +
+        'import { mapStateToProps, mapDispatchToProps } from \'./props\';\n' +
+        '\n' +
+        'import {\n' +
+        '  MOVIE_LANGUAGE,\n' +
+        '  LOGIN,\n' +
+        '  ORDERS_EP,\n' +
+        '  LOGOUT,\n' +
+        '  SEARCH_CASTINGS\n' +
+        '} from \'./../../share/constant\';\n' +
+        '\n' +
+        'class Castings extends Component {\n' +
+        '  static propTypes = {\n' +
+        '    navigator: React.PropTypes.object.isRequired\n' +
+        '  }\n' +
+        '\n' +
+        '  mixins: [TimerMixin];\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '    this._onSearch = this._onSearch.bind(this);\n' +
+        '  }\n' +
+        '\n' +
+        '  componentDidMount() {\n' +
+        '    this.fetchData();\n' +
+        '  }\n' +
+        '\n' +
+        '  fetchData() {\n' +
+        '    this.props.fetchCastings();\n' +
+        '  }\n' +
+        '\n' +
+        '  _onSearch(event) {\n' +
+        '    this.props.filterCastings(event.nativeEvent.text);\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderSearchBar() {\n' +
+        '    return (\n' +
+        '      <SearchBar\n' +
+        '        ref=\'search\'\n' +
+        '        placeholder={SEARCH_CASTINGS}\n' +
+        '        isLoading={this.props.isLoading}\n' +
+        '        onSearch={this._onSearch}\n' +
+        '      />\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  selectMediaItem(mediaItem) {\n' +
+        '    this.props.onMovieSelected(mediaItem);\n' +
+        '    this.props.navigator.push({\n' +
+        '      name: MOVIE_LANGUAGE,\n' +
+        '      passProps: {\n' +
+        '        mediaItem\n' +
+        '      }\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  renderRow(\n' +
+        '    media: Object,\n' +
+        '    sectionID: number | string,\n' +
+        '    rowID: number | string,\n' +
+        '    highlightRowFunction: (sectionID: ?number | string, rowID: ?number | string) => void,\n' +
+        '  ) {\n' +
+        '    return (\n' +
+        '      <CastingRow\n' +
+        '        rowID={rowID}\n' +
+        '        media={media}\n' +
+        '        showThumbnail\n' +
+        '        endPoint={ORDERS_EP}\n' +
+        '        onSelect={() => this.selectMediaItem(media)}\n' +
+        '        onHighlight={() => highlightRowFunction(sectionID, rowID)}\n' +
+        '        onDeHighlight={() => highlightRowFunction(null, null)}\n' +
+        '      />\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  toggle() {\n' +
+        '    this.props.toggleMenu(!this.props.isOpen);\n' +
+        '  }\n' +
+        '\n' +
+        '  updateMenu(isOpen) {\n' +
+        '    this.props.toggleMenu(isOpen);\n' +
+        '  }\n' +
+        '\n' +
+        '  onMenuItemSelected(item) {\n' +
+        '    this.props.onMenuItemSelected(item);\n' +
+        '    this.props.toggleMenu(false);\n' +
+        '\n' +
+        '    if (item === LOGOUT) {\n' +
+        '      Storage.clearUserData();\n' +
+        '      this.props.navigator.push({\n' +
+        '        name: LOGIN,\n' +
+        '        passProps: {\n' +
+        '          item\n' +
+        '        }\n' +
+        '      });\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    const menu = <Menu onItemSelected={this.onMenuItemSelected.bind(this)} />;\n' +
+        '\n' +
+        '    return (\n' +
+        '      <SideMenu\n' +
+        '        menu={menu}\n' +
+        '        isOpen={this.props.isOpen}\n' +
+        '        onChange={(isOpen) => this.updateMenu(isOpen)}>\n' +
+        '        <ListComponent navigator={this.props.navigator}\n' +
+        '                       nextScreen={MOVIE_LANGUAGE}\n' +
+        '                       searchBar={this._renderSearchBar()}\n' +
+        '                       resultsData={this.props.castingsFilter}\n' +
+        '                       isLoading={this.props.isLoading}\n' +
+        '                       endPoint={ORDERS_EP}\n' +
+        '                       renderRow={this.renderRow.bind(this)}\n' +
+        '                       toggle={this.toggle.bind(this)}\n' +
+        '                       includeToolbar />\n' +
+        '       </SideMenu>\n' +
+        '    );\n' +
+        '  }\n' +
+        '};\n' +
+        '\n' +
+        'reactMixin(Castings.prototype, TimerMixin);\n' +
+        '\n' +
+        'module.exports = connect(mapStateToProps, mapDispatchToProps)(Castings);\n'
+      },
+      {
+        file: 'style.js',
+        language: 'css',
+        code: '\'use strict\';\n' +
+        '\n' +
+        'import StyleSheet from \'../../share/stylesheet\';\n' +
+        '\n' +
+        'module.exports = StyleSheet({\n' +
+        '  actorContainer: {\n' +
+        '    alignItems: \'center\',\n' +
+        '    backgroundColor: \'#262a2e\'\n' +
+        '  },\n' +
+        '  avatarImage: {\n' +
+        '    marginTop: 10,\n' +
+        '    borderRadius: 48,\n' +
+        '    height: 100,\n' +
+        '    width: 100,\n' +
+        '    backgroundColor: \'yellow\'\n' +
+        '  },\n' +
+        '  actorName: {\n' +
+        '    fontSize: 15,\n' +
+        '    fontWeight: \'bold\',\n' +
+        '    textAlign: \'center\',\n' +
+        '    color: \'#96a6ad\',\n' +
+        '    marginTop: 10\n' +
+        '  },\n' +
+        '  videoControlsContainer: {\n' +
+        '    backgroundColor: \'#202328\',\n' +
+        '  },\n' +
+        '  divider: {\n' +
+        '    backgroundColor: \'#40464d\',\n' +
+        '    height: 1,\n' +
+        '  },\n' +
+        '  topDivider: {\n' +
+        '    marginTop: 10\n' +
+        '  },\n' +
+        '  videoControls: {\n' +
+        '    flexDirection: \'row\',\n' +
+        '    alignItems: \'center\',\n' +
+        '    justifyContent: \'center\'\n' +
+        '  },\n' +
+        '  contentLength: {\n' +
+        '    backgroundColor: \'#16181c\',\n' +
+        '    height: 35,\n' +
+        '    marginTop: 10\n' +
+        '  },\n' +
+        '  contentLengthFiller: {\n' +
+        '    flex: 1,\n' +
+        '    backgroundColor: \'#96a6ad\'\n' +
+        '  },\n' +
+        '  contentLengthText: {\n' +
+        '    color: \'#96a6ad\',\n' +
+        '    position: \'absolute\',\n' +
+        '    left: 180,\n' +
+        '    top: 10\n' +
+        '  },\n' +
+        '  videoControlButtons: {\n' +
+        '    color: \'#96A6Ad\'\n' +
+        '  },\n' +
+        '  icon: {\n' +
+        '    marginLeft: 10,\n' +
+        '    marginRight: 10\n' +
+        '  },\n' +
+        '  stars: {\n' +
+        '    marginRight: 50,\n' +
+        '    flexDirection: \'row\',\n' +
+        '    alignSelf: \'center\',\n' +
+        '    marginBottom: 10\n' +
+        '  },\n' +
+        '  rating: {\n' +
+        '    fontWeight: \'bold\'\n' +
+        '  },\n' +
+        '  starSpacing: {\n' +
+        '    marginLeft: 5\n' +
+        '  },\n' +
+        '  internalComments: {\n' +
+        '    marginLeft: 10\n' +
+        '  },\n' +
+        '  playContainer: {\n' +
+        '    alignItems: \'center\',\n' +
+        '    flexDirection: \'row\',\n' +
+        '    alignSelf: \'center\',\n' +
+        '    marginBottom: 10\n' +
+        '  },\n' +
+        '  playText: {\n' +
+        '    fontSize: 14,\n' +
+        '    color: \'white\',\n' +
+        '    fontWeight: \'bold\',\n' +
+        '    marginLeft: 8\n' +
+        '  }\n' +
+        '});\n'
       }
     ]
   },
   {
     id: 4,
-    name: 'Rocket Banner',
+    name: 'Canvas Handler',
     company: 'Scopic Software',
-    description: 'This is the project description',
+    description: 'Banner designer built with fabric JS that allow to create different shapes and add images and manipulate them.',
     thumbnail: '/img/portfolio/react-logo.png',
     image: 'img/portfolio/fit.png',
     logo: 'img/logos/scopic-logo.png',
-    tags: ['React JS', 'JS', 'CSS', 'Flexbox', 'Redux']
+    tags: ['React JS', 'JS', 'CSS', 'Flexbox', 'Redux'],
+    sampleCodes: [
+      {
+        file: 'canvas.js',
+        language: 'javascript',
+        code: 'class Canvas extends Component {\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '    this.drawingObject=null;\n' +
+        '    this.lastClickOnCanvasTime=0;\n' +
+        '    this.state={\n' +
+        '      drawRuler: false,\n' +
+        '      present: [],\n' +
+        '      isFetchingUserDesign: false,\n' +
+        '      isLoadingFonts: false\n' +
+        '    };\n' +
+        '  }\n' +
+        '\n' +
+        '  componentWillMount() {\n' +
+        '    this.fabricCanvas=new fabric.fabric.Canvas();\n' +
+        '    this.fabricCanvas.preserveObjectStacking = true;\n' +
+        '    this.drawer=new Drawer(this.fabricCanvas, this.notifyCanvasObjectsChanged.bind(this));\n' +
+        '  }\n' +
+        '\n' +
+        '    componentDidMount() {\n' +
+        '    this._initCanvas(0, 0);\n' +
+        '    if (isMobile.any()) {\n' +
+        '      this._initMultiGestures();\n' +
+        '    }\n' +
+        '\n' +
+        '    this.fabricCanvas.uniScaleTransform = true;\n' +
+        '    this.fabricCanvas.uniScaleKey=\'\';\n' +
+        '    this.fabricCanvas.centeredKey=\'\';\n' +
+        '    this.fabricCanvas.renderOnAddRemove=false;\n' +
+        '    this.fabricCanvas.skipOffscreen=true;\n' +
+        '\n' +
+        '    if(isMobile.any()){\n' +
+        '      fabric.fabric.util.addListener(this.fabricCanvas.upperCanvasEl, \'touchstart\', this._onTouchStart.bind(this));\n' +
+        '    }\n' +
+        '\n' +
+        '    this.fabricCanvas.on(\'mouse:up\', (o) => {\n' +
+        '      let pointer = this.fabricCanvas.getPointer(o.e);\n' +
+        '\n' +
+        '      let drawParams = {\n' +
+        '        //shape params\n' +
+        '        canvasObject: this.drawingObject,\n' +
+        '        originPoint: this.originPointer,\n' +
+        '        newPoint: pointer,\n' +
+        '        properties: this.props.lastShapeProperties,\n' +
+        '      };\n' +
+        '\n' +
+        '      if(drawingTools.indexOf(this.props.selectedTool)!=-1) {\n' +
+        '        if(!this.drawingObject){\n' +
+        '          this.drawingObject = this.drawer.process(this.props.selectedTool, drawParams);\n' +
+        '        }\n' +
+        '        let width = this.props.bannerUnitSize;\n' +
+        '        let height = this.props.bannerUnitSize;\n' +
+        '\n' +
+        '        //if the shape is below minimum size\n' +
+        '        if (this.drawingObject && (this.drawingObject.height < height || this.drawingObject.width < width)) {\n' +
+        '          let drawParamsWithMin = {\n' +
+        '            properties: this.props.lastShapeProperties,\n' +
+        '            canvasObject: this.drawingObject,\n' +
+        '            originPoint: this.originPointer,\n' +
+        '            newPoint: pointer\n' +
+        '          };\n' +
+        '          this.fabricCanvas.remove(this.drawingObject);\n' +
+        '          this.fabricCanvas.renderAll();\n' +
+        '          this.drawingObject = this.drawer.process(this.props.selectedTool, drawParamsWithMin);\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      if (this.props.selectedTool !== TOOL.PAN && this.props.selectedTool !== TOOL.TEXT) {\n' +
+        '        this.props.selectTool(TOOL.SELECTION);\n' +
+        '      }\n' +
+        '\n' +
+        '      this.notifyCanvasObjectsChanged();\n' +
+        '\n' +
+        '      this.drawingObject=null;\n' +
+        '      this.originPointer=null;\n' +
+        '    });\n' +
+        '\n' +
+        '    this.fabricCanvas.on(\'mouse:down\', (o) => {\n' +
+        '      let pointer = this.fabricCanvas.getPointer(o.e);\n' +
+        '      this.originPointer = {\n' +
+        '        x: pointer.x,\n' +
+        '        y: pointer.y\n' +
+        '      };\n' +
+        '\n' +
+        '      if(this.props.selectedTool==TOOL.TEXT) {\n' +
+        '        this.props.openTextModal(MODAL.MODAL_TOOL,pointer);\n' +
+        '        this.props.selectTool(TOOL.SELECTION);\n' +
+        '      }\n' +
+        '    });\n' +
+        '\n' +
+        '    this.fabricCanvas.on(\'object:selected\', ()=>{\n' +
+        '      let object=this.fabricCanvas.getActiveObject();\n' +
+        '      if(object && object.type===\'line\' && object.propStrokeWidth==0){\n' +
+        '        object.propStrokeWidth=1;\n' +
+        '      }\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  componentWillUnmount(){\n' +
+        '    if(isMobile.any()){\n' +
+        '      fabric.fabric.util.removeListener(this.fabricCanvas.upperCanvasEl, \'touchstart\', this._onTouchStart.bind(this));\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  componentWillReceiveProps(nextProps) {\n' +
+        '    this._checkChangeActiveObject(nextProps);\n' +
+        '    this._checkLockLayer(nextProps);\n' +
+        '    this._checkOrderLayers(nextProps);\n' +
+        '    this._checkAlign(nextProps);\n' +
+        '    this._checkAddClipart(nextProps);\n' +
+        '    this._checkHistoryObjects(nextProps);\n' +
+        '    this._checkCanvasObjects(nextProps);\n' +
+        '    this._checkTemplateDesign(nextProps);\n' +
+        '    this._checkSelectedLayers(nextProps);\n' +
+        '  }\n' +
+        '\n' +
+        '  _onTouchStart(o){\n' +
+        '    if (this.props.selectedTool===TOOL.SELECTION) {\n' +
+        '      this._checkAndHandleDoubleClick(o);\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _initMultiGestures() {\n' +
+        '    let self = this;\n' +
+        '    window.document.addEventListener(\'touchstart\', (e)=>{\n' +
+        '      if (e.touches.length === 3) {\n' +
+        '        e.preventDefault();\n' +
+        '      }\n' +
+        '    });\n' +
+        '    window.document.addEventListener(\'touchmove\', (e)=>{\n' +
+        '      if (e.touches.length === 3) {\n' +
+        '        e.preventDefault();\n' +
+        '        self.moving = true;\n' +
+        '      } else {\n' +
+        '        self.moving = false;\n' +
+        '      }\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkAndHandleDoubleClick(o) {\n' +
+        '    let time = (new Date()).getTime();\n' +
+        '    if ((time - this.lastClickOnCanvasTime) < 300) {\n' +
+        '      let target=this.fabricCanvas.findTarget(o);\n' +
+        '      this.props.setPropertiesPaneVisible(target?true:false);\n' +
+        '    }\n' +
+        '    this.lastClickOnCanvasTime=time;\n' +
+        '  }\n' +
+        '\n' +
+        '  _setActiveGroup(objects) {\n' +
+        '    let groupObjects = [];\n' +
+        '    objects.forEach((object) => {\n' +
+        '      if (object) {\n' +
+        '        groupObjects.push(object);\n' +
+        '      }\n' +
+        '    });\n' +
+        '\n' +
+        '    let group = new fabric.fabric.Group(groupObjects, {});\n' +
+        '    this.fabricCanvas.setActiveGroup(group).renderAll();\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkSelectedLayers(nextProps) {\n' +
+        '    if (nextProps.selectedLayers !== this.props.selectedLayers) {\n' +
+        '      let selectedLayers = nextProps.selectedLayers;\n' +
+        '      let canvas = this.fabricCanvas;\n' +
+        '      let objects = [];\n' +
+        '\n' +
+        '      selectedLayers.forEach((layer) => {\n' +
+        '        let object = this.getObjectById(layer);\n' +
+        '        let isBlocked = isBlockedObject(object);\n' +
+        '\n' +
+        '        if (!isBlocked) {\n' +
+        '          objects.push(object);\n' +
+        '        }\n' +
+        '      });\n' +
+        '\n' +
+        '      if (objects.length > 1) {\n' +
+        '        canvas.deactivateAll().renderAll();\n' +
+        '        this._setActiveGroup(objects);\n' +
+        '      } else if (objects.length === 1) {\n' +
+        '        canvas.deactivateAll().renderAll();\n' +
+        '        let object = objects[0];\n' +
+        '        let isBlocked = isBlockedObject(object);\n' +
+        '\n' +
+        '        if (!isBlocked) {\n' +
+        '          canvas.setActiveObject(object);\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      if (selectedLayers.length === 1) {\n' +
+        '        canvas.deactivateAll().renderAll();\n' +
+        '\n' +
+        '        let objectId = selectedLayers[0];\n' +
+        '        let object = this.getObjectById(objectId);\n' +
+        '        let isBlocked = isBlockedObject(object);\n' +
+        '\n' +
+        '        if (!isBlocked) {\n' +
+        '          canvas.setActiveObject(object);\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      if (selectedLayers.length === 0) {\n' +
+        '        canvas.deactivateAll().renderAll();\n' +
+        '      }\n' +
+        '\n' +
+        '      this.notifyCanvasObjectsChanged();\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkTemplateDesign(nextProps) {\n' +
+        '    if (nextProps.loadedInitialData !== this.props.loadedInitialData) {\n' +
+        '      if (nextProps.loadedInitialData) {\n' +
+        '        if (nextProps.templateDesign) {\n' +
+        '          this.loadDesign(nextProps, nextProps.templateDesign);\n' +
+        '        }\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkCanvasObjects(nextProps) {\n' +
+        '    let objects = nextProps.objects.canvasObject.objects;\n' +
+        '    let thisObjects = this.props.objects.canvasObject.objects;\n' +
+        '    let equalArrays = arraysEqual(objects, thisObjects);\n' +
+        '\n' +
+        '    if (!equalArrays) {\n' +
+        '      this.props.addHistory(objects);\n' +
+        '\n' +
+        '      let showAlert = false;\n' +
+        '      for(let i=0; i<objects.length; i++){\n' +
+        '        let object=objects[i];\n' +
+        '        if (object.type === \'image\') {\n' +
+        '          let isValidObject = this._isValidImagePPI(object);\n' +
+        '          if (!isValidObject) {\n' +
+        '            showAlert = true;\n' +
+        '            break;\n' +
+        '          }\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      if(showAlert!=this.props.showAlert){\n' +
+        '        this.props.showAlertMsg(showAlert);\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkHistoryObjects(nextProps) {\n' +
+        '    if (this.props.present !== nextProps.present) {\n' +
+        '      if (nextProps.selectedTool === TOOL.UNDO || nextProps.selectedTool === TOOL.REDO) {\n' +
+        '        let data = nextProps.present.data;\n' +
+        '        let bannerGrade = nextProps.bannerGradeData[this.props.bannerGradeId];\n' +
+        '\n' +
+        '        this.undoableHandler.handleUndoRedo(data, bannerGrade);\n' +
+        '        this.props.clearSelection();\n' +
+        '        this.props.selectTool(TOOL.SELECTION);\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  loadDesign(nextProps, jsonData) {\n' +
+        '    let objects = nextProps.objects.canvasObject.objects;\n' +
+        '    this.designHandler.clearCanvas(objects);\n' +
+        '\n' +
+        '    let product = jsonData.product;\n' +
+        '    let border = jsonData.product.border;\n' +
+        '    this.props.changeBannerBackgroundColor(product.background);\n' +
+        '    this.props.changeBannerOrientation(product.orientation);\n' +
+        '    this.props.changeBannerGrade(product.grade);\n' +
+        '    this.props.changeBannerSize(product.size.id);\n' +
+        '    this.props.setBannerBorder(border);\n' +
+        '\n' +
+        '    if (product.size.id === this.props.bannerSizeId && product.orientation === this.props.orientation) {\n' +
+        '      this.designHandler.doLoadObjects(jsonData);\n' +
+        '    } else {\n' +
+        '      this._isLoadingDesignObjects=true;\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  exportObjectsToJSON(exportObjects, fileName) {\n' +
+        '    this.props.exportObjectsToJSON(exportObjects, fileName);\n' +
+        '  }\n' +
+        '\n' +
+        '  getObjectById(objectId) {\n' +
+        '    let selectedObject = null;\n' +
+        '    if (objectId) {\n' +
+        '      selectedObject = this.fabricCanvas.getObjectById(objectId);\n' +
+        '    }\n' +
+        '\n' +
+        '    return selectedObject;\n' +
+        '  }\n' +
+        '\n' +
+        '  notifyCanvasObjectsChanged(objectId){\n' +
+        '    this.fabricCanvas.reorderSpecialObjects();\n' +
+        '    this.fabricCanvas.getNormalObjects().forEach((obj)=>{\n' +
+        '      obj.set({\n' +
+        '        realWidth:getInchesValueFromPixel(obj.width, this.props.bannerUnitSize, obj.scaleX),\n' +
+        '        realHeigh:getInchesValueFromPixel(obj.height, this.props.bannerUnitSize, obj.scaleY),\n' +
+        '        realTop: getInchesValueFromPixel(obj.top-START_OFFSET, this.props.bannerUnitSize),\n' +
+        '        realLeft: getInchesValueFromPixel(obj.left-START_OFFSET, this.props.bannerUnitSize),\n' +
+        '      });\n' +
+        '    });\n' +
+        '    let canvasObject = this.fabricCanvas.toDatalessJSON([\n' +
+        '      \'lockRotation\',\n' +
+        '      \'lockMovementX\',\n' +
+        '      \'lockMovementY\',\n' +
+        '      \'hasControls\',\n' +
+        '      \'hasBorders\',\n' +
+        '      \'selectable\',\n' +
+        '      \'lockScalingX\',\n' +
+        '      \'lockScalingY\',\n' +
+        '      \'objectId\',\n' +
+        '      \'name\',\n' +
+        '      \'effectColor\',\n' +
+        '      \'imageType\',\n' +
+        '      \'isVector\',\n' +
+        '      \'realWidth\',\n' +
+        '      \'realHeigh\',\n' +
+        '      \'realTop\',\n' +
+        '      \'realLeft\'\n' +
+        '    ]);\n' +
+        '    let selectedObject = null;\n' +
+        '    let selectedObjects = [];\n' +
+        '    if (typeof objectId !== \'undefined\') {\n' +
+        '      selectedObject = objectId;\n' +
+        '    } else {\n' +
+        '      let activeObject = this.fabricCanvas.getActiveObject();\n' +
+        '      selectedObject = activeObject ? activeObject.objectId : -1;\n' +
+        '    }\n' +
+        '\n' +
+        '    let activeGroup = this.fabricCanvas.getActiveGroup();\n' +
+        '    if (activeGroup) {\n' +
+        '      selectedObjects = activeGroup.getObjects();\n' +
+        '    }\n' +
+        '\n' +
+        '    this.props.notifyCanvasObjectsChanged(canvasObject, selectedObject, selectedObjects);\n' +
+        '  }\n' +
+        '\n' +
+        '  _initCanvas(width, height) {\n' +
+        '    let el = this.refs.canvasContainer.refs.objectsCanvas;\n' +
+        '    this.fabricCanvas.initialize(el, {\n' +
+        '      width: width,\n' +
+        '      height: height\n' +
+        '    });\n' +
+        '\n' +
+        '    this.refs.canvasContainer.loadAndRender(this.props.objects);\n' +
+        '  }\n' +
+        '\n' +
+        '  _doReorderLayers(layersOrder) {\n' +
+        '    let objects = [];\n' +
+        '\n' +
+        '    for (let layer of layersOrder.reverse()) {\n' +
+        '      let object = this.getObjectById(layer.objectId);\n' +
+        '      objects.push(object);\n' +
+        '    }\n' +
+        '\n' +
+        '    for (let object of objects) {\n' +
+        '      this.fabricCanvas.bringToFront(object);\n' +
+        '    }\n' +
+        '\n' +
+        '    this.fabricCanvas.renderAll();\n' +
+        '  }\n' +
+        '\n' +
+        '  _handleKeyDownEvent(e){\n' +
+        '    e.preventDefault();\n' +
+        '    e.stopPropagation();\n' +
+        '    this._handleKeyDown(e.keyCode, e.shiftKey);\n' +
+        '  }\n' +
+        '\n' +
+        '  _handleKeyDown(keyCode, shiftKey){\n' +
+        '    let result=handleKeyDown(keyCode, shiftKey, this.fabricCanvas, this.props.bannerUnitSize);\n' +
+        '    if(result){\n' +
+        '      this.notifyCanvasObjectsChanged();\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _handleKeyUpEvent(e){\n' +
+        '    e.preventDefault();\n' +
+        '    e.stopPropagation();\n' +
+        '    handleKeyUp(e.keyCode, this.fabricCanvas);\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkAlign(nextProps){\n' +
+        '    if (nextProps.alignedPosition !== this.props.alignedPosition) {\n' +
+        '      if (nextProps.alignedPosition !== \'\') {\n' +
+        '        this.alignHandler.doAlign(nextProps.alignedPosition);\n' +
+        '        this.props.alignToPage(\'\');\n' +
+        '      }\n' +
+        '    }\n' +
+        '\n' +
+        '    if (nextProps.alignedToObject !== this.props.alignedToObject) {\n' +
+        '      if (nextProps.alignedToObject !== \'\') {\n' +
+        '        this.alignHandler.doAlignToObject(nextProps.alignedToObject);\n' +
+        '        this.props.alignToObject(\'\');\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkOrderLayers(nextProps){\n' +
+        '    if (nextProps.layersOrder !== this.props.layersOrder) {\n' +
+        '      this._doReorderLayers(nextProps.layersOrder);\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkLockLayer(nextProps){\n' +
+        '    if ((nextProps.indexLayerLock !== this.props.indexLayerLock) ||\n' +
+        '            (nextProps.locked !== this.props.locked)) {\n' +
+        '      if (!nextProps.locked) {\n' +
+        '        this.lockHandler.unlockCanvasObject(nextProps.indexLayerLock);\n' +
+        '      } else {\n' +
+        '        this.lockHandler.lockCanvasObject(nextProps.indexLayerLock);\n' +
+        '      }\n' +
+        '      this.notifyCanvasObjectsChanged();\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkChangeActiveObject(nextProps){\n' +
+        '    if (nextProps.selectedObject !== this.props.selectedObject && nextProps.selectedObject !== -1) {\n' +
+        '      activeObjectHanlder(this.fabricCanvas, nextProps.selectedObject);\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _checkAddClipart(nextProps){\n' +
+        '    if (nextProps.clipartUrl && nextProps.clipartUrl !== this.props.clipartUrl) {\n' +
+        '      let objectId = this.drawer._newObjectId();\n' +
+        '      this.imageHandler.doAddImage(nextProps.clipartUrl, objectId, CLIPART, 0.5, true);\n' +
+        '      this.props.addClipart(\'\');\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _onCanvasScroll(value){\n' +
+        '    handleScroll(this.fabricCanvas, value);\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    let loadingMessage=\'\';\n' +
+        '    if(this.state.isFetchingUserDesign){\n' +
+        '      loadingMessage=LOADING_DESIGN;\n' +
+        '    }else if(this.state.isLoadingFonts){\n' +
+        '      loadingMessage=LOADING_FONTS;\n' +
+        '    }\n' +
+        '\n' +
+        '    return (\n' +
+        '      <div>\n' +
+        '        <CanvasContainer ref=\'canvasContainer\'\n' +
+        '                  canvasObjectState={this.props.objects}\n' +
+        '                  fabricInstance={this.fabricCanvas}\n' +
+        '                  onKeyDown={this._handleKeyDownEvent.bind(this)}\n' +
+        '                  onKeyUp={this._handleKeyUpEvent.bind(this)}\n' +
+        '                  onScroll={this._onCanvasScroll.bind(this)} />\n' +
+        '\n' +
+        '        <Ruler canvas={this.fabricCanvas}\n' +
+        '              notifyCanvasObjectsChanged={this.notifyCanvasObjectsChanged.bind(this)} />\n' +
+        '\n' +
+        '        <Grid canvas={this.fabricCanvas}\n' +
+        '              notifyCanvasObjectsChanged={this.notifyCanvasObjectsChanged.bind(this)} />\n' +
+        '\n' +
+        '        <Banner canvas={this.fabricCanvas}\n' +
+        '              notifyCanvasObjectsChanged={this.notifyCanvasObjectsChanged.bind(this)} />\n' +
+        '\n' +
+        '        <SimpleLoading message={loadingMessage}\n' +
+        '            isOpen={ this.state.isFetchingUserDesign || this.state.isLoadingFonts } />\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'const mapStateToProps = (state) => {\n' +
+        '  return {\n' +
+        '    fabricCanvas: state.fabricCanvas,\n' +
+        '    objects: state.canvas,\n' +
+        '    newObject: state.canvas.newObject,\n' +
+        '    selectedTool : state.tools.selectedTool,\n' +
+        '    selectedObject: state.canvas.selectedObject\n' +
+        '  };\n' +
+        '};\n' +
+        '\n' +
+        'const mapDispatchToProps = (dispatch) => {\n' +
+        '  return {\n' +
+        '    notifyCanvasObjectsChanged : (canvasObject, selectedObject, selectedGroup) => {\n' +
+        '      dispatch(notifyCanvasObjectsChanged(canvasObject, selectedObject, selectedGroup));\n' +
+        '    },\n' +
+        '    selectTool: (toolName) => {\n' +
+        '      dispatch(selectTool(toolName));\n' +
+        '    }\n' +
+        '  };\n' +
+        '};\n' +
+        '\n' +
+        'export default connect(mapStateToProps, mapDispatchToProps)(Canvas);\n'
+      },
+      {
+        file: 'align.js',
+        language: 'javascript',
+        code: 'import React, {Component} from \'react\';\n' +
+        'import { connect } from \'react-redux\';\n' +
+        'import ReactTooltip from \'react-tooltip\';\n' +
+        'import ToolButton from \'../../commons/tool_button\';\n' +
+        'import { alignToPage, alignToObject } from \'../../../actions\';\n' +
+        'import * as TOOL from \'../../commons/alignment_constants\';\n' +
+        '\n' +
+        'import topIcon from \'./icons/align_top.svg\';\n' +
+        'import bottomIcon from \'./icons/align_bottom.svg\';\n' +
+        'import leftIcon from \'./icons/align_left.svg\';\n' +
+        'import rightIcon from \'./icons/align_right.svg\';\n' +
+        'import centerVIcon from \'./icons/align_center_vertical.svg\';\n' +
+        'import centerHIcon from \'./icons/align_center_horizontal.svg\';\n' +
+        '\n' +
+        'class AlignContent extends Component {\n' +
+        '  alignRelativeToPage(position) {\n' +
+        '    this.props.alignToPage(position);\n' +
+        '  }\n' +
+        '\n' +
+        '  alignRelativeToObject(position) {\n' +
+        '    this.props.alignToObject(position);\n' +
+        '  }\n' +
+        '\n' +
+        '  _relativeToObjects() {\n' +
+        '    return (\n' +
+        '      <div>\n' +
+        '        <p className=\'iconsTitle\'>Relative to Objects</p>\n' +
+        '        <div className=\'buttonsContainer\'>\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToObject(TOOL.LEFT)}\n' +
+        '              tooltip={TOOL.LEFT}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={leftIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToObject(TOOL.CENTER_V)}\n' +
+        '              tooltip={TOOL.CENTER_V}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={centerVIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToObject(TOOL.RIGHT)}\n' +
+        '              tooltip={TOOL.RIGHT}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={rightIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToObject(TOOL.TOP)}\n' +
+        '              tooltip={TOOL.TOP}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={topIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToObject(TOOL.CENTER_H)}\n' +
+        '              tooltip={TOOL.CENTER_H}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={centerHIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToObject(TOOL.BOTTOM)}\n' +
+        '              tooltip={TOOL.BOTTOM}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={bottomIcon} />\n' +
+        '        </div>\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  _relativeToPage() {\n' +
+        '    return (\n' +
+        '      <div>\n' +
+        '        <p className=\'iconsTitle\'>Relative to Page</p>\n' +
+        '        <div className=\'buttonsContainer\'>\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToPage(TOOL.LEFT)}\n' +
+        '              tooltip={TOOL.LEFT}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={leftIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToPage(TOOL.CENTER_V)}\n' +
+        '              tooltip={TOOL.CENTER_V}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={centerVIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToPage(TOOL.RIGHT)}\n' +
+        '              tooltip={TOOL.RIGHT}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={rightIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToPage(TOOL.TOP)}\n' +
+        '              tooltip={TOOL.TOP}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={topIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToPage(TOOL.CENTER_H)}\n' +
+        '              tooltip={TOOL.CENTER_H}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={centerHIcon} />\n' +
+        '          <ToolButton\n' +
+        '              className=\'align-btn\'\n' +
+        '              onClick={() => this.alignRelativeToPage(TOOL.BOTTOM)}\n' +
+        '              tooltip={TOOL.BOTTOM}\n' +
+        '              tooltipId=\'align-tooltip\'\n' +
+        '              icon={bottomIcon} />\n' +
+        '        </div>\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '     return (\n' +
+        '       <div className=\'alignContainer\'>\n' +
+        '         {this._relativeToObjects()}\n' +
+        '         {this._relativeToPage()}\n' +
+        '         <ReactTooltip id=\'align-tooltip\' delayShow={200} class=\'tooltip align\' place="bottom" type="info" effect="solid" />\n' +
+        '       </div>\n' +
+        '     );\n' +
+        '   }\n' +
+        '}\n' +
+        '\n' +
+        'const mapStateToProps = (state) => {\n' +
+        '  return {\n' +
+        '    alignedPosition: state.canvas.alignedPosition,\n' +
+        '    alignedToObject: state.canvas.alignedToObject\n' +
+        '  };\n' +
+        '};\n' +
+        '\n' +
+        'const mapDispatchToProps = (dispatch) => {\n' +
+        '  return {\n' +
+        '    alignToPage: (alignedPosition) => {\n' +
+        '      dispatch(alignToPage(alignedPosition));\n' +
+        '    },\n' +
+        '    alignToObject: (alignedToObject) => {\n' +
+        '      dispatch(alignToObject(alignedToObject));\n' +
+        '    }\n' +
+        '  };\n' +
+        '};\n' +
+        '\n' +
+        'export default connect(\n' +
+        '  mapStateToProps,\n' +
+        '  mapDispatchToProps\n' +
+        ')(AlignContent);\n'
+      },
+      {
+        file: 'layers.js',
+        language: 'javascript',
+        code: 'import \'babel-polyfill\';\n' +
+        'import React, {Component} from \'react\';\n' +
+        'import { SortableContainer, SortableElement, arrayMove } from \'react-sortable-hoc\';\n' +
+        'import {\n' +
+        '  closest,\n' +
+        '  events,\n' +
+        '  vendorPrefix,\n' +
+        '  limit,\n' +
+        '  getElementMargin,\n' +
+        '  provideDisplayName,\n' +
+        '  omit,\n' +
+        '} from \'react-sortable-hoc/dist/commonjs/utils\';\n' +
+        '\n' +
+        'import { connect } from \'react-redux\';\n' +
+        'import { selectObject, toggleLayerLock, reorderLayers, setSelectedLayers } from \'../../../actions\';\n' +
+        'import Item from \'./item\';\n' +
+        'import {\n' +
+        '  SPECIAL_OBJECTS\n' +
+        '} from \'../../commons/object_constants\';\n' +
+        'import {\n' +
+        '  isBlockedObject,\n' +
+        '  isFireFox\n' +
+        '} from \'../../commons/helper\';\n' +
+        'import { isMobile } from \'../../commons/mobile\';\n' +
+        '\n' +
+        'const SortableItem = SortableElement(({key, indexValue, item, value, onClickLayer, onClickLock, activeSelected, itemsSelected, onSetItemsSelected}) =>\n' +
+        '        <li>\n' +
+        '          <Item item={item} indexValue={indexValue} onClickLayer={onClickLayer} onClickLock={onClickLock} value={value} activeSelected={activeSelected} itemsSelected={itemsSelected} onSetItemsSelected={onSetItemsSelected} />\n' +
+        '        </li>\n' +
+        ');\n' +
+        '\n' +
+        'const SortableListLib = SortableContainer(({items, onClickLayer, onClickLock, activeSelected, itemsSelected, onSetItemsSelected}) => {\n' +
+        '  return (\n' +
+        '    <ul className="sortable">\n' +
+        '      {items.map((item, index) =>\n' +
+        '        <SortableItem\n' +
+        '          key={`item${item.index}`}\n' +
+        '          index={index}\n' +
+        '          indexValue={index}\n' +
+        '          item={item}\n' +
+        '          value={item.value}\n' +
+        '          onClickLayer={onClickLayer}\n' +
+        '          onClickLock={onClickLock}\n' +
+        '          activeSelected={activeSelected}\n' +
+        '          itemsSelected={itemsSelected}\n' +
+        '          onSetItemsSelected={onSetItemsSelected}\n' +
+        '        />\n' +
+        '      )}\n' +
+        '    </ul>\n' +
+        '  );\n' +
+        '});\n' +
+        '\n' +
+        'class SortableList extends SortableListLib{\n' +
+        '  constructor(props){\n' +
+        '    super(props);\n' +
+        '    let handlePress=this.handlePress;\n' +
+        '    this.handlePress = (e)=>{\n' +
+        '      if(this.props.shouldCancelStart && this.props.shouldCancelStart(e)){\n' +
+        '        return;\n' +
+        '      }\n' +
+        '\n' +
+        '      handlePress.call(this, e);\n' +
+        '      let top=parseFloat(this.helper.style.top);\n' +
+        '      let delta=0;\n' +
+        '      if(isMobile.any() && isFireFox()){\n' +
+        '        delta= -parseFloat(window.$(\'html\').css("top"));\n' +
+        '      }else{\n' +
+        '        delta=window.scrollY;\n' +
+        '      }\n' +
+        '      this.helper.style.top=(top+delta)+\'px\';\n' +
+        '    };\n' +
+        '  }\n' +
+        '\n' +
+        '  animateNodes() {\n' +
+        '    let htmlTop=0;\n' +
+        '    if(isMobile.any() && isFireFox()){\n' +
+        '      htmlTop=parseFloat(window.$(\'html\').css("top"));\n' +
+        '    }\n' +
+        '\n' +
+        '    const {transitionDuration, hideSortableGhost} = this.props;\n' +
+        '    const nodes = this.manager.getOrderedRefs();\n' +
+        '    const deltaScroll = {\n' +
+        '      left: this.scrollContainer.scrollLeft - this.initialScroll.left,\n' +
+        '      top: this.scrollContainer.scrollTop - this.initialScroll.top,\n' +
+        '    };\n' +
+        '    const sortingOffset = {\n' +
+        '      left: this.offsetEdge.left + this.translate.x + deltaScroll.left,\n' +
+        '      top: this.offsetEdge.top + this.translate.y + deltaScroll.top - htmlTop,\n' +
+        '    };\n' +
+        '    const scrollDifference = {\n' +
+        '      top: (window.pageYOffset - this.initialWindowScroll.top),\n' +
+        '      left: (window.pageXOffset - this.initialWindowScroll.left),\n' +
+        '    };\n' +
+        '    this.newIndex = null;\n' +
+        '\n' +
+        '    for (let i = 0, len = nodes.length; i < len; i++) {\n' +
+        '      const {node} = nodes[i];\n' +
+        '      const index = node.sortableInfo.index;\n' +
+        '      const width = node.offsetWidth;\n' +
+        '      const height = node.offsetHeight;\n' +
+        '      const offset = {\n' +
+        '        width: this.width > width ? width / 2 : this.width / 2,\n' +
+        '        height: this.height > height ? height / 2 : this.height / 2,\n' +
+        '      };\n' +
+        '\n' +
+        '      const translate = {\n' +
+        '        x: 0,\n' +
+        '        y: 0,\n' +
+        '      };\n' +
+        '      let {edgeOffset} = nodes[i];\n' +
+        '\n' +
+        '      // If we haven\'t cached the node\'s offsetTop / offsetLeft value\n' +
+        '      if (!edgeOffset) {\n' +
+        '        nodes[i].edgeOffset = (edgeOffset = this.getEdgeOffset(node));\n' +
+        '      }\n' +
+        '\n' +
+        '      // Get a reference to the next and previous node\n' +
+        '      const nextNode = i < nodes.length - 1 && nodes[i + 1];\n' +
+        '      const prevNode = i > 0 && nodes[i - 1];\n' +
+        '\n' +
+        '      // Also cache the next node\'s edge offset if needed.\n' +
+        '      // We need this for calculating the animation in a grid setup\n' +
+        '      if (nextNode && !nextNode.edgeOffset) {\n' +
+        '        nextNode.edgeOffset = this.getEdgeOffset(nextNode.node);\n' +
+        '      }\n' +
+        '\n' +
+        '      // If the node is the one we\'re currently animating, skip it\n' +
+        '      if (index === this.index) {\n' +
+        '        if (hideSortableGhost) {\n' +
+        '          /*\n' +
+        '\t\t\t\t\t * With windowing libraries such as `react-virtualized`, the sortableGhost\n' +
+        '\t\t\t\t\t * node may change while scrolling down and then back up (or vice-versa),\n' +
+        '\t\t\t\t\t * so we need to update the reference to the new node just to be safe.\n' +
+        '\t\t\t\t\t */\n' +
+        '          this.sortableGhost = node;\n' +
+        '          node.style.visibility = \'hidden\';\n' +
+        '          node.style.opacity = 0;\n' +
+        '        }\n' +
+        '        continue;\n' +
+        '      }\n' +
+        '\n' +
+        '      if (transitionDuration) {\n' +
+        '        node.style[\n' +
+        '          `${vendorPrefix}TransitionDuration`\n' +
+        '        ] = `${transitionDuration}ms`;\n' +
+        '      }\n' +
+        '\n' +
+        '      if (this.axis.x) {\n' +
+        '        if (this.axis.y) {\n' +
+        '          // Calculations for a grid setup\n' +
+        '          if (\n' +
+        '            index < this.index &&\n' +
+        '            (\n' +
+        '              ((sortingOffset.left + scrollDifference.left) - offset.width <= edgeOffset.left &&\n' +
+        '              (sortingOffset.top + scrollDifference.top) <= edgeOffset.top + offset.height) ||\n' +
+        '              (sortingOffset.top + scrollDifference.top) + offset.height <= edgeOffset.top\n' +
+        '            )\n' +
+        '          ) {\n' +
+        '            // If the current node is to the left on the same row, or above the node that\'s being dragged\n' +
+        '            // then move it to the right\n' +
+        '            translate.x = this.width + this.marginOffset.x;\n' +
+        '            if (\n' +
+        '              edgeOffset.left + translate.x >\n' +
+        '              this.containerBoundingRect.width - offset.width\n' +
+        '            ) {\n' +
+        '              // If it moves passed the right bounds, then animate it to the first position of the next row.\n' +
+        '              // We just use the offset of the next node to calculate where to move, because that node\'s original position\n' +
+        '              // is exactly where we want to go\n' +
+        '              translate.x = nextNode.edgeOffset.left - edgeOffset.left;\n' +
+        '              translate.y = nextNode.edgeOffset.top - edgeOffset.top;\n' +
+        '            }\n' +
+        '            if (this.newIndex === null) {\n' +
+        '              this.newIndex = index;\n' +
+        '            }\n' +
+        '          } else if (\n' +
+        '            index > this.index &&\n' +
+        '            (\n' +
+        '              ((sortingOffset.left + scrollDifference.left) + offset.width >= edgeOffset.left &&\n' +
+        '              (sortingOffset.top + scrollDifference.top) + offset.height >= edgeOffset.top) ||\n' +
+        '              (sortingOffset.top + scrollDifference.top) + offset.height >= edgeOffset.top + height\n' +
+        '            )\n' +
+        '          ) {\n' +
+        '            // If the current node is to the right on the same row, or below the node that\'s being dragged\n' +
+        '            // then move it to the left\n' +
+        '            translate.x = -(this.width + this.marginOffset.x);\n' +
+        '            if (\n' +
+        '              edgeOffset.left + translate.x <\n' +
+        '              this.containerBoundingRect.left + offset.width\n' +
+        '            ) {\n' +
+        '              // If it moves passed the left bounds, then animate it to the last position of the previous row.\n' +
+        '              // We just use the offset of the previous node to calculate where to move, because that node\'s original position\n' +
+        '              // is exactly where we want to go\n' +
+        '              translate.x = prevNode.edgeOffset.left - edgeOffset.left;\n' +
+        '              translate.y = prevNode.edgeOffset.top - edgeOffset.top;\n' +
+        '            }\n' +
+        '            this.newIndex = index;\n' +
+        '          }\n' +
+        '        } else {\n' +
+        '          if (\n' +
+        '            index > this.index &&\n' +
+        '            (sortingOffset.left + scrollDifference.left) + offset.width >= edgeOffset.left\n' +
+        '          ) {\n' +
+        '            translate.x = -(this.width + this.marginOffset.x);\n' +
+        '            this.newIndex = index;\n' +
+        '          } else if (\n' +
+        '            index < this.index &&\n' +
+        '            (sortingOffset.left + scrollDifference.left) <= edgeOffset.left + offset.width\n' +
+        '          ) {\n' +
+        '            translate.x = this.width + this.marginOffset.x;\n' +
+        '            if (this.newIndex == null) {\n' +
+        '              this.newIndex = index;\n' +
+        '            }\n' +
+        '          }\n' +
+        '        }\n' +
+        '      } else if (this.axis.y) {\n' +
+        '        if (\n' +
+        '          index > this.index &&\n' +
+        '          (sortingOffset.top + scrollDifference.top) + offset.height >= edgeOffset.top\n' +
+        '        ) {\n' +
+        '          translate.y = -(this.height + this.marginOffset.y);\n' +
+        '          this.newIndex = index;\n' +
+        '        } else if (\n' +
+        '          index < this.index &&\n' +
+        '          (sortingOffset.top + scrollDifference.top) <= edgeOffset.top + offset.height\n' +
+        '        ) {\n' +
+        '          translate.y = this.height + this.marginOffset.y;\n' +
+        '          if (this.newIndex == null) {\n' +
+        '            this.newIndex = index;\n' +
+        '          }\n' +
+        '        }\n' +
+        '      }\n' +
+        '      node.style[`${vendorPrefix}Transform`] = `translate3d(${translate.x}px,${translate.y}px,0)`;\n' +
+        '    }\n' +
+        '\n' +
+        '    if (this.newIndex == null) {\n' +
+        '      this.newIndex = this.index;\n' +
+        '    }\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'export class LayersContent extends Component {\n' +
+        '\n' +
+        '  static whitelist = new Set([\'input\', \'textarea\', \'ul\', \'option\']);\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '\n' +
+        '    this.state = {\n' +
+        '      items: [],\n' +
+        '      activeSelected: -1,\n' +
+        '      itemsSelected: [],\n' +
+        '      layersSelected: [],\n' +
+        '      indexesSelected: []\n' +
+        '    };\n' +
+        '\n' +
+        '    this.cursorX = -1;\n' +
+        '    this.cursorY = -1;\n' +
+        '  }\n' +
+        '\n' +
+        '  componentDidMount(){\n' +
+        '    let $=window.$;\n' +
+        '    let endScrolling=null;\n' +
+        '\n' +
+        '    $(window).on(\'scroll\', this._onScrolling.bind(this));\n' +
+        '\n' +
+        '    $(\'#layers\').on(\'scroll\', this._onScrolling.bind(this));\n' +
+        '  }\n' +
+        '\n' +
+        '  _onScrolling(){\n' +
+        '    this.shouldCancelSorting=true;\n' +
+        '    if(this._endScrolling){\n' +
+        '      clearTimeout(this._endScrolling);\n' +
+        '    }\n' +
+        '    this._endScrolling = setTimeout(()=> {\n' +
+        '      this.shouldCancelSorting = false;\n' +
+        '      clearTimeout(this._endScrolling);\n' +
+        '    }, 100);\n' +
+        '  }\n' +
+        '\n' +
+        '  componentWillUnmount(){\n' +
+        '    let $=window.$;\n' +
+        '    $(window).off(\'scroll\', this._onScrolling.bind(this));\n' +
+        '    $(\'#layers\').off(\'scroll\', this._onScrolling.bind(this));\n' +
+        '  }\n' +
+        '\n' +
+        '  componentWillReceiveProps(nextProps) {\n' +
+        '    if (this.props.present !== nextProps.present) {\n' +
+        '      let objects = nextProps.present.data;\n' +
+        '      this._getLayers(objects);\n' +
+        '    }\n' +
+        '\n' +
+        '    if (nextProps.selectedObject) {\n' +
+        '      if (nextProps.selectedObject !== -1) {\n' +
+        '        if (this.props.selectedObject !== nextProps.selectedObject) {\n' +
+        '          this.setState({activeSelected: nextProps.selectedObject});\n' +
+        '        }\n' +
+        '      } else {\n' +
+        '        if (nextProps.selectedObject !== this.state.activeSelected) {\n' +
+        '          this.setState({activeSelected: nextProps.selectedObject});\n' +
+        '        }\n' +
+        '      }\n' +
+        '    }\n' +
+        '\n' +
+        '    if (nextProps.selectedGroup) {\n' +
+        '      if (this.props.selectedGroup !== nextProps.selectedGroup) {\n' +
+        '        let selectedGroup = nextProps.selectedGroup;\n' +
+        '        let itemsSelected = [];\n' +
+        '\n' +
+        '        selectedGroup.forEach((object) => {\n' +
+        '          itemsSelected.push(object.objectId);\n' +
+        '        });\n' +
+        '\n' +
+        '        this.setState({ itemsSelected: itemsSelected });\n' +
+        '\n' +
+        '        if (itemsSelected.length > 0) {\n' +
+        '          this.setState({ layersSelected: itemsSelected });\n' +
+        '        }\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  componentDidUpdate(){\n' +
+        '    let dom=window.$(\'#layers\');\n' +
+        '    let layersHeight=dom.find(\'#layers_container\').height() + 30;\n' +
+        '    let containerHeight=dom.height();\n' +
+        '\n' +
+        '    if(!isMobile.any()){\n' +
+        '      if(layersHeight > containerHeight){\n' +
+        '        dom.find(\'.tab-content-inner\').height(layersHeight);\n' +
+        '        dom.find(\'.potter-copyright\').css(\'position\', \'relative\');\n' +
+        '      }else{\n' +
+        '        if(window.isIE){\n' +
+        '          dom.find(\'.tab-content-inner\').height(containerHeight);\n' +
+        '          dom.find(\'.potter-copyright\').css(\'position\', \'absolute\');\n' +
+        '        }else{\n' +
+        '          dom.find(\'.potter-copyright\').css(\'position\', \'absolute\');\n' +
+        '          dom.find(\'.tab-content-inner\').height(\'auto\');\n' +
+        '        }\n' +
+        '      }\n' +
+        '    }else{\n' +
+        '      let height=layersHeight>containerHeight ? layersHeight : containerHeight;\n' +
+        '\n' +
+        '      dom.find(\'.tab-content-inner\').height(height);\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  setItemsSelected(newItemSelected, key, index) {\n' +
+        '    let allLayers = this.state.items;\n' +
+        '    let itemsSelected = this.state.itemsSelected;\n' +
+        '    let layersSelected = (key !== \'\') ? this.state.layersSelected : [];\n' +
+        '    let indexesSelected = (key !== \'\') ? this.state.indexesSelected : [];\n' +
+        '    let layers = [];\n' +
+        '    let indexes = [];\n' +
+        '    let ignoreLayer = false;\n' +
+        '\n' +
+        '    layersSelected.forEach((layer) => {\n' +
+        '      if (layer !== newItemSelected) {\n' +
+        '        layers.push(layer);\n' +
+        '      } else {\n' +
+        '        ignoreLayer = true;\n' +
+        '      }\n' +
+        '    });\n' +
+        '\n' +
+        '    indexesSelected.forEach((idx) => {\n' +
+        '      if (idx !== index) {\n' +
+        '        indexes.push(idx);\n' +
+        '      }\n' +
+        '    });\n' +
+        '\n' +
+        '    if (!ignoreLayer) {\n' +
+        '      layers.push(newItemSelected);\n' +
+        '      indexes.push({item: newItemSelected, index: index});\n' +
+        '    }\n' +
+        '\n' +
+        '    if (key === \'shiftKey\') {\n' +
+        '      let idxs = [];\n' +
+        '      indexes.sort().forEach((index) => {\n' +
+        '        idxs.push(index.index);\n' +
+        '      });\n' +
+        '\n' +
+        '      let orderedIdx = idxs.sort();\n' +
+        '      for (let i = orderedIdx[0]; i <= orderedIdx[orderedIdx.length - 1]; i++) {\n' +
+        '        let newLayer = allLayers[i];\n' +
+        '        let found = false;\n' +
+        '\n' +
+        '        layers.sort().forEach((layer) => {\n' +
+        '          if (newLayer.value === layer) {\n' +
+        '            found = true;\n' +
+        '          }\n' +
+        '        });\n' +
+        '\n' +
+        '        if (!found) {\n' +
+        '          layers.push(newLayer.value);\n' +
+        '          indexes.push({item: newLayer.value, index: newLayer.index});\n' +
+        '        }\n' +
+        '      }\n' +
+        '    }\n' +
+        '\n' +
+        '    this.setState({layersSelected: layers, indexesSelected: indexes});\n' +
+        '    this.props.setSelectedLayers(layers);\n' +
+        '  }\n' +
+        '\n' +
+        '  onSortEnd = ({oldIndex, newIndex, collection}, e) => {\n' +
+        '    if(isMobile.any() && isFireFox()){\n' +
+        '      let $html=window.$(\'html\');\n' +
+        '      let lastScrollTop = -parseFloat($html.css(\'top\'));\n' +
+        '      $html.removeClass("noscroll");\n' +
+        '      $html.css("top", "0px");\n' +
+        '      $html.scrollTop(lastScrollTop);\n' +
+        '    }\n' +
+        '\n' +
+        '    let layersOrder = arrayMove(this.state.items, oldIndex, newIndex);\n' +
+        '    this.props.reorderLayers(layersOrder);\n' +
+        '    this.setState({\n' +
+        '      items: arrayMove(this.state.items, oldIndex, newIndex)\n' +
+        '    });\n' +
+        '  };\n' +
+        '\n' +
+        '  onSortStart({node, index, collection}, e){\n' +
+        '    if(isMobile.any() && isFireFox()){\n' +
+        '      let $html=window.$(\'html\');\n' +
+        '      let lastScrollTop = $html.scrollTop();\n' +
+        '      $html.addClass("noscroll");\n' +
+        '      $html.css("top", "-" + lastScrollTop + "px");\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  _getLayers(objects) {\n' +
+        '    let layersArr = [];\n' +
+        '\n' +
+        '    if (objects) {\n' +
+        '      for (let i = 0; i < objects.length; i++) {\n' +
+        '        let object = objects[i];\n' +
+        '        if (SPECIAL_OBJECTS.indexOf(object.objectId) === -1) {\n' +
+        '          let isBlocked = isBlockedObject(object);\n' +
+        '          layersArr.push({objectId: object.objectId, index: i, value: object.name, locked: isBlocked});\n' +
+        '        }\n' +
+        '      }\n' +
+        '      layersArr.reverse();\n' +
+        '    }\n' +
+        '\n' +
+        '    this.setState({items: layersArr});\n' +
+        '  }\n' +
+        '\n' +
+        '  toggleLock(objectId, locked, index) {\n' +
+        '    this.props.toggleLayerLock(objectId, locked);\n' +
+        '    this.clickedLayer(objectId, locked, index);\n' +
+        '  }\n' +
+        '\n' +
+        '  clickedLayer(objectId, locked, index) {\n' +
+        '    this.clearLayers();\n' +
+        '    this.props.selectObject(objectId);\n' +
+        '    this.setState({activeSelected: objectId});\n' +
+        '  }\n' +
+        '\n' +
+        '  clearLayers() {\n' +
+        '    this.setState({layersSelected: [], indexesSelected: []});\n' +
+        '    this.props.setSelectedLayers([]);\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderDesktop() {\n' +
+        '    return (\n' +
+        '     <div id=\'layers_container\' className=\'layers_container\'>\n' +
+        '        <SortableList\n' +
+        '          distance={10}\n' +
+        '          items={this.state.items}\n' +
+        '          activeSelected={this.state.activeSelected}\n' +
+        '          itemsSelected={this.state.itemsSelected}\n' +
+        '          onSetItemsSelected={(items, key, index) => this.setItemsSelected(items, key, index)}\n' +
+        '          onSortEnd={this.onSortEnd}\n' +
+        '          onClickLayer={(index, locked) => this.clickedLayer(index, locked)}\n' +
+        '          onClickLock={(id, locked, index) => this.toggleLock(id, locked, index)}\n' +
+        '          helperClass=\'sortable_helper\'\n' +
+        '          lockAxis=\'y\'\n' +
+        '          lockToContainerEdges={true}\n' +
+        '        />\n' +
+        '     </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderMobile() {\n' +
+        '    return (\n' +
+        '     <div id=\'layers_container\' ref={(container)=>this.containerDom=container} className=\'layers_container\' style={{flex: 1}}>\n' +
+        '        <SortableList\n' +
+        '          pressDelay={500}\n' +
+        '          items={this.state.items}\n' +
+        '          activeSelected={this.state.activeSelected}\n' +
+        '          itemsSelected={this.state.itemsSelected}\n' +
+        '          onSetItemsSelected={(items, key, index) => this.setItemsSelected(items, key, index)}\n' +
+        '          onSortStart={this.onSortStart.bind(this)}\n' +
+        '          onSortEnd={this.onSortEnd}\n' +
+        '          onClickLayer={(index, locked) => this.clickedLayer(index, locked)}\n' +
+        '          onClickLock={(id, locked, index) => this.toggleLock(id, locked, index)}\n' +
+        '          helperClass=\'sortable_helper\'\n' +
+        '          lockAxis=\'y\'\n' +
+        '          shouldCancelStart={()=>{\n' +
+        '            return this.shouldCancelSorting;\n' +
+        '          }}\n' +
+        '          lockToContainerEdges\n' +
+        '        />\n' +
+        '     </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    return isMobile.any() ? this._renderMobile() : this._renderDesktop();\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'const mapStateToProps = (state) => {\n' +
+        '  return {\n' +
+        '    objects: state.canvas.canvasObject.objects,\n' +
+        '    selectedObject: state.canvas.selectedObject,\n' +
+        '    indexLayerLock: state.canvas.indexLayerLock,\n' +
+        '    locked: state.canvas.locked,\n' +
+        '    layersOrder: state.canvas.layersOrder,\n' +
+        '    selectedGroup: state.canvas.selectedGroup,\n' +
+        '    present: state.history.present,\n' +
+        '    selectedLayers: state.canvas.selectedLayers\n' +
+        '  };\n' +
+        '};\n' +
+        '\n' +
+        'const mapDispatchToProps = (dispatch) => {\n' +
+        '  return {\n' +
+        '    selectObject: (selectedObject) => {\n' +
+        '      dispatch(selectObject(selectedObject));\n' +
+        '    },\n' +
+        '    toggleLayerLock: (indexLayerLock, locked) => {\n' +
+        '      dispatch(toggleLayerLock(indexLayerLock, locked));\n' +
+        '    },\n' +
+        '    reorderLayers: (layersOrder) => {\n' +
+        '      dispatch(reorderLayers(layersOrder));\n' +
+        '    },\n' +
+        '    setSelectedLayers: (selectedLayers) => {\n' +
+        '      dispatch(setSelectedLayers(selectedLayers));\n' +
+        '    }\n' +
+        '  };\n' +
+        '};\n' +
+        '\n' +
+        'export default connect(\n' +
+        '  mapStateToProps,\n' +
+        '  mapDispatchToProps\n' +
+        ')(LayersContent);\n'
+      },
+      {
+        file: 'styles.css',
+        language: 'css',
+        code: '.alert.text-modal .content {\n' +
+        '  padding: 20px 20px;\n' +
+        '}\n' +
+        '\n' +
+        '.alert.text-modal .content input {\n' +
+        '  margin-top: 10px;\n' +
+        '}\n' +
+        '\n' +
+        '.canvas-tool-buttons {\n' +
+        '  margin: auto;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-control {\n' +
+        '  border-radius: 4px;\n' +
+        '  height: 40px;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-control .Select-value {\n' +
+        '  background: linear-gradient(#fff, #ccc);\n' +
+        '  border-radius: 4px;\n' +
+        '  font-weight: bold;\n' +
+        '  border: 2px solid #888;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-control .Select-arrow-zone {\n' +
+        '  border-left: 2px solid #888;\n' +
+        '  padding-left: 8px;\n' +
+        '  padding-right: 8px;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-control .Select-arrow-zone .Select-arrow {\n' +
+        '  border-top-color: #000;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .is-open .Select-control .Select-arrow {\n' +
+        '  border-color: transparent transparent #000;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-option {\n' +
+        '  border-top: 2px solid #000;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-option:first-child {\n' +
+        '  border-top: none;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.fonts .Select-control .Select-value:hover {\n' +
+        '  background: linear-gradient(#ddd, #999);\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.size input {\n' +
+        '  text-align: center;\n' +
+        '}\n' +
+        '\n' +
+        '.rc-checkbox-inner img {\n' +
+        '  display: none;\n' +
+        '  width: 15px;\n' +
+        '  margin-top: -1px;\n' +
+        '  margin-left: 2px;\n' +
+        '}\n' +
+        '\n' +
+        '.rc-checkbox-checked .rc-checkbox-inner img {\n' +
+        '  display: block;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.text-effects .rc-checkbox-inner {\n' +
+        '  width: 20px;\n' +
+        '  height: 20px;\n' +
+        '  background: linear-gradient(#fff, #ccc);\n' +
+        '  border: 2px solid #888;\n' +
+        '  border-radius: 0;\n' +
+        '  margin-left: 5px;\n' +
+        '  transition: none;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.text-effects .rc-checkbox-inner:hover {\n' +
+        '  background: linear-gradient(#ddd, #999);\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.text-effects .rc-checkbox-checked .rc-checkbox-inner:after {\n' +
+        '  display: none;\n' +
+        '  transition: none;\n' +
+        '  -webkit-animation-duration: 0s;\n' +
+        '  animation-duration: 0s;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.text-effects .rc-checkbox-inner:after {\n' +
+        '  border: none;\n' +
+        '}\n' +
+        '\n' +
+        '.prop-row.text-effects .rc-checkbox:hover .rc-checkbox-inner,\n' +
+        '.prop-row.text-effects .rc-checkbox-input:focus + .rc-checkbox-inner {\n' +
+        '  border: 2px solid #888;\n' +
+        '}\n' +
+        '\n' +
+        '.slide-group .rangeslider__fill {\n' +
+        '  background: linear-gradient(#aaa, #ddd);\n' +
+        '}\n' +
+        '\n' +
+        '.slide-group .rangeslider-horizontal .rangeslider__handle {\n' +
+        '  top: -7px;\n' +
+        '}\n' +
+        '\n' +
+        '.colors-pane-wrap {\n' +
+        '  position: relative;\n' +
+        '}\n' +
+        '\n' +
+        '@media (min-width: 1024px) {\n' +
+        '  .shape-fill-color .colors-pane-wrap {\n' +
+        '    left: -71px;\n' +
+        '  }\n' +
+        '\n' +
+        '  .stroke-color .colors-pane-wrap {\n' +
+        '    left: -93px;\n' +
+        '  }\n' +
+        '\n' +
+        '  .text-effect-color .colors-pane-wrap {\n' +
+        '    left: -89px;\n' +
+        '  }\n' +
+        '\n' +
+        '  .text-color .colors-pane-wrap {\n' +
+        '    left: -77px;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        '@media (min-width: 768px) and (orientation: landscape) {\n' +
+        '  .shape-fill-color .colors-pane-wrap.mobile {\n' +
+        '    left: 0;\n' +
+        '  }\n' +
+        '\n' +
+        '  .stroke-color .colors-pane-wrap.mobile {\n' +
+        '    left: 0;\n' +
+        '  }\n' +
+        '\n' +
+        '  .text-effect-color .colors-pane-wrap.mobile {\n' +
+        '    left: 0;\n' +
+        '  }\n' +
+        '\n' +
+        '  .text-color .colors-pane-wrap.mobile {\n' +
+        '    left: 0;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        '.scrollbar-container {\n' +
+        '  opacity: 1 !important;\n' +
+        '  background: #ddd !important;\n' +
+        '}\n' +
+        '\n' +
+        '.scrollarea .scrollbar-container.active,\n' +
+        '.scrollarea .scrollbar-container:hover {\n' +
+        '  opacity: 1 !important;\n' +
+        '}\n' +
+        '\n' +
+        '.scrollbar-container .scrollbar {\n' +
+        '  background: #aaa !important;\n' +
+        '}\n' +
+        '\n' +
+        '#alert-msg {\n' +
+        '  position: absolute;\n' +
+        '  z-index: 999;\n' +
+        '  top: 64px;\n' +
+        '  left: 203px;\n' +
+        '  font-size: 21px;\n' +
+        '  background-color: #fff;\n' +
+        '  height: 35px !important;\n' +
+        '}\n' +
+        '\n' +
+        '#alert-msg > img {\n' +
+        '  margin-right: 5px;\n' +
+        '  animation: blinker 0.6s linear infinite;\n' +
+        '  margin-bottom: 5px;\n' +
+        '}\n' +
+        '\n' +
+        '@keyframes blinker {\n' +
+        '  50% {\n' +
+        '    opacity: 0;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'input.opacity {\n' +
+        '  width: 110px;\n' +
+        '}\n' +
+        '\n' +
+        '.sortable_helper, .sortable_helper span {\n' +
+        '  cursor: default;\n' +
+        '}\n' +
+        '\n' +
+        '.img-prop-warning {\n' +
+        '  margin-left: 2px;\n' +
+        '  width: 30px;\n' +
+        '}\n' +
+        '\n' +
+        '.ppi-warning-text {\n' +
+        '  color: red;\n' +
+        '  font-weight: normal;\n' +
+        '}\n' +
+        '\n' +
+        '.resolution > span {\n' +
+        '  display: inline-block;\n' +
+        '  vertical-align: top;\n' +
+        '}\n' +
+        '@media ( max-device-width: 1224px ) {\n' +
+        '  .picker.shr-q-shr-r.picker-dialog{\n' +
+        '    width: 80% !important;\n' +
+        '    left: 10% !important;\n' +
+        '  }\n' +
+        '  .picker.shr-q-shr-r-shr-td.picker-dialog-content{\n' +
+        '    width: 100% !important;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        '@media only screen and (max-device-width: 667px) {\n' +
+        '  .picker.shr-q-shr-r-shr-td.picker-dialog-content {\n' +
+        '    max-height: 270px !important;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'ul.rw-list>li.rw-list-option, ul.rw-list>li.rw-list-empty, .rw-selectlist>li.rw-list-option, .rw-selectlist>li.rw-list-empty{\n' +
+        '  padding-top: 5px;\n' +
+        '  padding-bottom: 5px;\n' +
+        '}'
+      }
+    ]
   },
   {
     id: 5,
