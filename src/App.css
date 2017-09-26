@@ -37,3 +37,7 @@ body {
   vertical-align: top!important;
   margin-left: 5px;
 }
+.contact-me-btn {
+  color: #fff!important;
+  cursor: pointer;
+}
