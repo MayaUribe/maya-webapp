@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import FaTwitter from '../../node_modules/react-icons/lib/fa/twitter';
 import FaFacebook from '../../node_modules/react-icons/lib/fa/facebook';
 import FaLinkedIn from '../../node_modules/react-icons/lib/fa/linkedin';
+import ChevronUp from '../../node_modules/react-icons/lib/fa/chevron-up';
+import $ from 'jquery';
 
 class Footer extends Component {
+  handleUpClick() {
+    $('body,html').animate({
+      scrollTop : 0
+    }, 500);
+  }
+
   render() {
     return (
       <footer id="footer">
@@ -40,6 +48,10 @@ class Footer extends Component {
             </div>
           </div>
         </div>
+
+        <a href="javascript:" id="return-to-top" onClick={this.handleUpClick.bind(this)}>
+          <ChevronUp className="chevron-up" />
+        </a>
       </footer>
     );
   }
