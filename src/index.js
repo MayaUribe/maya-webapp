@@ -9,7 +9,7 @@ import Home from "./pages/home/index";
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={Home}/>
-    <Route path="/project" component={Project}/>
+    <Route path="/project/:id" component={Project}/>
   </Router>
 
 ), document.getElementById('root'));

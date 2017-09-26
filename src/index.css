@@ -57,6 +57,15 @@ section h3.section-subheading {
   section {
     padding: 150px 0;
   }
+  section#summary {
+    padding: 100px 0;
+  }
+  section#project {
+    padding: 150px 0 100px 0;
+  }
+  section#detail {
+    padding: 50px 0;
+  }
 }
 
 ::-moz-selection {
@@ -96,7 +105,8 @@ body {
 }
 #mainNav .navbar-brand {
   color: #d2034a;
-  font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
+  /*font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;*/
+  font-family: 'Lobster', cursive;
 }
 #mainNav .navbar-brand img {
   margin-right: 7px;
@@ -761,4 +771,40 @@ fieldset[disabled] .btn-xl:hover {
 ul.list-inline.quicklinks {
   text-transform: none;
   color: #d2034a;
+}
+#project h3.section-subheading.text-muted {
+  font-style: normal;
+  margin-bottom: 0;
+}
+h2.project-title {
+  margin-bottom: 15px;
+  text-transform: capitalize;
+  font-family: 'Lobster Two', cursive;
+  font-size: 45px;
+}
+#summary label,
+#detail label {
+  margin-right: 5px;
+  font-weight: 500;
+  width: 100%;
+  font-size: 22px;
+}
+#summary .row {
+  margin-bottom: 30px;
+}
+#project .project-logo {
+  text-align: right;
+}
+.sample-code {
+  font-size: 32px !important;
+  margin-bottom: 30px;
+}
+.code-container {
+  margin-bottom: 40px;
+}
+.project-description {
+  margin-bottom: 20px;
+}
+.bg-project {
+  background-color: #c1c6da;
 }

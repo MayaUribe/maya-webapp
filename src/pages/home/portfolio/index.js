@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FaPlus from '../../../../node_modules/react-icons/lib/fa/plus';
-import {PROJECTS} from '../../../data/projects';
+import { PROJECTS } from '../../../data/projects';
+import { Link } from 'react-router';
 
 class Portfolio extends Component {
   _renderTagRow(tag, i) {
@@ -22,16 +23,18 @@ class Portfolio extends Component {
   }
 
   _renderProjectRow(project, i) {
+    let projectLink = '/project/' + project.id;
+
     return(
       <div key={i} className="col-md-4 col-sm-6 portfolio-item">
-        <a className="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+        <Link className="portfolio-link" to={projectLink}>
           <div className="portfolio-hover">
             <div className="portfolio-hover-content">
               <FaPlus className="fa-3x" />
             </div>
           </div>
           <img className="img-fluid" src={project.thumbnail} alt=""/>
-        </a>
+        </Link>
         <div className="portfolio-caption">
           <h4>{project.name}</h4>
           {this._renderTags(project.tags)}
