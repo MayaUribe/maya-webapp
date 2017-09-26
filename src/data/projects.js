@@ -3,7 +3,7 @@ export const PROJECTS = [
     id: 1,
     name: 'Fitness',
     company: 'Scopic Software',
-    description: 'This is the project description',
+    description: 'Fitness project to track daily exercises and synchronization with different fitness devices.',
     thumbnail: '/img/portfolio/react-logo.png',
     image: 'img/portfolio/react-logo.png',
     logo: 'img/logos/scopic-logo.png.no',
@@ -599,9 +599,517 @@ export const PROJECTS = [
     tags: ['React JS', 'JS', 'HTML', 'HTML5', 'CSS'],
     sampleCodes: [
       {
-        file: 'index.js',
+        file: 'audioContainer.js',
         language: 'javascript',
-        code: '',
+        code: 'import React, { Component, PropTypes } from \'react\';\n' +
+        'import { connect } from \'react-redux\';\n' +
+        'import { bindActionCreators } from \'redux\';\n' +
+        'import Splitter from \'react-splitter/dist/react-splitter.js\';\n' +
+        'import AjaxActions from \'../actions/AjaxActions.jsx\';\n' +
+        'import Actions from \'../actions/Actions.jsx\';\n' +
+        'import Utils from  \'../utils/Utils.jsx\';\n' +
+        'import * as settings from \'../constants/settings.jsx\';\n' +
+        '\n' +
+        'import Head from \'../components/Head.jsx\';\n' +
+        'import Video from \'../components/Video.jsx\';\n' +
+        'import SubtitleRows from \'../components/SubtitleRows.jsx\';\n' +
+        'import WaveformControls from \'../components/WaveformControls.jsx\';\n' +
+        'import Waveform from \'../components/Waveform.jsx\';\n' +
+        'import UserWaveform from \'../components/UserWaveform.jsx\';\n' +
+        'import WaveformButtons from \'../components/WaveformButtons.jsx\';\n' +
+        '\n' +
+        'const window_height = window.innerHeight - 29;\n' +
+        '\n' +
+        'class AudioDescription extends Component {\n' +
+        '    constructor(props) {\n' +
+        '        super(props);\n' +
+        '        this.props.dispatch(AjaxActions.fetchConfig());\n' +
+        '    }\n' +
+        '\n' +
+        '    componentDidMount() {\n' +
+        '        $(window).resize(function(event) {\n' +
+        '            Utils.resizeListener(event);\n' +
+        '        });\n' +
+        '    }\n' +
+        '\n' +
+        '    render() {\n' +
+        '        const {videoData, audioData, subtitleData, userWaveforms, waveformsData, buttonsData, moveAudioData, videoEvent, videoEventDispatcher, userAudioChange, subtitle, dispatch} = this.props;\n' +
+        '        let actions = bindActionCreators(Object.assign({}, AjaxActions, Actions), dispatch);\n' +
+        '        let user_tracks = settings.USER_TRACKS;\n' +
+        '        let bottom_height = 226 + (65 * user_tracks.length);\n' +
+        '        let bottom_percent = bottom_height*100/window_height;\n' +
+        '\n' +
+        '        return (\n' +
+        '            <div id="content">\n' +
+        '                <Head lastUpdated={this.props.lastUpdated}/>\n' +
+        '                <Splitter style={{height: window_height}} orientation=\'horizontal\' position={100-bottom_percent+\'%\'} limit={bottom_height} onDragEnd={e => Utils.resizeListener(e)}>\n' +
+        '                    <Splitter orientation=\'vertical\' position=\'60%\' onDragEnd={e => Utils.resizeListener(e)}>\n' +
+        '                        <Video\n' +
+        '                            data={videoData}\n' +
+        '                            subtitleData={subtitleData}\n' +
+        '                            subtitle={subtitle}\n' +
+        '                            videoEvent={videoEvent}\n' +
+        '                            waveformsData={waveformsData[-1]}//sent volume data from main waveform to video\n' +
+        '                            {...actions}/>\n' +
+        '                        <div>\n' +
+        '                            <SubtitleRows subtitle={subtitle}/>\n' +
+        '                        </div>\n' +
+        '                    </Splitter>\n' +
+        '                    <div id="waveform_container" className="loading" data-height={bottom_height}>\n' +
+        '                        <WaveformButtons\n' +
+        '                            moveAudioData={moveAudioData}\n' +
+        '                            buttonsData={buttonsData}\n' +
+        '                            {...actions}/>\n' +
+        '                        <Waveform\n' +
+        '                            data={audioData}\n' +
+        '                            videoData={videoData}\n' +
+        '                            videoEvent={videoEvent}\n' +
+        '                            subtitle={subtitle}\n' +
+        '                            waveformsData={waveformsData[-1]}\n' +
+        '                            buttonsData={buttonsData}\n' +
+        '                            {...actions}/>\n' +
+        '                        <div id="user_waveforms">\n' +
+        '                            {user_tracks.map(function(user_track, track_id) {\n' +
+        '                                return <div className="user_waveforms_container" key={track_id}>\n' +
+        '                                    <WaveformControls\n' +
+        '                                        height="64"\n' +
+        '                                        color={user_track.bgColor}\n' +
+        '                                        label={user_track.name}\n' +
+        '                                        index={track_id}\n' +
+        '                                        waveformsData={waveformsData[track_id]}\n' +
+        '                                        userWaveforms={userWaveforms}\n' +
+        '                                        {...actions}/>\n' +
+        '                                    {userWaveforms.map(function(userWaveform, i) {\n' +
+        '                                        if (userWaveform.track_id != track_id) return;\n' +
+        '\n' +
+        '                                        return (\n' +
+        '                                            <UserWaveform\n' +
+        '                                                key={i}\n' +
+        '                                                index={i}\n' +
+        '                                                trackId={track_id}\n' +
+        '                                                userWaveformsLength={userWaveforms.length}\n' +
+        '                                                background={user_track.bgColor}\n' +
+        '                                                data={userWaveform}\n' +
+        '                                                videoData={videoData}\n' +
+        '                                                videoEvent={videoEvent}\n' +
+        '                                                waveformsData={waveformsData[track_id]}\n' +
+        '                                                buttonsData={buttonsData}\n' +
+        '                                                {...actions}/>\n' +
+        '                                        );\n' +
+        '                                    })}\n' +
+        '                                </div>\n' +
+        '                            })}\n' +
+        '                        </div>\n' +
+        '                    </div>\n' +
+        '                </Splitter>\n' +
+        '            </div>\n' +
+        '        );\n' +
+        '    }\n' +
+        '};\n' +
+        '\n' +
+        'AudioDescription.propTypes = {\n' +
+        '    videoData: PropTypes.object.isRequired,\n' +
+        '    audioData: PropTypes.object.isRequired,\n' +
+        '    subtitleData: PropTypes.array.isRequired,\n' +
+        '    isFetching: PropTypes.bool.isRequired,\n' +
+        '    isFetched: PropTypes.bool.isRequired,\n' +
+        '    lastUpdated: PropTypes.number,\n' +
+        '    userWaveforms: PropTypes.array.isRequired\n' +
+        '};\n' +
+        '\n' +
+        'function mapStateToProps(state) {\n' +
+        '    const { appConfig, videoEvent, userWaveforms, subtitle, waveformsData, buttonsData, moveAudioData} = state;\n' +
+        '\n' +
+        '    const { isFetching,  isFetched, videoData, audioData, subtitleData, lastUpdated} = appConfig.hasOwnProperty(\'isFetching\') ? appConfig : {\n' +
+        '        isFetching: true,\n' +
+        '        isFetched: false,\n' +
+        '        videoData: {},\n' +
+        '        audioData: {},\n' +
+        '        subtitleData: [],\n' +
+        '        lastUpdated: 0\n' +
+        '    };\n' +
+        '\n' +
+        '    return {\n' +
+        '        videoData,\n' +
+        '        audioData,\n' +
+        '        waveformsData,\n' +
+        '        buttonsData,\n' +
+        '        moveAudioData,\n' +
+        '        subtitleData,\n' +
+        '        isFetching,\n' +
+        '        isFetched,\n' +
+        '        videoEvent,\n' +
+        '        userWaveforms,\n' +
+        '        subtitle,\n' +
+        '        lastUpdated\n' +
+        '    };\n' +
+        '}\n' +
+        '\n' +
+        'export default connect(mapStateToProps)(AudioDescription);\n',
+      },
+      {
+        file: 'video.js',
+        language: 'javascript',
+        code: 'import React from \'react\'\n' +
+        'import Utils from \'../utils/Utils.jsx\'\n' +
+        'import TTMLParser from \'../utils/TTMLParser.jsx\'\n' +
+        'import ControlBar from \'../utils/controlbar/ControlBar.jsx\'\n' +
+        'require("../utils/controlbar/controlbar.css");\n' +
+        '\n' +
+        'let player;\n' +
+        '\n' +
+        'class Video extends Component {\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '\n' +
+        '    this.controlbar = null;\n' +
+        '    this.state = {\n' +
+        '      video_url: \'\',\n' +
+        '      subtitleAdded: false,\n' +
+        '      volume: 0,\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  componentDidMount() {\n' +
+        '    player = dashjs.MediaPlayer().create();\n' +
+        '    player.setAutoPlay(false);\n' +
+        '    player.getDebug().setLogToBrowserConsole(false);\n' +
+        '    \n' +
+        '    this.controlbar = new ControlBar(player);\n' +
+        '\n' +
+        '    document.getElementById(\'main_video\').onloadedmetadata = () => {\n' +
+        '      Utils.resizeVideoCaptionContainer();\n' +
+        '    }\n' +
+        '\n' +
+        '    this.addEventListeners();\n' +
+        '  }\n' +
+        '  \n' +
+        '  componentWillUnmount() {\n' +
+        '    this.controlbar.destroy();\n' +
+        '    this.removeEventListeners();\n' +
+        '  }\n' +
+        '\n' +
+        '  addEventListeners() {\n' +
+        '    player.on(\'playbackPaused\', this.dispatchVideoEvent)\n' +
+        '    player.on(\'playbackSeeking\', this.dispatchVideoEvent)\n' +
+        '    player.on(\'playbackSeeked\', this.dispatchVideoEvent)\n' +
+        '  }\n' +
+        '\n' +
+        '  removeEventListeners() {\n' +
+        '    player.off(\'playbackPaused\', this.dispatchVideoEvent);\n' +
+        '    player.off(\'playbackSeeking\', this.dispatchVideoEvent);\n' +
+        '    player.off(\'playbackSeeked\',this.dispatchVideoEvent);\n' +
+        '  }\n' +
+        '\n' +
+        '  dispatchVideoEvent(ev){\n' +
+        '    let videoEventDispatcher = this.props.videoEventDispatcher;\n' +
+        '    videoEventDispatcher(ev);\n' +
+        '  }\n' +
+        '\n' +
+        '  componentWillReceiveProps(nextProps) {\n' +
+        '    if (nextProps.data.url != this.state.video_url && nextProps.data.url) {\n' +
+        '      let url = nextProps.data.url;\n' +
+        '      this.setState({video_url: url});\n' +
+        '      player.initialize(document.querySelector("#main_video"), url, false);\n' +
+        '      player.attachView(document.querySelector("#main_video"));\n' +
+        '      player.attachTTMLRenderingDiv(document.querySelector("#video-caption"));\n' +
+        '      \n' +
+        '      player.setAutoSwitchQuality(true);\n' +
+        '      player.setBandwidthSafetyFactor(0.7);\n' +
+        '      player.setScheduleWhilePaused(true);\n' +
+        '      \n' +
+        '      this.controlbar.setFrameRate(nextProps.data.frame_rate);\n' +
+        '      this.controlbar.initialize();\n' +
+        '      this.controlbar.setVolume(nextProps.waveformsData.volumeData);\n' +
+        '\n' +
+        '      if (!nextProps.subtitle.isFetched && !nextProps.subtitle.isFetching){\n' +
+        '        let sub_url = nextProps.subtitleData[0].url;\n' +
+        '        nextProps.fetchSubtitle(sub_url);\n' +
+        '      }\n' +
+        '    }\n' +
+        '    //parse subtitle\n' +
+        '    if (nextProps.subtitle.isFetched && !nextProps.subtitle.isParsed) {\n' +
+        '      let parser = new TTMLParser();\n' +
+        '      parser.videoModel = player.getVideoModel();\n' +
+        '      let subs = [];\n' +
+        '      let sub = parser.parse(nextProps.subtitle.xml);\n' +
+        '      for (let i in sub){\n' +
+        '      let one_sub = sub[i];\n' +
+        '      let cue = new VTTCue(one_sub.start, one_sub.end, one_sub.cueHTMLElement.innerHTML);\n' +
+        '      cue.id = parseInt(i)+1;\n' +
+        '      cue.line = 14;\n' +
+        '      cue.smpt_start = this.controlbar.secondsToSMPTETimecode(cue.startTime);\n' +
+        '      cue.smpt_end = this.controlbar.secondsToSMPTETimecode(cue.endTime);\n' +
+        '      subs.push(cue);\n' +
+        '      }\n' +
+        '\n' +
+        '      nextProps.parseSubtitle(subs);\n' +
+        '    }\n' +
+        '    //add subtitle to video\n' +
+        '    if (nextProps.subtitle.isParsed && !this.state.subtitleAdded){\n' +
+        '      this.setState({subtitleAdded:true});\n' +
+        '\n' +
+        '      let track = $(\'#main_video\')[0].addTextTrack(\'subtitles\', \'just a test\', \'en\');\n' +
+        '      track.mode = \'hidden\';\n' +
+        '      for (let i in nextProps.subtitle.parsed_xml){\n' +
+        '        let cue = nextProps.subtitle.parsed_xml[i];\n' +
+        '        let $html = $(\'<div />\', { html: cue.text});\n' +
+        '        cue.text = $($html).html();\n' +
+        '        track.addCue(cue);\n' +
+        '      }\n' +
+        '    }\n' +
+        '    //update volume\n' +
+        '    let volume = nextProps.waveformsData.mute ? 0 : nextProps.waveformsData.volume;\n' +
+        '    if(volume != this.state.volume) {\n' +
+        '      this.setState({volume: volume});\n' +
+        '      this.controlbar.setVolume(volume);\n' +
+        '    }\n' +
+        '    //update video position based on audio seek value\n' +
+        '    let type = nextProps.videoEvent.hasOwnProperty(\'type\') ? nextProps.videoEvent.type : \'\';\n' +
+        '    if (type == \'audioSeek\' && nextProps.videoEvent.seekTime){\n' +
+        '      this.removeEventListeners();\n' +
+        '      player.seek(nextProps.videoEvent.seekTime);\n' +
+        '      this.addEventListeners();\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '    _renderDuration() {\n' +
+        '      return (\n' +
+        '        <ul className="list-unstyled time-container col-md-3">\n' +
+        '          <li>\n' +
+        '            <span id="videoDuration" className="duration-display" title="smpte (hh:mm:ss:ff)">00:00:00.00</span>\n' +
+        '          </li>\n' +
+        '          <li>\n' +
+        '            <span id="videoTime" className="time-display" title="media (hh:mm:ss.mss)">00:00:00.000</span>\n' +
+        '          </li>\n' +
+        '        </ul>\n' +
+        '      )\n' +
+        '    }\n' +
+        '\n' +
+        '    _renderArrowControls() {\n' +
+        '      return (\n' +
+        '        <div className="text-center col-md-6">\n' +
+        '          <div id="previousSubtitleBtn" className="btn-player" title="Previous subtitle (Shift+F3)">\n' +
+        '            <i className="glyphicon glyphicon-fast-backward"></i>\n' +
+        '          </div>\n' +
+        '          <div id="backwardBtn" className="btn-player" title="Backward 1s (Shift+F2)">\n' +
+        '            <i className="glyphicon glyphicon-backward"></i>\n' +
+        '          </div>\n' +
+        '          <div id="recordBtn" className="btn-player" title="Record">\n' +
+        '            <i id="iconRecord" className="glyphicon glyphicon-record"></i>\n' +
+        '          </div>\n' +
+        '          <div id="playPauseBtn" className="btn-player" title="Play/Pause (Ctrl+Space)">\n' +
+        '            <i id="iconPlayPause" className="glyphicon glyphicon-play"></i>\n' +
+        '          </div>\n' +
+        '          <div id="forwardBtn" className="btn-player" title="Forward 1s (F2)">\n' +
+        '            <i className="glyphicon glyphicon-forward"></i>\n' +
+        '          </div>\n' +
+        '          <div id="nextSubtitleBtn" className="btn-player" title="Next subtitle (F3)">\n' +
+        '            <i className="glyphicon glyphicon-fast-forward"></i>\n' +
+        '          </div>\n' +
+        '        </div>\n' +
+        '      )\n' +
+        '    }\n' +
+        '\n' +
+        '    _renderVolumeControls() {\n' +
+        '      return (\n' +
+        '        <div className="col-md-3">\n' +
+        '          <div id="fullscreenBtn" className="btn-fullscreen hide" title="Fullscreen">\n' +
+        '            <span className="icon-fullscreen-enter"></span>\n' +
+        '          </div>\n' +
+        '          <input type="range" id="volumebar" className="volumebar" defaultValue="1" min="0" max="1" step=".01" />\n' +
+        '\n' +
+        '          <div id="muteBtn" className="btn-player" title="Mute">\n' +
+        '            <span id="iconMute" className="glyphicon glyphicon-volume-up"></span>\n' +
+        '          </div>\n' +
+        '          <div id="captionBtn" className="btn-caption" title="Closed Caption">\n' +
+        '            <i className="glyphicon glyphicon-subtitles"></i>\n' +
+        '          </div>\n' +
+        '        </div>\n' +
+        '      )\n' +
+        '    }\n' +
+        '\n' +
+        '    render() {\n' +
+        '      return (\n' +
+        '        <div id="main_video_container">\n' +
+        '          <video id="main_video" controls></video>\n' +
+        '          <div id="video-caption"></div>\n' +
+        '          <div id="videoController" className="video-controller unselectable">\n' +
+        '            <div className="seekContainer">\n' +
+        '              <input type="range" id="seekbar" defaultValue="0" className="seekbar" min="0" step="0.01"/>\n' +
+        '            </div>\n' +
+        '            {this._renderDuration()}\n' +
+        '            {this._renderArrowControls()}\n' +
+        '            {this._renderVolumeControls()}\n' +
+        '          </div>\n' +
+        '        </div>\n' +
+        '      )\n' +
+        '    }\n' +
+        '});\n' +
+        '\n' +
+        'export default (Video);\n'
+      },
+      {
+        file: 'styles.css',
+        language: 'css',
+        code: '#main_video{\n' +
+        '  height: calc(100% - 45px);\n' +
+        '  width: 100%;\n' +
+        '}\n' +
+        '#main_video_container{\n' +
+        '  background: #000000;\n' +
+        '}\n' +
+        '#video-caption{\n' +
+        '  text-shadow:\n' +
+        '  -1px -1px 0 #000,\n' +
+        '  1px -1px 0 #000,\n' +
+        '  -1px 1px 0 #000,\n' +
+        '  1px 1px 0 #000;\n' +
+        '}\n' +
+        '#video-caption .span_highlighted{\n' +
+        '  color: #3fc2fe;\n' +
+        '}\n' +
+        '#recordBtn.active i{\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '#playback-position {\n' +
+        '  background-color: red;\n' +
+        '  position: absolute;\n' +
+        '  top: 66px;\n' +
+        '  width: 1px;\n' +
+        '  height: 225px;\n' +
+        '  z-index: 500;\n' +
+        '  left: 0px;\n' +
+        '  display: none;\n' +
+        '  margin-left: 100px;\n' +
+        '}\n' +
+        '#playback-position span{\n' +
+        '  margin-left: -7px;\n' +
+        '  margin-top: -1px;\n' +
+        '  position: absolute;\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '#progress-bar {\n' +
+        '  left: 5%;\n' +
+        '  margin-top: -10px;\n' +
+        '  position: absolute;\n' +
+        '  top: 50%;\n' +
+        '  width: 90%;\n' +
+        '  z-index: 10;\n' +
+        '}\n' +
+        '#waveform_container.loading #user_waveforms,\n' +
+        '#waveform_container.loading #wave-minimap,\n' +
+        '#waveform_container.loading .waveform-controls,\n' +
+        '#waveform_container #progress-bar{\n' +
+        '  display: none;\n' +
+        '}\n' +
+        '#waveform_container #user_waveforms,\n' +
+        '#waveform_container #wave-minimap,\n' +
+        '#waveform_container .waveform-controls,\n' +
+        '#waveform_container.loading #progress-bar{\n' +
+        '  display: block;\n' +
+        '}\n' +
+        '.wavesurfer-region{\n' +
+        '  line-height: 9px;\n' +
+        '  font-size: 9px;\n' +
+        '  color: #ffffff;\n' +
+        '  word-wrap: break-word;\n' +
+        '  padding: 2px 0;\n' +
+        '}\n' +
+        '#waveform {\n' +
+        '  background-color: #000;\n' +
+        '}\n' +
+        '#waveform > wave{\n' +
+        '  margin-left: 100px;\n' +
+        '}\n' +
+        '/*.user_waveform > wave > wave,*/\n' +
+        '#waveform > wave > wave,\n' +
+        '#waveform-audio > wave > wave{\n' +
+        '  border-right: none !important;\n' +
+        '}\n' +
+        '#user_waveforms{\n' +
+        '  display: none;\n' +
+        '  position: relative;\n' +
+        '  overflow: hidden;\n' +
+        '  width: 100%;\n' +
+        '  position: relative;\n' +
+        '  border-top: 1px solid #415163;\n' +
+        '}\n' +
+        '.user_waveforms_container{\n' +
+        '  bottom: 0;\n' +
+        '  left: 0;\n' +
+        '  position: relative;\n' +
+        '  top: 0;\n' +
+        '  z-index: 1;\n' +
+        '  height: 65px;\n' +
+        '  border-bottom: 1px solid #415163;\n' +
+        '}\n' +
+        '.user_waveform{\n' +
+        '  display: block;\n' +
+        '  cursor: pointer;\n' +
+        '  cursor: hand;\n' +
+        '}\n' +
+        '.user_waveform wave{\n' +
+        '  overflow: hidden !important;\n' +
+        '}\n' +
+        '.user_waveform_footer{\n' +
+        '  cursor: pointer;\n' +
+        '  height: 28px;\n' +
+        '  margin-top: -67px;\n' +
+        '  position: absolute;\n' +
+        '  right: 0;\n' +
+        '  z-index: 2;\n' +
+        '}\n' +
+        '.ruler{\n' +
+        '  width: 100%;\n' +
+        '  height: 23px;\n' +
+        '  margin-bottom: -5px;\n' +
+        '}\n' +
+        '.react-draggable{\n' +
+        '  display: inline-block;\n' +
+        '  position: absolute;\n' +
+        '  margin-left: 100px;\n' +
+        '}\n' +
+        '#subtitle-widget{\n' +
+        '  padding: 0;\n' +
+        '}\n' +
+        '#subtitle-widget .active:before{\n' +
+        '  display: block;\n' +
+        '  background: #ffffff;\n' +
+        '  height: 68px;\n' +
+        '  width: 1px;\n' +
+        '  content: \'\';\n' +
+        '  margin-top: 1px;\n' +
+        '  position: absolute;\n' +
+        '}\n' +
+        '#subtitle-widget .active .time-picker{\n' +
+        '  color: #ffffff;\n' +
+        '}\n' +
+        '#wave-timeline{\n' +
+        '  height: 20px;\n' +
+        '  display: block;\n' +
+        '  margin-left: 100px;\n' +
+        '}\n' +
+        '#wave-minimap{\n' +
+        '  border-bottom: 1px solid #415163;\n' +
+        '  height: 30px;\n' +
+        '  display: block;\n' +
+        '}\n' +
+        '#wave-minimap > wave > overview{\n' +
+        '  height: 30px !important;\n' +
+        '}\n' +
+        '\n' +
+        '.loop {\n' +
+        '  position: absolute;\n' +
+        '  z-index: 2;\n' +
+        '  top: 0px;\n' +
+        '  margin: -2px 0px 0px 1px;\n' +
+        '  cursor: pointer;\n' +
+        '}\n' +
+        '\n' +
+        '.loop-pressed {\n' +
+        '  background-color: #0381A7\n' +
+        '}\n'
       }
     ]
   },
