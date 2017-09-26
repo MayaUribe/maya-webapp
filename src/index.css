@@ -808,3 +808,6 @@ h2.project-title {
 .bg-project {
   background-color: #c1c6da;
 }
+div#summary {
+   padding: 0;
+}

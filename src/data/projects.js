@@ -1530,7 +1530,7 @@ export const PROJECTS = [
     thumbnail: '/img/portfolio/react-logo.png',
     image: 'img/portfolio/fit.png',
     logo: 'img/logos/scopic-logo.png',
-    tags: ['React JS', 'JS', 'CSS', 'Flexbox', 'Redux'],
+    tags: ['React JS', 'JS', 'CSS', 'Flexbox', 'Fabric JS', 'Redux'],
     sampleCodes: [
       {
         file: 'canvas.js',
@@ -2951,22 +2951,1777 @@ export const PROJECTS = [
   },
   {
     id: 5,
-    name: 'Built',
-    company: 'Scopic Software',
-    description: 'This is the project description',
+    name: 'Cookbook App',
+    company: 'Freelance Project',
+    description: 'Mobile application to create and view recipes both on Android and iOS.',
     thumbnail: '/img/portfolio/react-logo.png',
     image: 'img/portfolio/fit.png',
-    logo: 'img/logos/scopic-logo.png',
-    tags: ['React Native', 'JS', 'CSS', 'Flexbox']
+    logo: 'img/logos/logo-130.png',
+    tags: ['React Native', 'JS', 'CSS', 'Flexbox', 'Firebase'],
+    sampleCodes: [
+      {
+        file: 'App.js',
+        language: 'javascript',
+        code: 'import React, {Component} from \'react\';\n' +
+        'import {\n' +
+        '  StatusBar,\n' +
+        '  Navigator,\n' +
+        '  View,\n' +
+        '  Text,\n' +
+        '  Image,\n' +
+        '  Dimensions,\n' +
+        '  StyleSheet\n' +
+        '} from \'react-native\';\n' +
+        '\n' +
+        'import * as firebase from \'firebase\';\n' +
+        'import Login from \'./screens/login\';\n' +
+        'import Recipes from \'./screens/recipes\';\n' +
+        'import Signup from \'./screens/signup\';\n' +
+        'import Firebase from \'./modules/firebase/firebase\';\n' +
+        '\n' +
+        'import {\n' +
+        '  LOGIN,\n' +
+        '  LOGOUT,\n' +
+        '  RECIPES,\n' +
+        '  APP_NAME,\n' +
+        '  LOADING,\n' +
+        '  SIGNUP\n' +
+        '} from \'./shared/constant\';\n' +
+        '\n' +
+        'var deviceWidth = Dimensions.get(\'window\').width;\n' +
+        '\n' +
+        'class App extends Component {\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '\n' +
+        '    Firebase.initialise();\n' +
+        '    this.getInitialView();\n' +
+        '    this.navigator = null;\n' +
+        '\n' +
+        '    this.state = {\n' +
+        '      userLoaded: false,\n' +
+        '      initialView: null\n' +
+        '    };\n' +
+        '\n' +
+        '    this.renderScene = this.renderScene.bind(this);\n' +
+        '    this.getInitialView = this.getInitialView.bind(this);\n' +
+        '  }\n' +
+        '\n' +
+        '  getInitialView() {\n' +
+        '    firebase.auth().onAuthStateChanged((user) => {\n' +
+        '      let initialView = user ? RECIPES : LOGIN;\n' +
+        '\n' +
+        '      this.setState({\n' +
+        '        userLoaded: true,\n' +
+        '        initialView: initialView\n' +
+        '      });\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  renderScene(route, navigator) {\n' +
+        '    let ScreenComponent = null;\n' +
+        '    this.navigator = navigator;\n' +
+        '\n' +
+        '    switch (route.name) {\n' +
+        '      case LOGIN:\n' +
+        '        ScreenComponent = Login;\n' +
+        '        break;\n' +
+        '      case RECIPES:\n' +
+        '        ScreenComponent = Recipes;\n' +
+        '        break;\n' +
+        '      case SIGNUP:\n' +
+        '        ScreenComponent = Signup;\n' +
+        '        break;\n' +
+        '    }\n' +
+        '\n' +
+        '    if (ScreenComponent) {\n' +
+        '      return <ScreenComponent navigator={navigator} onMenuItemSelected={this.onMenuItemSelected.bind(this)} {...route.passProps} />;\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  async logout() {\n' +
+        '    try {\n' +
+        '      await firebase.auth().signOut();\n' +
+        '\n' +
+        '      // Navigate to login view\n' +
+        '      this.navigator.push({\n' +
+        '        name: LOGIN\n' +
+        '      });\n' +
+        '    } catch (error) {\n' +
+        '      console.log(error);\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  onMenuItemSelected(item) {\n' +
+        '    switch (item) {\n' +
+        '      case LOGOUT:\n' +
+        '        this.logout();\n' +
+        '        break;\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    let content;\n' +
+        '\n' +
+        '    if (this.state.initialView) {\n' +
+        '      content = (\n' +
+        '        <View style={{ flex: 1 }}>\n' +
+        '          <StatusBar backgroundColor="#262a2e" barStyle="light-content" />\n' +
+        '          <Navigator style={{ flex: 1 }}\n' +
+        '                     initialRoute={{ name: this.state.initialView }}\n' +
+        '                     renderScene={this.renderScene.bind(this)} />\n' +
+        '        </View>\n' +
+        '      );\n' +
+        '    } else {\n' +
+        '      content = (<View style={styles.container}>\n' +
+        '                   <View style={styles.content}>\n' +
+        '                     <Image source={require(\'./assets/img/cookbook_512.png\')}\n' +
+        '                            style={styles.logo} />\n' +
+        '                     <Text style={styles.appText}>{APP_NAME}</Text>\n' +
+        '                     <Text style={styles.loadingText}>{LOADING}</Text>\n' +
+        '                   </View>\n' +
+        '                 </View>);\n' +
+        '    }\n' +
+        '    return (\n' +
+        '      content\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'var styles = StyleSheet.create({\n' +
+        '  container: {\n' +
+        '    flex: 1,\n' +
+        '    backgroundColor: \'#8E6C88\'\n' +
+        '  },\n' +
+        '  content: {\n' +
+        '    flex: 1,\n' +
+        '    justifyContent: \'center\',\n' +
+        '    alignItems: \'center\'\n' +
+        '  },\n' +
+        '  logo: {\n' +
+        '    resizeMode: \'contain\',\n' +
+        '    width: deviceWidth / 2,\n' +
+        '    height: deviceWidth / 2\n' +
+        '  },\n' +
+        '  appText: {\n' +
+        '    fontFamily: \'OpenSans\',\n' +
+        '    fontSize: 24,\n' +
+        '    color: \'#FFF\',\n' +
+        '    marginTop: 15\n' +
+        '  },\n' +
+        '  loadingText: {\n' +
+        '    fontFamily: \'OpenSans\',\n' +
+        '    fontSize: 16,\n' +
+        '    color: \'#FFF\'\n' +
+        '  }\n' +
+        '});\n' +
+        '\n' +
+        'export default App;'
+      },
+      {
+        file: 'AppStorage.js',
+        language: 'javascript',
+        code: '/*eslint new-cap:0 */\n' +
+        'import Model from \'react-native-db-models\';\n' +
+        '\n' +
+        'const USER_DATA_KEY = \'userData\';\n' +
+        '\n' +
+        'const DB = {\n' +
+        '  app: new Model.create_db(\'app\'),\n' +
+        '  users: new Model.create_db(\'users\')\n' +
+        '};\n' +
+        '\n' +
+        'class AppStorage {\n' +
+        '\n' +
+        '  addUserData(username) {\n' +
+        '    return new Promise((resolve, reject) => {\n' +
+        '      DB.users.add({key: USER_DATA_KEY, username: username}, function(addedData) {\n' +
+        '        resolve(addedData);\n' +
+        '      });\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  clearAllData() {\n' +
+        '    DB.users.erase_db(function(removedData) {\n' +
+        '      console.log(removedData);\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  setUserData(value) {\n' +
+        '    return new Promise((resolve, reject) => {\n' +
+        '      DB.users.update({ key: USER_DATA_KEY }, value, (data) => {\n' +
+        '        resolve(data);\n' +
+        '      });\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  getUserData() {\n' +
+        '    return new Promise((resolve, reject) => {\n' +
+        '      DB.users.get({key: USER_DATA_KEY}, (results) => {\n' +
+        '        resolve(results[0]);\n' +
+        '      });\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  clearUserData() {\n' +
+        '    return new Promise((resolve, reject) => {\n' +
+        '      DB.users.remove({ key: USER_DATA_KEY }, (data) => {\n' +
+        '        DB.users.add({key: USER_DATA_KEY});\n' +
+        '        resolve(data);\n' +
+        '      });\n' +
+        '    });\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'export default AppStorage;\n'
+      },
+      {
+        file: 'recipes/index.js',
+        language: 'javascript',
+        code: '\'use strict\';\n' +
+        '\n' +
+        'import React, {Component} from \'react\';\n' +
+        'import { Text, View, StyleSheet } from \'react-native\';\n' +
+        'import ScreenTitle from \'../../components/screen-title\';\n' +
+        'const SideMenu = require(\'react-native-side-menu\');\n' +
+        'import Menu from \'../../components/menu\';\n' +
+        '\n' +
+        'import {\n' +
+        '  RECIPES,\n' +
+        '  MY_RECIPES\n' +
+        '} from \'../../shared/constant\';\n' +
+        '\n' +
+        'class Recipes extends Component {\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '\n' +
+        '    this.state = {\n' +
+        '      isOpen: false\n' +
+        '    };\n' +
+        '  }\n' +
+        '\n' +
+        '  _navigate(name) {\n' +
+        '    this.props.navigator.pop({\n' +
+        '      name: RECIPES,\n' +
+        '      passProps: {\n' +
+        '        name: name\n' +
+        '      }\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  updateMenu(isOpen) {\n' +
+        '    this.setState({isOpen: isOpen});\n' +
+        '  }\n' +
+        '\n' +
+        '  toggleMenu() {\n' +
+        '    this.setState({isOpen: !this.state.isOpen});\n' +
+        '  }\n' +
+        '\n' +
+        '  onMenuItemSelected(item) {\n' +
+        '    this.props.onMenuItemSelected(item);\n' +
+        '    this.updateMenu(false);\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    const menu = <Menu onItemSelected={this.onMenuItemSelected.bind(this)} />;\n' +
+        '\n' +
+        '    return (\n' +
+        '      <SideMenu\n' +
+        '        menu={menu}\n' +
+        '        isOpen={this.state.isOpen}\n' +
+        '        onChange={(isOpen) => this.updateMenu(isOpen)}>\n' +
+        '        <View style={styles.container}>\n' +
+        '          <ScreenTitle style={styles.toolbar}\n' +
+        '                       title={MY_RECIPES}\n' +
+        '                       icon="md-menu"\n' +
+        '                       onPress={() => this.toggleMenu()}/>\n' +
+        '          <View style={styles.containers}>\n' +
+        '            <Text>Welcome!, here are my recipes!</Text>\n' +
+        '          </View>\n' +
+        '        </View>\n' +
+        '      </SideMenu>\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'const styles = StyleSheet.create({\n' +
+        '  toolbar: {\n' +
+        '    flex: 70\n' +
+        '  },\n' +
+        '  container: {\n' +
+        '    flex: 1,\n' +
+        '    backgroundColor: \'#E8E3E3\'\n' +
+        '  },\n' +
+        '  containers: {\n' +
+        '    flex: 1,\n' +
+        '    justifyContent: \'center\'\n' +
+        '  }\n' +
+        '});\n' +
+        '\n' +
+        'export default Recipes;\n'
+      },
+      {
+        file: 'constants.js',
+        language: 'javascript',
+        code: 'module.exports = {\n' +
+        '  // API_HOST: \'https://some.example.com/webservice/\',\n' +
+        '  // General\n' +
+        '  APP_NAME: \'My Cookbook\',\n' +
+        '  LOADING: \'Loading...\',\n' +
+        '  LOGIN: \'Login\',\n' +
+        '  LOGOUT: \'Logout\',\n' +
+        '  SIGNUP: \'Signup\',\n' +
+        '\n' +
+        '  // Recipes\n' +
+        '  RECIPES: \'Recipes\',\n' +
+        '  MY_RECIPES: \'My Recipes\',\n' +
+        '  HOME: \'Home\'\n' +
+        '};\n'
+      },
+      {
+        file: 'login/index.js',
+        language: 'javascript',
+        code: '\'use strict\';\n' +
+        '\n' +
+        'import React, {Component} from \'react\';\n' +
+        'import { Text, View, StyleSheet, TextInput, TouchableHighlight, Image, Dimensions } from \'react-native\';\n' +
+        'import Icon from \'react-native-vector-icons/Ionicons\';\n' +
+        'import Constant from \'./constants\';\n' +
+        'import * as firebase from \'firebase\';\n' +
+        'import styles from \'./style\';\n' +
+        '\n' +
+        'import {\n' +
+        '  APP_NAME,\n' +
+        '  LOGIN,\n' +
+        '  RECIPES,\n' +
+        '  SIGNUP\n' +
+        '} from \'../../shared/constant\';\n' +
+        '\n' +
+        'var deviceWidth = Dimensions.get(\'window\').width;\n' +
+        '\n' +
+        'class Login extends Component {\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '    this.inputedEmail = \'\';\n' +
+        '    this.inputedPassword = \'\';\n' +
+        '  }\n' +
+        '\n' +
+        '  _navigate(screen) {\n' +
+        '    this.props.navigator.push({\n' +
+        '      name: screen\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  async login(email, pass) {\n' +
+        '    try {\n' +
+        '      await firebase.auth()\n' +
+        '        .signInWithEmailAndPassword(email, pass);\n' +
+        '\n' +
+        '      this._navigate(RECIPES);\n' +
+        '    } catch (error) {\n' +
+        '      console.log(error.toString());\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  onLoginPressed() {\n' +
+        '    this.login(this.inputedEmail, this.inputedPassword);\n' +
+        '  }\n' +
+        '\n' +
+        '  onSignupPressed() {\n' +
+        '    this._navigate(SIGNUP);\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    return (\n' +
+        '      <View style={styles.container}>\n' +
+        '        <View style={styles.containers}>\n' +
+        '          <View style={styles.titleContainer}>\n' +
+        '            <Image source={require(\'../../assets/img/cookbook_128.png\')}\n' +
+        '                   style={styles.logo} />\n' +
+        '            <Text style={styles.title}>{APP_NAME}</Text>\n' +
+        '          </View>\n' +
+        '          <View style={styles.inputsContainer}>\n' +
+        '            <View>\n' +
+        '              <View style={styles.inputContainer}>\n' +
+        '                <Icon\n' +
+        '                  name="ios-person"\n' +
+        '                  size={Constant.ICON_SIZE}\n' +
+        '                  color="#2B2E33"\n' +
+        '                />\n' +
+        '                <TextInput\n' +
+        '                  style={styles.input}\n' +
+        '                  ref=\'email\'\n' +
+        '                  autoCapitalize="none"\n' +
+        '                  autoCorrect={false}\n' +
+        '                  placeholder=\'Email\'\n' +
+        '                  underlineColorAndroid={\'rgba(0,0,0,0.0)\'}\n' +
+        '                  placeholderTextColor="#2B2E33"\n' +
+        '                  onChangeText={(text) => { this.inputedEmail = text; }}\n' +
+        '                />\n' +
+        '              </View>\n' +
+        '              <View style={styles.inputContainer}>\n' +
+        '                <Icon\n' +
+        '                  name="ios-key"\n' +
+        '                  size={Constant.ICON_SIZE}\n' +
+        '                  color="#2B2E33"\n' +
+        '                />\n' +
+        '                <TextInput\n' +
+        '                  style={styles.input}\n' +
+        '                  ref=\'password\'\n' +
+        '                  autoCapitalize=\'none\'\n' +
+        '                  autoCorrect={false}\n' +
+        '                  placeholder=\'Password\'\n' +
+        '                  underlineColorAndroid={\'rgba(0,0,0,0.0)\'}\n' +
+        '                  placeholderTextColor="#2B2E33"\n' +
+        '                  secureTextEntry\n' +
+        '                  onChangeText={(text) => { this.inputedPassword = text; }}\n' +
+        '                />\n' +
+        '              </View>\n' +
+        '              <TouchableHighlight\n' +
+        '                style={styles.button}\n' +
+        '                underlayColor=\'#000000\'\n' +
+        '                onPress={this.onLoginPressed.bind(this)}\n' +
+        '              >\n' +
+        '                <Text style={styles.btnText}>{LOGIN}</Text>\n' +
+        '              </TouchableHighlight>\n' +
+        '              <Text style={styles.hiperlink}>Forgot password</Text>\n' +
+        '              <TouchableHighlight\n' +
+        '                underlayColor=\'rgba(0,0,0,0.0)\'\n' +
+        '                onPress={this.onSignupPressed.bind(this)}>\n' +
+        '                <Text style={styles.hiperlink}>Sign up</Text>\n' +
+        '              </TouchableHighlight>\n' +
+        '            </View>\n' +
+        '          </View>\n' +
+        '        </View>\n' +
+        '      </View>\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'export default Login;\n'
+      },
+      {
+        file: 'styles.js',
+        language: 'javascript',
+        code: '\'use strict\';\n' +
+        '\n' +
+        'import StyleSheet from \'../../share/stylesheet\';\n' +
+        '\n' +
+        'module.exports = StyleSheet({\n' +
+        '  container: {\n' +
+        '    flex: 1,\n' +
+        '    backgroundColor: \'#E8E3E3\'\n' +
+        '  },\n' +
+        '  containers: {\n' +
+        '    flex: 1,\n' +
+        '    justifyContent: \'center\'\n' +
+        '  },\n' +
+        '  titleContainer: {\n' +
+        '    flex: 2,\n' +
+        '    justifyContent: \'center\',\n' +
+        '    alignItems: \'center\',\n' +
+        '    flexDirection: \'column\'\n' +
+        '  },\n' +
+        '  title: {\n' +
+        '    fontFamily: \'OpenSans\',\n' +
+        '    fontSize: 35,\n' +
+        '    color: \'#2B2E33\'\n' +
+        '  },\n' +
+        '  inputsContainer: {\n' +
+        '    flex: 3\n' +
+        '  },\n' +
+        '  inputContainer: {\n' +
+        '    marginLeft: 20,\n' +
+        '    marginRight: 20,\n' +
+        '    marginBottom: 15,\n' +
+        '    padding: 0,\n' +
+        '    paddingLeft: 8,\n' +
+        '    flexDirection: \'row\',\n' +
+        '    alignItems: \'center\',\n' +
+        '    backgroundColor: \'#fff\'\n' +
+        '  },\n' +
+        '  input: {\n' +
+        '    fontFamily: \'Open Sans\',\n' +
+        '    fontSize: 13,\n' +
+        '    flex: 1,\n' +
+        '    height: 40,\n' +
+        '    paddingTop: 0,\n' +
+        '    paddingBottom: 0,\n' +
+        '    marginLeft: 10,\n' +
+        '    borderWidth: 0\n' +
+        '  },\n' +
+        '  button: {\n' +
+        '    marginLeft: 20,\n' +
+        '    marginRight: 20,\n' +
+        '    marginTop: 10,\n' +
+        '    marginBottom: 15,\n' +
+        '    padding: 12,\n' +
+        '    justifyContent: \'center\',\n' +
+        '    alignItems: \'center\',\n' +
+        '    backgroundColor: \'#009999\'\n' +
+        '  },\n' +
+        '  btnText: {\n' +
+        '    fontFamily: \'Open Sans\',\n' +
+        '    color: \'#fff\',\n' +
+        '    fontWeight: \'bold\'\n' +
+        '  },\n' +
+        '  logo: {\n' +
+        '    resizeMode: \'contain\',\n' +
+        '    width: deviceWidth / 4,\n' +
+        '    height: deviceWidth / 4\n' +
+        '  },\n' +
+        '  hiperlink: {\n' +
+        '    fontSize: 14,\n' +
+        '    marginBottom: 5,\n' +
+        '    alignSelf: \'center\',\n' +
+        '    color: \'#0A2239\'\n' +
+        '  }\n' +
+        '});'
+      },
+      {
+        file: 'database.js',
+        language: 'javascript',
+        code: 'import * as firebase from \'firebase\';\n' +
+        '\n' +
+        'class Database {\n' +
+        '\n' +
+        '  /**\n' +
+        '   * Sets a users mobile number\n' +
+        '   * @param userId\n' +
+        '   * @param name\n' +
+        '   * @param lastname\n' +
+        '   * @returns {firebase.Promise<any>|!firebase.Promise.<void>}\n' +
+        '   */\n' +
+        '  static setUserName(userId, name, lastname) {\n' +
+        '    let userPath = \'/user/\' + userId + \'/details\';\n' +
+        '\n' +
+        '    return firebase.database().ref(userPath).set({\n' +
+        '      name: name,\n' +
+        '      lastname: lastname\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  /**\n' +
+        '   * Listen for changes to a users mobile number\n' +
+        '   * @param userId\n' +
+        '   * @param callback Users mobile number\n' +
+        '   */\n' +
+        '  static listenUserData(userId, callback) {\n' +
+        '    let userPath = \'/user/\' + userId + \'/details\';\n' +
+        '\n' +
+        '    firebase.database().ref(userPath).on(\'value\', (snapshot) => {\n' +
+        '      var name = \'\';\n' +
+        '      var lastname = \'\';\n' +
+        '\n' +
+        '      if (snapshot.val()) {\n' +
+        '        name = snapshot.val().name;\n' +
+        '        lastname = snapshot.val().lastname;\n' +
+        '      }\n' +
+        '\n' +
+        '      callback(name, lastname);\n' +
+        '    });\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'module.exports = Database;\n'
+      }
+    ]
   },
   {
     id: 6,
+    name: 'Chat App',
+    company: 'Scopic Software',
+    description: 'Small node js application for chatting.',
+    thumbnail: '/img/portfolio/nodejs-logo.png',
+    image: 'img/portfolio/fit.png',
+    logo: 'img/logos/scopic-logo.png',
+    tags: ['Node JS', 'pug', 'JS', 'CSS'],
+    sampleCodes: [
+      {
+        file: 'app.js',
+        language: 'node',
+        code: 'let express = require(\'express\');\n' +
+        'let app = express();\n' +
+        'let http = require(\'http\').createServer(app);\n' +
+        'let io = require(\'socket.io\')(http);\n' +
+        'let bodyParser = require(\'body-parser\');\n' +
+        'let messages = [];\n' +
+        'let users = [];\n' +
+        '\n' +
+        '// parse incoming requests\n' +
+        'app.use(bodyParser.json());\n' +
+        'app.use(bodyParser.urlencoded({ extended: false }));\n' +
+        '\n' +
+        'app.use("/public", express.static(__dirname + \'/public\'));\n' +
+        'app.use("/src", express.static(__dirname + \'/src\'));\n' +
+        'app.use(express.static(__dirname + \'/node_modules\'));\n' +
+        '\n' +
+        '// view engine setup\n' +
+        'app.set(\'view engine\', \'pug\');\n' +
+        'app.set(\'views\', __dirname + \'/views\');\n' +
+        '\n' +
+        '// include routes\n' +
+        'let routes = require(\'./routes/index\');\n' +
+        'app.use(\'/\', routes);\n' +
+        '\n' +
+        'let setUserLogged = (users, user, isLogged) => {\n' +
+        '  for (let i in users) {\n' +
+        '    if (user === users[i].username) {\n' +
+        '      users[i].logged = isLogged;\n' +
+        '      break;\n' +
+        '    }\n' +
+        '  }\n' +
+        '};\n' +
+        '\n' +
+        'io.on(\'connection\', (socket) => {\n' +
+        '  socket.on(\'join\', (data) => {\n' +
+        '    let username = data.username;\n' +
+        '    let user = users.filter(user => user.username === username);\n' +
+        '\n' +
+        '    if (user.length > 0) {\n' +
+        '      io.emit(\'already logged\', user);\n' +
+        '      if (!user.logged) { // the user logged back in\n' +
+        '        setUserLogged(users, data.username, true);\n' +
+        '      }\n' +
+        '    } else { // the user logged in\n' +
+        '      let user = {\n' +
+        '        logged: true,\n' +
+        '        username,\n' +
+        '        color: \'#000000\'\n' +
+        '      };\n' +
+        '      users.push(user);\n' +
+        '      socket.join(user);\n' +
+        '      io.emit(\'user joined\', messages, user, users);\n' +
+        '    }\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'get messages\', (messages) => {\n' +
+        '    io.emit(\'get messages\', messages, users);\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'init\', (init) => {\n' +
+        '    io.emit(\'init\', init);\n' +
+        '    io.emit(\'get messages\', messages, users);\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'leave\', (username) => {\n' +
+        '    setUserLogged(users, username, false);\n' +
+        '    io.emit(\'leave\', username);\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'chat message\', (message) => {\n' +
+        '    messages.push(message);\n' +
+        '    io.emit(\'chat message\', message, users);\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'already logged\', (user) => {\n' +
+        '    io.emit(\'already logged\', user);\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'change color\', (username, color) => {\n' +
+        '    for (let i in users) {\n' +
+        '      if (users[i].username === username) {\n' +
+        '        users[i].color = color;\n' +
+        '        break;\n' +
+        '      }\n' +
+        '    }\n' +
+        '    socket.emit(\'change color\', username, color);\n' +
+        '  });\n' +
+        '\n' +
+        '  socket.on(\'delete message\', (message) => {\n' +
+        '    let index = messages.findIndex(msg => msg.id === parseInt(message));\n' +
+        '\n' +
+        '    if (index !== -1) {\n' +
+        '      messages.splice(index, 1);\n' +
+        '      io.emit(\'delete message\', message);\n' +
+        '      io.emit(\'get messages\', messages, users);\n' +
+        '    }\n' +
+        '  });\n' +
+        '});\n' +
+        '\n' +
+        'http.listen(process.env.PORT || 3000, () => {\n' +
+        '  console.log(\'listening on *:3000\');\n' +
+        '});\n'
+      },
+      {
+        file: 'chatroom.pug',
+        language: 'pug',
+        code: 'extends layout\n' +
+        '\n' +
+        'block content\n' +
+        '  .main-chat.container\n' +
+        '    .row\n' +
+        '      .row\n' +
+        '        .col-md-12\n' +
+        '          h1.chat-title.display-5 Happy Chatting #{username} :)\n' +
+        '          .btn-toolbar.btn-logout\n' +
+        '            form(action="/logout" method="POST")\n' +
+        '              a#logout-btn.btn.btn-gray Logout\n' +
+        '      .row.color-container\n' +
+        '        .col-md-12\n' +
+        '          label.submenu Choose your color:\n' +
+        '          button#colorpicker\n' +
+        '      ul#messages\n' +
+        '      form(id="messaging-form" action="" class="form-horizontal")\n' +
+        '        div.col-md-12\n' +
+        '          div.input-group\n' +
+        '            input#message.form-control(type="text" autocomplete="off" required autofocus placeholder="Your message here" name="message")\n' +
+        '            input#username(type="hidden" value=username name="username")\n' +
+        '            span.input-group-btn\n' +
+        '              button#send-btn.btn.btn-red(type="submit") Send\n' +
+        '\n' +
+        'block append scripts\n' +
+        '  script(src=\'/src/chatroom.js\', type=\'text/javascript\')\n'
+      },
+      {
+        file: 'index.pug',
+        language: 'pug',
+        code: 'extends layout\n' +
+        '\n' +
+        'block content\n' +
+        '  .main.container.text-xs-center\n' +
+        '    h1.display-3 Welcome to ChatApp!\n' +
+        '    p.lead Have a nice talk with your friends and family in ChatApp\n' +
+        '\n' +
+        '    form#login-form(method=\'POST\' action=\'/login\')\n' +
+        '      .col-md-6.offset-md-3\n' +
+        '        .col-md-12.form-group\n' +
+        '          label.col-md-2.col-form-label.col-form-label-md.label(for="username") Username\n' +
+        '          .col-md-8.form-group\n' +
+        '            input.form-control(type="text" autofocus required id="username" placeholder="username" name="username")\n' +
+        '          button#login-btn.btn.btn-red.col-md-2(type=\'submit\') Login\n' +
+        '        #error-msg.col-md-12.alert.alert-danger(style="display: none")\n' +
+        '          div Error! The username selected is already in use, please choose a different one.\n' +
+        '\n' +
+        'append scripts\n' +
+        '  script(src=\'/src/login.js\', type=\'text/javascript\')\n'
+      },
+      {
+        file: 'layout.pug',
+        language: 'pug',
+        code: 'doctype html(lang=\'en\')\n' +
+        'head\n' +
+        '    meta(charset=\'utf-8\')\n' +
+        '    meta(name=\'viewport\', content=\'width=device-width, initial-scale=1, shrink-to-fit=no\')\n' +
+        '    meta(http-equiv=\'x-ua-compatible\', content=\'ie=edge\')\n' +
+        '    title Chat App | #{title}\n' +
+        '    link(rel=\'shortcut icon\' href=\'/public/images/favicon.png\' type=\'image/png\')\n' +
+        '    link(rel=\'stylesheet\', href=\'/bootstrap/dist/css/bootstrap.min.css\')\n' +
+        '    link(rel=\'stylesheet\' href=\'/jquery-colpick/css/colpick.css\' type=\'text/css\')\n' +
+        '    link(rel=\'stylesheet\' href=\'https://fonts.googleapis.com/icon?family=Material+Icons\')\n' +
+        '    link(rel=\'stylesheet\', href=\'/public/stylesheets/styles.css\')\n' +
+        '\n' +
+        '    body\n' +
+        '        // load navbar.pug\n' +
+        '        // include navbar\n' +
+        '\n' +
+        '        // content block\n' +
+        '        block content\n' +
+        '\n' +
+        '        // footer\n' +
+        '        p.foot.text-xs-center Chat Application\n' +
+        '\n' +
+        '    block scripts\n' +
+        '        script(src=\'/jquery/dist/jquery.min.js\', type=\'text/javascript\')\n' +
+        '        script(src=\'/jquery-colpick/js/colpick.js\' type=\'text/javascript\')\n' +
+        '        script(src=\'/tether/dist/js/tether.min.js\', type=\'text/javascript\')\n' +
+        '        script(src=\'/bootstrap/dist/js/bootstrap.min.js\', type=\'text/javascript\')\n' +
+        '        script(src=\'/moment/moment.js\', type=\'text/javascript\')\n' +
+        '        script(src=\'/socket.io/socket.io.js\', type=\'text/javascript\')\n' +
+        '        script(src=\'/src/utils.js\', type=\'text/javascript\')\n'
+      },
+      {
+        file: 'routes.js',
+        language: 'javascript',
+        code: 'let express = require(\'express\');\n' +
+        'let router = express.Router();\n' +
+        '\n' +
+        '// GET /\n' +
+        'router.get(\'/\', (req, res, next) => {\n' +
+        '  return res.render(\'index\', { title: \'Home\' });\n' +
+        '});\n' +
+        '\n' +
+        '// POST /login\n' +
+        'router.post(\'/login\', (req, res, next) => {\n' +
+        '  if (req.body.username) {\n' +
+        '    return res.redirect(\'/chatroom/\' + req.body.username);\n' +
+        '  } else {\n' +
+        '    console.log("An error occurred");\n' +
+        '  }\n' +
+        '});\n' +
+        '\n' +
+        '// GET /logout\n' +
+        'router.get(\'/logout\', (req, res, next) => {\n' +
+        '  return res.redirect(\'/\');\n' +
+        '});\n' +
+        '\n' +
+        '// GET /chatroom/:username\n' +
+        'router.get(\'/chatroom/:username\', (req, res, next) => {\n' +
+        '  let username = req.params.username;\n' +
+        '  return res.render(\'chatroom\', { title: \'Chat Room\', username: username });\n' +
+        '});\n' +
+        '\n' +
+        '// GET /chatroom/\n' +
+        'router.get(\'/chatroom\', (req, res, next) => {\n' +
+        '  return res.render(\'chatroom\', { title: \'Chat Room\' });\n' +
+        '});\n' +
+        '\n' +
+        'module.exports = router;\n'
+      }
+    ]
+  },
+  {
+    id: 7,
     name: 'Universoideas',
     company: 'Freelance Project',
-    description: 'This is the project description',
+    description: 'News site that includes an internal administration to add, edit and publish articles.',
     thumbnail: '/img/portfolio/cake-logo.png',
     image: 'img/portfolio/fit.png',
     logo: 'img/logos/logo-130.png',
-    tags: ['PHP', 'CakePHP', 'JS', 'CSS']
+    tags: ['PHP', 'CakePHP', 'JS', 'CSS'],
+    sampleCodes: [
+      {
+        file: 'Model/Article.php',
+        language: 'PHP',
+        code: '<?php\n' +
+        'App::uses(\'AppModel\', \'Model\');\n' +
+        '/**\n' +
+        ' * Article Model\n' +
+        ' *\n' +
+        ' * @property RelatedImage $RelatedImage\n' +
+        ' * @property RelatedVideo $RelatedVideo\n' +
+        ' * @property User $User\n' +
+        ' */\n' +
+        'class Article extends AppModel {\n' +
+        '\n' +
+        '/**\n' +
+        ' * Validation rules\n' +
+        ' *\n' +
+        ' * @var array\n' +
+        ' */\n' +
+        '\tpublic $validate = array(\n' +
+        '\t\t\'title\' => array(\n' +
+        '\t\t\t\'notempty\' => array(\n' +
+        '\t\t\t\t\'rule\' => array(\'notempty\')\n' +
+        '\t\t\t),\n' +
+        '\t\t),\n' +
+        '\t\t\'summary\' => array(\n' +
+        '\t\t\t\'notempty\' => array(\n' +
+        '\t\t\t\t\'rule\' => array(\'notempty\')\n' +
+        '\t\t\t),\n' +
+        '\t\t),\n' +
+        '\t\t\'body\' => array(\n' +
+        '\t\t\t\'notempty\' => array(\n' +
+        '\t\t\t\t\'rule\' => array(\'notempty\')\n' +
+        '\t\t\t),\n' +
+        '\t\t),\n' +
+        '\t\t\'channel\' => array(\n' +
+        '\t\t\t\'notempty\' => array(\n' +
+        '\t\t\t\t\'rule\' => array(\'notempty\')\n' +
+        '\t\t\t),\n' +
+        '\t\t),\n' +
+        '\t\t\'enabled\' => array(\n' +
+        '\t\t\t\'boolean\' => array(\n' +
+        '\t\t\t\t\'rule\' => array(\'boolean\')\n' +
+        '\t\t\t),\n' +
+        '\t\t),\n' +
+        '\t\t\'highlight\' => array(\n' +
+        '\t\t\t\'boolean\' => array(\n' +
+        '\t\t\t\t\'rule\' => array(\'boolean\')\n' +
+        '\t\t\t),\n' +
+        '\t\t),\n' +
+        '\t);\n' +
+        '\n' +
+        '\t//The Associations below have been created with all possible keys, those that are not needed can be removed\n' +
+        '\n' +
+        '/**\n' +
+        ' * hasMany associations\n' +
+        ' *\n' +
+        ' * @var array\n' +
+        ' */\n' +
+        '\tpublic $hasMany = array(\n' +
+        '\t\t\'RelatedImage\' => array(\n' +
+        '\t\t\t\'className\' => \'RelatedImage\',\n' +
+        '\t\t\t\'foreignKey\' => \'article_id\',\n' +
+        '\t\t\t\'dependent\' => false,\n' +
+        '\t\t\t\'conditions\' => \'\',\n' +
+        '\t\t\t\'fields\' => \'\',\n' +
+        '\t\t\t\'order\' => \'\',\n' +
+        '\t\t\t\'limit\' => \'\',\n' +
+        '\t\t\t\'offset\' => \'\',\n' +
+        '\t\t\t\'exclusive\' => \'\',\n' +
+        '\t\t\t\'finderQuery\' => \'\',\n' +
+        '\t\t\t\'counterQuery\' => \'\'\n' +
+        '\t\t),\n' +
+        '\t\t\'RelatedVideo\' => array(\n' +
+        '\t\t\t\'className\' => \'RelatedVideo\',\n' +
+        '\t\t\t\'foreignKey\' => \'article_id\',\n' +
+        '\t\t\t\'dependent\' => false,\n' +
+        '\t\t\t\'conditions\' => \'\',\n' +
+        '\t\t\t\'fields\' => \'\',\n' +
+        '\t\t\t\'order\' => \'\',\n' +
+        '\t\t\t\'limit\' => \'\',\n' +
+        '\t\t\t\'offset\' => \'\',\n' +
+        '\t\t\t\'exclusive\' => \'\',\n' +
+        '\t\t\t\'finderQuery\' => \'\',\n' +
+        '\t\t\t\'counterQuery\' => \'\'\n' +
+        '\t\t)\n' +
+        '\t);\n' +
+        '\n' +
+        '\n' +
+        '/**\n' +
+        ' * hasAndBelongsToMany associations\n' +
+        ' *\n' +
+        ' * @var array\n' +
+        ' */\n' +
+        '\tpublic $hasAndBelongsToMany = array(\n' +
+        '\t\t\'User\' => array(\n' +
+        '\t\t\t\'className\' => \'User\',\n' +
+        '\t\t\t\'joinTable\' => \'users_articles\',\n' +
+        '\t\t\t\'foreignKey\' => \'article_id\',\n' +
+        '\t\t\t\'associationForeignKey\' => \'user_id\',\n' +
+        '\t\t\t\'unique\' => \'keepExisting\',\n' +
+        '\t\t\t\'conditions\' => \'\',\n' +
+        '\t\t\t\'fields\' => \'\',\n' +
+        '\t\t\t\'order\' => \'\',\n' +
+        '\t\t\t\'limit\' => \'\',\n' +
+        '\t\t\t\'offset\' => \'\',\n' +
+        '\t\t\t\'finderQuery\' => \'\',\n' +
+        '\t\t\t\'deleteQuery\' => \'\',\n' +
+        '\t\t\t\'insertQuery\' => \'\'\n' +
+        '\t\t)\n' +
+        '\t);\n' +
+        '\n' +
+        '}\n'
+      },
+      {
+        file: 'ArticlesController.php',
+        language: 'PHP',
+        code: '<?php\n' +
+        'App::uses(\'AppController\', \'Controller\', \'RelatedImagesController\');\n' +
+        'App::import(\'Controller\', \'RelatedImagesController\');\n' +
+        'App::import(\'Model\', \'RelatedImage\', \'RelatedVideo\');\n' +
+        '//App::import(\'Time\');\n' +
+        '//App::uses(\'CakeTime\', \'Utility\');\n' +
+        '\n' +
+        'include("Component/resize-class.php");\n' +
+        '\n' +
+        '/**\n' +
+        ' * Articles Controller\n' +
+        ' *\n' +
+        ' * @property Article $Article\n' +
+        ' */\n' +
+        'class ArticlesController extends AppController {\n' +
+        '\n' +
+        '    public function beforeFilter() {\n' +
+        '        parent::beforeFilter();\n' +
+        '        $user = $this->Auth->user();\n' +
+        '        \n' +
+        '        if(!empty($user)) {\n' +
+        '            if($user[\'role_id\'] === \'1\') {\n' +
+        '                $this->Auth->allow(array(\'index\', \'view\', \'add\', \'edit\', \'delete\'));\n' +
+        '            } else {\n' +
+        '                $this->Auth->deny(array(\'index\', \'view\', \'add\', \'edit\', \'delete\'));\n' +
+        '            }\n' +
+        '        } else {\n' +
+        '            $this->Auth->deny(array(\'index\', \'view\', \'add\', \'edit\', \'delete\'));\n' +
+        '        }\n' +
+        '    }\n' +
+        '    \n' +
+        '    public function isAuthorized($user) {\n' +
+        '        \n' +
+        '        if($user[\'role_id\'] === \'1\') {\n' +
+        '            if ($this->action === \'add\' || $this->action === \'edit\' ||\n' +
+        '                $this->action === \'view\' || $this->action === \'index\' || $this->action === \'delete\') {\n' +
+        '                return true;\n' +
+        '            } else {\n' +
+        '                return false;\n' +
+        '            }\n' +
+        '        }\n' +
+        '        \n' +
+        '        return parent::isAuthorized($user);\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * index method\n' +
+        '    *\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function index() {\n' +
+        '        $user_id = $this->Auth->user(\'id\');\n' +
+        '        \n' +
+        '        $this->Article->recursive = 0;\n' +
+        '        $articles = $this->Article->find(\'all\');\n' +
+        '        \n' +
+        '        $this->set(\'articles\', $articles);\n' +
+        '        $this->set(\'user_id\', $user_id);\n' +
+        '    }\n' +
+        '\n' +
+        '    /**\n' +
+        '    * view method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function view($id = null) {\n' +
+        '        if (!$this->Article->exists($id)) {\n' +
+        '            throw new NotFoundException(__(\'Invalid article\'));\n' +
+        '        }\n' +
+        '        $options = array(\'conditions\' => array(\'Article.\' . $this->Article->primaryKey => $id));\n' +
+        '        $this->set(\'article\', $this->Article->find(\'first\', $options));\n' +
+        '    }\n' +
+        '\n' +
+        '    /**\n' +
+        '    * add method\n' +
+        '    *\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function add() {\n' +
+        '        if ($this->request->is(\'post\')) {\n' +
+        '            $this->loadModel(\'RelatedImage\');\n' +
+        '            $this->loadModel(\'RelatedVideo\');\n' +
+        '\n' +
+        '            $this->Article->create();\n' +
+        '            if ($this->Article->save($this->request->data)) {\n' +
+        '                $article_id = $this->Article->getLastInsertId();\n' +
+        '\n' +
+        '                $selectedMedia = $this->request->data[\'Article\'][\'media\'];\n' +
+        '                \n' +
+        '                if($selectedMedia == \'imagen\') {\n' +
+        '                    $this->request->data[\'RelatedImage\'][\'article_id\'] = $article_id;\n' +
+        '                    \n' +
+        '                    if(!empty($this->request->data[\'RelatedImage\'][\'upload\'])) {\n' +
+        '                        $this->manageImage($article_id);\n' +
+        '                    }\n' +
+        '\n' +
+        '                    if($this->RelatedImage->save($this->request->data)){\n' +
+        '                        $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                        $this->publishAll();\n' +
+        '                        $this->publishArticle($article_id);\n' +
+        '                        $this->redirect(array(\'action\' => \'index\'));\n' +
+        '                    } else {\n' +
+        '                        $this->Session->setFlash(\'La imagen no pudo ser guardada.\', \'flash_error\');\n' +
+        '                        $this->redirect(array(\'action\' => \'index\'));\n' +
+        '                    }\n' +
+        '                    \n' +
+        '                } else if($selectedMedia == \'video\') {\n' +
+        '                    $this->request->data[\'RelatedVideo\'][\'article_id\'] = $article_id;\n' +
+        '                    $this->request->data[\'RelatedVideo\'][\'name\'] = \'video\';\n' +
+        '                    \n' +
+        '                    if($this->RelatedVideo->save($this->request->data)) {\n' +
+        '                        $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                        $this->publishAll();\n' +
+        '                        $this->publishArticle($article_id);\n' +
+        '                        $this->redirect(array(\'action\' => \'index\'));\n' +
+        '                    } else {\n' +
+        '                        $this->Session->setFlash(\'El video no pudo ser guardado.\', \'flash_error\');\n' +
+        '                        $this->redirect(array(\'action\' => \'index\'));\n' +
+        '                    }\n' +
+        '                } else { \n' +
+        '                    $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                    $this->publishAll();\n' +
+        '                    $this->publishArticle($article_id);\n' +
+        '                    $this->redirect(array(\'action\' => \'index\'));\n' +
+        '                }\n' +
+        '            } else {\n' +
+        '                $this->Session->setFlash(__(\'El artículo no pudo ser guardado. Intente de nuevo.\'));\n' +
+        '            }\n' +
+        '        }\n' +
+        '        \n' +
+        '        $users = $this->Article->User->find(\'list\');\n' +
+        '        $channels = array("principal" => "Principal", \n' +
+        '                          "encuentrame" => "Encuéntrame", \n' +
+        '                          "rumba" => "Rumba", \n' +
+        '                          "arte" => "Arte y Cultura", \n' +
+        '                          "ciencia" => "Ciencia y Tecnología", \n' +
+        '                          "sexualidad" => "Sexualidad al día", \n' +
+        '                          "moda" => "Moda"\n' +
+        '                         );\n' +
+        '        \n' +
+        '        $this->set(compact(\'users\', \'channels\'));\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * edit method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function edit($id = null) {\n' +
+        '        $this->loadModel(\'RelatedImage\');\n' +
+        '        $this->loadModel(\'RelatedVideo\');\n' +
+        '        \n' +
+        '        if (!$this->Article->exists($id)) {\n' +
+        '            throw new NotFoundException(__(\'Invalid article\'));\n' +
+        '        }\n' +
+        '        if ($this->request->is(\'post\') || $this->request->is(\'put\')) {\n' +
+        '            if ($this->Article->save($this->request->data)) {\n' +
+        '                \n' +
+        '                $selectedMedia = $this->request->data[\'Article\'][\'media\'];\n' +
+        '                $image_id = $this->request->data[\'RelatedImage\'][\'id\'];\n' +
+        '                $video_id = $this->request->data[\'RelatedVideo\'][\'id\'];\n' +
+        '                \n' +
+        '                if($selectedMedia == \'imagen\') {\n' +
+        '                    $this->request->data[\'RelatedImage\'][\'article_id\'] = $id;\n' +
+        '                    \n' +
+        '                    if(!empty($this->request->data[\'RelatedImage\'][\'upload\'])) {\n' +
+        '                        $this->manageImage($id);\n' +
+        '                    }\n' +
+        '                    \n' +
+        '                    if($image_id != null)\n' +
+        '                        $result_img = $this->editRelatedImage($image_id);\n' +
+        '                    else {\n' +
+        '                        if($this->RelatedImage->save($this->request->data)){\n' +
+        '                            $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                            $this->publishArticle($id);\n' +
+        '                            $this->publishAll();\n' +
+        '                            $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                        } else {\n' +
+        '                            $this->Session->setFlash(\'La imagen no pudo ser guardada.\', \'flash_error\');\n' +
+        '                            $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                        }\n' +
+        '                    }\n' +
+        '                    \n' +
+        '                    if($video_id != null && $video_id > 0)\n' +
+        '                        $this->deleteRelatedVideo($video_id);\n' +
+        '                    \n' +
+        '                    if($result_img == 1) {\n' +
+        '                        $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                        $this->publishArticle($id);\n' +
+        '                        $this->publishAll();\n' +
+        '                        $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                    } else {\n' +
+        '                        $this->Session->setFlash(\'La imagen no pudo ser guardada.\', \'flash_error\');\n' +
+        '                        $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                    }\n' +
+        '                    \n' +
+        '                } else if($selectedMedia == \'video\') {\n' +
+        '                    $this->request->data[\'RelatedVideo\'][\'article_id\'] = $id;\n' +
+        '                    $this->request->data[\'RelatedVideo\'][\'name\'] = \'video\';\n' +
+        '                    $result_vid = 0;\n' +
+        '                    \n' +
+        '                    if($video_id != null)\n' +
+        '                        $result_vid = $this->editRelatedVideo($video_id);\n' +
+        '                    else {\n' +
+        '                        if($this->RelatedVideo->save($this->request->data)) {\n' +
+        '                            $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                            $this->publishArticle($id);\n' +
+        '                            $this->publishAll();\n' +
+        '                            $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                        } else {\n' +
+        '                            $this->Session->setFlash(\'El video no pudo ser guardado.\', \'flash_error\');\n' +
+        '                            $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                        }\n' +
+        '                    }\n' +
+        '                    \n' +
+        '                    if($image_id != null && $image_id > 0)\n' +
+        '                        $this->deleteRelatedImage($image_id);\n' +
+        '                        \n' +
+        '                    if($result_vid == 1) {\n' +
+        '                        $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                        $this->publishArticle($id);\n' +
+        '                        $this->publishAll();\n' +
+        '                        $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                    } else {\n' +
+        '                        $this->Session->setFlash(\'El video no pudo ser guardado.\', \'flash_error\');\n' +
+        '                        $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                    }\n' +
+        '                } else {\n' +
+        '                    if($image_id != null && $image_id > 0)\n' +
+        '                        $this->deleteRelatedImage($image_id);\n' +
+        '                    \n' +
+        '                    if($video_id != null && $video_id > 0)\n' +
+        '                        $this->deleteRelatedVideo($video_id);\n' +
+        '                    \n' +
+        '                    $this->Session->setFlash(\'El artículo fue guardado exitosamente.\', \'flash_success\');\n' +
+        '                    $this->publishArticle($id);\n' +
+        '                    $this->publishAll();\n' +
+        '                    $this->redirect(array(\'action\' => \'edit\', $id));\n' +
+        '                }\n' +
+        '            } else {\n' +
+        '                $this->Session->setFlash(\'El artículo no pudo ser guardado. Intente de nuevo.\', \'flash_error\');\n' +
+        '            }\n' +
+        '        } else {\n' +
+        '            $options = array(\'conditions\' => array(\'Article.\' . $this->Article->primaryKey => $id));\n' +
+        '            $this->request->data = $this->Article->find(\'first\', $options);\n' +
+        '        }\n' +
+        '        \n' +
+        '        $relatedImage = $this->RelatedImage->find(\'first\', array(\'conditions\' => array(\'RelatedImage.article_id\' => $id)));\n' +
+        '        $relatedVideo = $this->RelatedVideo->find(\'first\', array(\'conditions\' => array(\'RelatedVideo.article_id\' => $id)));\n' +
+        '        $channels = array("principal" => "Principal", \n' +
+        '                          "encuentrame" => "Encuéntrame", \n' +
+        '                          "rumba" => "Rumba", \n' +
+        '                          "arte" => "Arte y Cultura", \n' +
+        '                          "ciencia" => "Ciencia y Tecnología", \n' +
+        '                          "sexualidad" => "Sexualidad al día", \n' +
+        '                          "moda" => "Moda"\n' +
+        '                         );\n' +
+        '        $this->set(compact(\'relatedImage\', \'relatedVideo\', \'channels\'));\n' +
+        '    }\n' +
+        '\n' +
+        '    /**\n' +
+        '    * delete method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function delete($id = null) {\n' +
+        '        $this->Article->id = $id;\n' +
+        '        if (!$this->Article->exists()) {\n' +
+        '            throw new NotFoundException(__(\'Invalid article\'));\n' +
+        '        }\n' +
+        '        $this->request->onlyAllow(\'post\', \'delete\');\n' +
+        '        if ($this->Article->delete()) {\n' +
+        '            $this->Session->setFlash(\'El artículo fue eliminado.\', \'flash_success\');\n' +
+        '            $this->publishAll();\n' +
+        '            $this->redirect(array(\'action\' => \'index\'));\n' +
+        '        }\n' +
+        '        $this->Session->setFlash(\'El artículo no pudo ser eliminado. Intente de nuevo.\', \'flash_error\');\n' +
+        '        \n' +
+        '        $this->redirect(array(\'action\' => \'index\'));\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * editRelatedImage method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return int\n' +
+        '    */\n' +
+        '    public function editRelatedImage($id = null) {\n' +
+        '        $result = 0;\n' +
+        '        if (!$this->RelatedImage->exists($id)) {\n' +
+        '            throw new NotFoundException(__(\'Imagen relacionada inválida\'));\n' +
+        '        }\n' +
+        '        if ($this->request->is(\'post\') || $this->request->is(\'put\')) {\n' +
+        '            if ($this->RelatedImage->save($this->request->data)) {\n' +
+        '                $result = 1;\n' +
+        '            } else {\n' +
+        '                $result = 0;\n' +
+        '            }\n' +
+        '        } else {\n' +
+        '            $options = array(\'conditions\' => array(\'RelatedImage.\' . $this->RelatedImage->primaryKey => $id));\n' +
+        '            $this->request->data = $this->RelatedImage->find(\'first\', $options);\n' +
+        '        }\n' +
+        '        return $result;\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * deleteRelatedImage method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return int\n' +
+        '    */\n' +
+        '    public function deleteRelatedImage($id = null) {\n' +
+        '        $result = 0;\n' +
+        '        $this->RelatedImage->id = $id;\n' +
+        '        if (!$this->RelatedImage->exists()) {\n' +
+        '            throw new NotFoundException(__(\'Imagen relacionada inválida\'));\n' +
+        '        }\n' +
+        '        if ($this->RelatedImage->delete()) {\n' +
+        '            $result = 1;\n' +
+        '        }\n' +
+        '        return $result;\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * editRelatedVideo method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return int\n' +
+        '    */\n' +
+        '    public function editRelatedVideo($id = null) {\n' +
+        '        $result = 0;\n' +
+        '        if (!$this->RelatedVideo->exists($id)) {\n' +
+        '            throw new NotFoundException(__(\'Video relacionado inválido\'));\n' +
+        '        }\n' +
+        '        if ($this->request->is(\'post\') || $this->request->is(\'put\')) {\n' +
+        '            if ($this->RelatedVideo->save($this->request->data)) {\n' +
+        '                $result = 1;\n' +
+        '            } else {\n' +
+        '                $result = 0;\n' +
+        '            }\n' +
+        '        } else {\n' +
+        '            $options = array(\'conditions\' => array(\'RelatedVideo.\' . $this->RelatedVideo->primaryKey => $id));\n' +
+        '            $this->request->data = $this->RelatedVideo->find(\'first\', $options);\n' +
+        '        }\n' +
+        '        return $result;\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * deleteRelatedVideo method\n' +
+        '    *\n' +
+        '    * @throws NotFoundException\n' +
+        '    * @param string $id\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function deleteRelatedVideo($id = null) {\n' +
+        '        $result = 0;\n' +
+        '        $this->RelatedVideo->id = $id;\n' +
+        '        if (!$this->RelatedVideo->exists()) {\n' +
+        '            throw new NotFoundException(__(\'Video relacionado inválido\'));\n' +
+        '        }\n' +
+        '        if ($this->RelatedVideo->delete()) {\n' +
+        '            $result = 1;\n' +
+        '        }\n' +
+        '        return $result;\n' +
+        '    }\n' +
+        '    \n' +
+        '    /**\n' +
+        '    * manageImage method\n' +
+        '    *\n' +
+        '    * @return void\n' +
+        '    */\n' +
+        '    public function manageImage($article_id) {\n' +
+        '        $file = $this->request->data[\'RelatedImage\'][\'upload\']; //put the data into a var for easy use\n' +
+        '\n' +
+        '        $ext = substr(strtolower(strrchr($file[\'name\'], \'.\')), 1); //get the extension\n' +
+        '        $title = strstr($file[\'name\'], \'.\', true);  //get the name alone\n' +
+        '\n' +
+        '\n' +
+        '        $arr_ext = array(\'jpg\', \'jpeg\', \'gif\', \'png\'); //set allowed extensions\n' +
+        '        $width_thumb = 200;\n' +
+        '\n' +
+        '        //only process if the extension is valid\n' +
+        '        if(in_array($ext, $arr_ext)) {\n' +
+        '            $img_path = WWW_ROOT . \'img/uploads/\' . $title . \'_\' . $article_id . \'.\' . $ext;\n' +
+        '            move_uploaded_file($file["tmp_name"], $img_path);\n' +
+        '\n' +
+        '            list($width, $height) = getimagesize($img_path);\n' +
+        '\n' +
+        '            // *** 1) Initialise / load image\n' +
+        '            $resizeObj = new resize($img_path);\n' +
+        '            $height_thumb = $resizeObj -> getSizeByFixedWidth($width_thumb);\n' +
+        '\n' +
+        '            // *** 2) Resize image (options: exact, portrait, landscape, auto, crop)\n' +
+        '            $resizeObj -> resizeImage($width_thumb, $height_thumb, \'crop\');\n' +
+        '            $thumb = WWW_ROOT . \'img/uploads/\' . $title . \'_\' . $article_id . \'_thumb.\' . $ext;\n' +
+        '            $uri_thumb = \'/app/webroot/img/uploads/\' . $title . \'_\' . $article_id .\'_thumb.\' . $ext;\n' +
+        '            $uri_img = \'/app/webroot/img/uploads/\' . $title . \'_\' . $article_id . \'.\' . $ext;\n' +
+        '\n' +
+        '            // *** 3) Save image\n' +
+        '            $resizeObj -> saveImage($thumb, 100);\n' +
+        '\n' +
+        '            //prepare the filename for database entry\n' +
+        '            $this->request->data[\'RelatedImage\'][\'uri\'] = $uri_img;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'name\'] = $title . \'_\' . $article_id . \'.\' . $ext;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'title\'] = $title . \'_\' . $article_id;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'width\'] = $width;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'height\'] = $height;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'uri_thumb\'] = $uri_thumb;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'width_thumb\'] = $width_thumb;\n' +
+        '            $this->request->data[\'RelatedImage\'][\'height_thumb\'] = $height_thumb;\n' +
+        '        }\n' +
+        '    }\n' +
+        '    \n' +
+        '    public function getArticles($limit, $channel) {\n' +
+        '        $join = "";\n' +
+        '        \n' +
+        '        if($channel != "" && $channel != null) {\n' +
+        '            $join = "AND art.channel = \'" . $channel . "\'";\n' +
+        '        }\n' +
+        '        \n' +
+        '        $sql = "SELECT art.id, art.channel, art.title, art.summary, art.enabled, art.created, art.modified, \n' +
+        '                       img.id as image_id, img.uri, img.uri_thumb, img.title, img.article_id as img_article_id, \n' +
+        '                       vid.id as video_id, vid.name as video_name, vid.source, vid.article_id as vid_article_id \n' +
+        '                FROM articles art \n' +
+        '                LEFT JOIN related_images img on art.id = img.article_id \n' +
+        '                LEFT JOIN related_videos vid on art.id = vid.article_id \n' +
+        '                WHERE art.enabled = 1 \n' +
+        '                AND art.highlight = 0 " \n' +
+        '                . $join .\n' +
+        '               "ORDER BY art.modified desc, art.id asc \n' +
+        '                LIMIT " . $limit . ""; \n' +
+        '        \n' +
+        '        $articles = $this->Article->query($sql);\n' +
+        '        \n' +
+        '        return $articles;\n' +
+        '    }\n' +
+        '    \n' +
+        '    public function writeFile($data, $file_name) {\n' +
+        '        $file = WWW_ROOT . \'includes/published/\' . $file_name . \'.htm\';\n' +
+        '        $handle = fopen($file, \'w\') or die(\'Cannot open file:  \'.$file);\n' +
+        '        \n' +
+        '        fwrite($handle, $data);\n' +
+        '    }\n' +
+        '    \n' +
+        '    public function publishView($view, $file_name) {\n' +
+        '        $result = $this->requestAction(\'/pages/\' . $view, array(\'return\')); \n' +
+        '        \n' +
+        '        $this->writeFile($result, $file_name);\n' +
+        '    }\n' +
+        '    \n' +
+        '    public function publishAll() {\n' +
+        '        /* PUBLICAR RIOS */\n' +
+        '        $this->publishView("rio", "rios/rio");\n' +
+        '        $this->publishView("rio/encuentrame", "rios/rio-encuentrame");\n' +
+        '        $this->publishView("rio/arte", "rios/rio-arte");\n' +
+        '        $this->publishView("rio/ciencia", "rios/rio-ciencia");\n' +
+        '        $this->publishView("rio/moda", "rios/rio-moda");\n' +
+        '        $this->publishView("rio/rumba", "rios/rio-rumba");\n' +
+        '        $this->publishView("rio/sexualidad", "rios/rio-sexualidad");\n' +
+        '        \n' +
+        '        /* PUBLICAR GALERIAS */\n' +
+        '        $this->publishView("galeria", "galleries/galeria");\n' +
+        '        $this->publishView("galeria/encuentrame", "galleries/galeria-encuentrame");\n' +
+        '        $this->publishView("galeria/arte", "galleries/galeria-arte");\n' +
+        '        $this->publishView("galeria/ciencia", "galleries/galeria-ciencia");\n' +
+        '        $this->publishView("galeria/moda", "galleries/galeria-moda");\n' +
+        '        $this->publishView("galeria/rumba", "galleries/galeria-rumba");\n' +
+        '        $this->publishView("galeria/sexualidad", "galleries/galeria-sexualidad");\n' +
+        '        \n' +
+        '        /* PUBLICAR MODULO DE NOTICIAS DESTACADAS */\n' +
+        '        $this->publishView("noticias_destacadas", "noticias_destacadas");\n' +
+        '    }\n' +
+        '    \n' +
+        '    public function publishArticle($id) {\n' +
+        '        $this->publishView("article_detail?id=" . $id, "articles/article-" . $id);\n' +
+        '    }\n' +
+        '}\n'
+      },
+      {
+        file: 'Articles/index.ctp',
+        language: 'ctp',
+        code: '<link rel="stylesheet" type="text/css" href="/css/jquery.dataTablesAdmin.css">\n' +
+        '<script type="text/javascript" src="/js/jquery.dataTables.js"></script>\n' +
+        '<script type="text/javascript" charset="utf-8">\n' +
+        '    function fnShowHide( iCol ) {\n' +
+        '        var oTable = $(\'#table-forums\').dataTable();\n' +
+        '        var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;\n' +
+        '        oTable.fnSetColumnVis( iCol, bVis ? false : true );\n' +
+        '    }\n' +
+        '    \n' +
+        '    $(document).ready(function() {\n' +
+        '        $(\'#table-forums\').dataTable({\n' +
+        '            "sPaginationType": "full_numbers",\n' +
+        '            "aoColumnDefs": [{ "bVisible": false, "aTargets": [7] }],\n' +
+        '            "aaSorting": [[7,\'desc\']]\n' +
+        '        });\n' +
+        '    });\n' +
+        '</script>\n' +
+        '\n' +
+        '<div class="articles index">\n' +
+        '    <h2><?php echo __(\'Artículos\'); ?></h2>\n' +
+        '    <table id="table-forums" class="pt15" cellpadding="0" cellspacing="0">\n' +
+        '        <thead>\n' +
+        '            <tr>\n' +
+        '                <th class="w50"><?php echo \'ID\'; ?></th>\n' +
+        '                <th class="w150"><?php echo \'Canal\'; ?></th>\n' +
+        '                <th class="w400"><?php echo \'Título\'; ?></th>\n' +
+        '                <th><?php echo \'Habilitado\'; ?></th>\n' +
+        '                <th><?php echo \'Destacada\'; ?></th>\n' +
+        '                <th class="w130"><?php echo \'Creado\'; ?></th>\n' +
+        '                <th class="w130"><?php echo \'Modificado\'; ?></th>\n' +
+        '                <th class="w130"><?php echo \'Modificado\'; ?></th>\n' +
+        '                <th class="actions tac"><?php echo __(\'Acciones\'); ?></th>\n' +
+        '            </tr>\n' +
+        '        </thead>\n' +
+        '                         \n' +
+        '     <?php foreach ($articles as $article): ?>\n' +
+        '        <?php \n' +
+        '            $canal = $article[\'Article\'][\'channel\']; \n' +
+        '            $new_channel = $canal;\n' +
+        '            \n' +
+        '            if($canal == "principal") {\n' +
+        '                $new_channel = "Principal";\n' +
+        '            } else if($canal == "encuentrame") {\n' +
+        '                $new_channel = "Encuéntrame";\n' +
+        '            } else if($canal == "rumba") {\n' +
+        '                $new_channel = "Rumba";\n' +
+        '            } else if($canal == "arte") {\n' +
+        '                $new_channel = "Arte y Cultura";\n' +
+        '            } else if($canal == "ciencia") {\n' +
+        '                $new_channel = "Ciencia y Tecnología";\n' +
+        '            } else if($canal == "sexualidad") {\n' +
+        '                $new_channel = "Sexualidad al día";\n' +
+        '            } else if($canal == "moda") {\n' +
+        '                $new_channel = "Moda";\n' +
+        '            }\n' +
+        '        ?>\n' +
+        '        <?php \n' +
+        '            $date_created = $this->Time->format(\'D-F-j-Y-h:i A\', $article[\'Article\'][\'created\']);\n' +
+        '            list($dia_sem_crea, $mes_crea, $dia_crea, $ano_crea, $hora_crea) = explode(\'-\', $date_created);\n' +
+        '            \n' +
+        '            $date_modified = $this->Time->format(\'D-F-j-Y-h:i A\', $article[\'Article\'][\'modified\']);\n' +
+        '            list($dia_sem_mod, $mes_mod, $dia_mod, $ano_mod, $hora_mod) = explode(\'-\', $date_modified);\n' +
+        '        ?>\n' +
+        '      \t<tr>\n' +
+        '            <td class="vam"><?php echo h($article[\'Article\'][\'id\']); ?>&nbsp;</td>\n' +
+        '            <td class="vam"><?php echo $new_channel; ?>&nbsp;</td>\n' +
+        '            <td class="vam"><?php echo h($article[\'Article\'][\'title\']); ?>&nbsp;</td>\n' +
+        '            <td class="tac vam"><?php echo h(($article[\'Article\'][\'enabled\']==1?"SI":"NO")); ?>&nbsp;</td>\n' +
+        '            <td class="tac vam"><?php echo h(($article[\'Article\'][\'highlight\']==1?"SI":"NO")); ?>&nbsp;</td>\n' +
+        '            <td class="vam"><?php echo __($dia_sem_crea) . " " . __($mes_crea) . " " . __($dia_crea) . ", " . __($ano_crea) .  " " . $hora_crea ?>&nbsp;</td>\n' +
+        '            <td class="vam"><?php echo __($dia_sem_mod) . " " . __($mes_mod) . " " . __($dia_mod) . ", " . __($ano_mod) .  " " . $hora_mod ?>&nbsp;</td>\n' +
+        '            <td class="vam"><?php echo __($ano_mod) . "-" . __($mes_mod) . "-" . __($dia_mod) . " " . $hora_mod ?>&nbsp;</td>\n' +
+        '            <td class="actions tac vam">\n' +
+        '                <?php echo \'<a href="/pages/article?id=\' . $article[\'Article\'][\'id\'] . \'">Ver</a>\'; ?>\n' +
+        '                <?php echo \'<a href="/articles/edit/\' . $article[\'Article\'][\'id\'] . \'">Editar</a>\'; ?>\n' +
+        '                <?php echo $this->Form->postLink(__(\'Eliminar\'), array(\'action\' => \'delete\', $article[\'Article\'][\'id\']), null, __(\'¿Estás seguro que deseas eliminar el artículo # %s?\', $article[\'Article\'][\'id\'])); ?>\n' +
+        '            </td>\n' +
+        '      \t</tr>\n' +
+        '      <?php endforeach; ?>\n' +
+        '    </table>\n' +
+        '</div>'
+      },
+      {
+        file: 'Articles/add.ctp',
+        language: 'ctp',
+        code: '<div class="articles border">\n' +
+        '<?php echo $this->Form->create(\'Article\', array(\'enctype\' => \'multipart/form-data\')); ?>\n' +
+        '    <fieldset>\n' +
+        '        <legend><?php echo __(\'Crear Artículo\'); ?></legend>\n' +
+        '        <?php\n' +
+        '            echo $this->Form->input(\'Article.channel\', array(\'label\' => \'Canal\'));\n' +
+        '            echo $this->Form->input(\'Article.title\', array(\'label\' => \'Título\', \'maxlength\' => \'150\'));\n' +
+        '            echo $this->Form->input(\'Article.summary\', array(\'label\' => \'Sumario\', \'type\' => \'textarea\', \'class\' => \'ckeditor\'));\n' +
+        '            echo $this->Form->input(\'Article.body\', array(\'label\' => \'Cuerpo\', \'type\' => \'textarea\', \'rows\' => \'10\', \'class\' => \'ckeditor\'));\n' +
+        '            echo $this->Form->input(\'Article.enabled\', array(\'label\' => \'Habilitado\'));\n' +
+        '            echo $this->Form->input(\'Article.highlight\', array(\'label\' => \'Destacada\'));\n' +
+        '        ?>\n' +
+        '        <br>\n' +
+        '\n' +
+        '        <h3><?php echo __(\'Relacionar Multimedia\'); ?></h3>\n' +
+        '\n' +
+        '        <div>\n' +
+        '            <input type="radio" name="tipo_media" value="img" id="radio_img" onchange="selectMedia(this.value)" checked>\n' +
+        '            <label for="radio_img" class="ml22 mt5">Imagen</label>\n' +
+        '        </div>\n' +
+        '        <div>\n' +
+        '            <input type="radio" name="tipo_media" value="vid" id="radio_vid" onchange="selectMedia(this.value)">\n' +
+        '            <label for="radio_vid" class="ml22 mt5">Video</label>\n' +
+        '        </div>\n' +
+        '        <div>\n' +
+        '            <input type="radio" name="tipo_media" value="" id="radio_ninguno" onchange="selectMedia(this.value)">\n' +
+        '            <label for="radio_ninguno" class="ml22 mt5">Ninguno</label>\n' +
+        '        </div>\n' +
+        '        \n' +
+        '        <?php echo $this->Form->input(\'Article.media\', array(\'type\' => \'hidden\', \'value\' => \'imagen\')); ?>\n' +
+        '\n' +
+        '        <div id="related_img">\n' +
+        '            <h3><?php echo __(\'Imagen\'); ?></h3>\n' +
+        '            <?php \n' +
+        '                echo $this->Form->input(\'RelatedImage.upload\', array(\'type\' => \'file\', \'required\' => \'true\', \'label\' => \'Seleccione Imagen\', \'class\' => \'related_img\', \'div\' => \'input file required\', \'onchange\' => \'validateInputFile(this)\'));\n' +
+        '            ?>\n' +
+        '        </div>\n' +
+        '        \n' +
+        '        <div id="related_vid" style="display: none">\n' +
+        '            <h3><?php echo __(\'Seleccionar Video\'); ?></h3>\n' +
+        '            <?php \n' +
+        '                echo $this->Form->input(\'RelatedVideo.source\', array(\'label\' => \'Source\', \'required\' => \'false\', \'class\' => \'related_vid\'));\n' +
+        '            ?>\n' +
+        '        </div>\n' +
+        '    </fieldset>\n' +
+        '<?php echo $this->Form->end(__(\'Guardar\')); ?>\n' +
+        '</div>\n'
+      },
+      {
+        file: 'style.css',
+        language: 'css',
+        code: '/* =============================================================\n' +
+        '   GENERAL STYLES\n' +
+        ' ============================================================ */\n' +
+        '\n' +
+        '@import url(http://fonts.googleapis.com/css?family=Roboto); /* FREE GOOGLE FONT */\n' +
+        '@import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,400italic");\n' +
+        '@import url("//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css");\n' +
+        '    \n' +
+        'body {\n' +
+        '    font-family: \'Roboto\', sans-serif;\n' +
+        '    line-height: 30px;\n' +
+        '}\n' +
+        '\n' +
+        '.set-radius-zero {\n' +
+        '    border-radius: 0px;\n' +
+        '    -moz-border-radius: 0px;\n' +
+        '    -webkit-border-radius: 0px;\n' +
+        '}\n' +
+        '\n' +
+        '.content-wrapper {\n' +
+        '    margin-top: 40px;\n' +
+        '    min-height: 600px;\n' +
+        '    padding-bottom: 60px;\n' +
+        '}\n' +
+        '\n' +
+        '.page-head-line {\n' +
+        '    font-weight: 900;\n' +
+        '    padding-bottom: 20px;\n' +
+        '    border-bottom: 2px solid #6F5BA0;\n' +
+        '    text-transform: uppercase;\n' +
+        '    color: #6F5BA0;\n' +
+        '    font-size: 20px;\n' +
+        '    margin-bottom: 40px;\n' +
+        '}\n' +
+        '\n' +
+        '.progress {\n' +
+        '    height: 8px;\n' +
+        '    border-radius: 0px;\n' +
+        '    -webkit-border-radius: 0px;\n' +
+        '    -moz-border-radius: 0px;\n' +
+        '}\n' +
+        '\n' +
+        '.login-icon {\n' +
+        '    height: 60px;\n' +
+        '    width: 60px;\n' +
+        '    padding: 13px;\n' +
+        '    border-radius: 50%;\n' +
+        '    font-size: 30px;\n' +
+        '    margin-bottom: 20px;\n' +
+        '    color: #fff;\n' +
+        '    text-align: center;\n' +
+        '    cursor:pointer;\n' +
+        '    background-color:#6F5BA0;\n' +
+        '    -webkit-border-radius:50%;\n' +
+        '    -moz-border-radius:50%;\n' +
+        '}\n' +
+        '\n' +
+        '/* =============================================================\n' +
+        '   HEADER SECTION STYLES\n' +
+        ' ============================================================ */\n' +
+        'header {\n' +
+        '    background-color: #6F5BA0;\n' +
+        '    color: #fff;\n' +
+        '    padding: 10px;\n' +
+        '    text-align: right;\n' +
+        '}\n' +
+        '\n' +
+        '\n' +
+        '/* =============================================================\n' +
+        '   LOGO SECTION STYLES\n' +
+        ' ============================================================ */\n' +
+        '.left-div {\n' +
+        '    //padding-left: 30px;\n' +
+        '    margin-top: 10px;\n' +
+        '    margin-bottom: 10px;\n' +
+        '    float: right;\n' +
+        '}\n' +
+        '\n' +
+        '.navbar-brand {\n' +
+        '    width: 250px;\n' +
+        '    padding-top: 30px;\n' +
+        '}\n' +
+        '\n' +
+        '/* USER SETTINGS DIV */\n' +
+        '.user-settings-wrapper .nav > li > a {\n' +
+        '    position: relative;\n' +
+        '    display: block;\n' +
+        '    padding: 15px 18px;\n' +
+        '    border-radius: 50%;\n' +
+        '    -webkit-border-radius: 50%;\n' +
+        '    -moz-border-radius: 50%;\n' +
+        '    height: 60px;\n' +
+        '    width: 60px;\n' +
+        '    background-color: #F7941E;\n' +
+        '    color: #fff;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper {\n' +
+        '    margin-top: 10px;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper li {\n' +
+        '    display: inline-block;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper .dropdown-settings {\n' +
+        '    width: 200px;\n' +
+        '    padding: 10px;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper .nav > li > a:hover,.user-settings-wrapper .nav > li > a:focus {\n' +
+        '    text-decoration: none;\n' +
+        '    background-color: #ED8100!important;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper img {\n' +
+        '    height: 64px;\n' +
+        '    width: 64px;\n' +
+        '    border: 1px solid #000000;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper .dropdown-menu {\n' +
+        '    margin: 0px;\n' +
+        '    border-radius: 0px!important;\n' +
+        '    -moz-border-radius: 0px!important;\n' +
+        '    -webkit-border-radius: 0px!important;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper .btn {\n' +
+        '    border-radius: 0px!important;\n' +
+        '    -moz-border-radius: 0px!important;\n' +
+        '    -webkit-border-radius: 0px!important;\n' +
+        '}\n' +
+        '\n' +
+        '.user-settings-wrapper .media-heading {\n' +
+        '    padding-top: 10px;\n' +
+        '}\n' +
+        '\n' +
+        '/* MENU LINKS SECTION*/\n' +
+        '.menu-section {\n' +
+        '    background-color: #323131;\n' +
+        '}\n' +
+        '\n' +
+        '#menu-top a {\n' +
+        '    color: #FFF;\n' +
+        '    text-decoration: none;\n' +
+        '    font-weight: 500;\n' +
+        '    padding: 10px 10px 10px 10px;\n' +
+        '    text-transform: uppercase;\n' +
+        '}\n' +
+        '\n' +
+        '.menu-top-active {\n' +
+        '    background-color: #6F5BA0;\n' +
+        '}\n' +
+        '\n' +
+        '.menu-section .nav > li > a:hover,.menu-section .nav > li > a:focus {\n' +
+        '    background-color: #6F5BA0!important;\n' +
+        '}\n' +
+        '\n' +
+        '.menu-section .dropdown-menu > li > a:hover,.menu-section .dropdown-menu > li > a:focus {\n' +
+        '    background-color: #8474AB!important;\n' +
+        '}\n' +
+        '\n' +
+        '.submenu-option > a:hover {\n' +
+        '    background-color: #EDEDED!important;\n' +
+        '}\n' +
+        '\n' +
+        '.navbar-inverse {\n' +
+        '    background-color: #3D3D3D;\n' +
+        '    border-color: transparent;\n' +
+        '}\n' +
+        '\n' +
+        '.navbar-toggle {\n' +
+        '    background-color: #6F5BA0;\n' +
+        '    border: 1px solid #fff;\n' +
+        '}\n' +
+        '\n' +
+        '.navbar {\n' +
+        '    margin-bottom: 0px;\n' +
+        '}\n' +
+        '\n' +
+        '/* =============================================================\n' +
+        '   FOOTER SECTION STYLES\n' +
+        ' ============================================================ */\n' +
+        'footer {\n' +
+        '    padding: 10px;\n' +
+        '    color: #fff;\n' +
+        '    font-size: 12px;\n' +
+        '    background-color: #3D3D3D;\n' +
+        '}\n' +
+        '\n' +
+        'footer a, footer a:hover {\n' +
+        '    color: #fff;\n' +
+        '    text-decoration: none;\n' +
+        '}\n'
+      }
+    ]
   }
 ];
