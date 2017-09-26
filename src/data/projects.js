@@ -206,6 +206,337 @@ export const PROJECTS = [
         '  }\n' +
         '}\n'
       },
+      {
+        file: 'mainService.js',
+        language: 'javascript',
+        code: '/*global FormData*/\n' +
+        '/*global fetch*/\n' +
+        'import _ from \'lodash\';\n' +
+        '\n' +
+        'const baseUri = \'http://serviceapiurl.com/api/\';\n' +
+        'const defaultConfig = {\n' +
+        '  method: \'POST\',\n' +
+        '  headers: {\n' +
+        '    \'Accept\': \'application/json\',\n' +
+        '    \'Content-Type\': \'application/json\',\n' +
+        '    \'Referer\': \'http://serviceapiurl.com/api/url\',\n' +
+        '    \'X-API-KEY\': \'g3242332j234234jk23432534534j4534534f345\'\n' +
+        '    \n' +
+        '  }\n' +
+        '};\n' +
+        '\n' +
+        'class MainService {\n' +
+        '\n' +
+        '  static API_KEY = \'\';\n' +
+        '\n' +
+        '  constructor(endpoint, apiKey) {\n' +
+        '    this.baseURL = baseUri;\n' +
+        '    this.endPoint = endpoint;\n' +
+        '    this.apiKey = apiKey;\n' +
+        '  }\n' +
+        '\n' +
+        '  makeRequest(action, params, onSuccess, onFault, fullPath) {\n' +
+        '    var completeURL = fullPath ? fullPath : this.baseURL + this.endPoint + \'/\' + action;\n' +
+        '    var formData = this.toFormData(params);\n' +
+        '\n' +
+        '    var headers = {};\n' +
+        '\n' +
+        '    if (BaseService.API_KEY || this.apiKey) {\n' +
+        '      headers[\'X-API-KEY\'] = this.apiKey ? this.apiKey : BaseService.API_KEY;\n' +
+        '    }\n' +
+        '\n' +
+        '    const config = _.merge(defaultConfig, {\n' +
+        '      method: \'POST\',\n' +
+        '      headers: headers,\n' +
+        '      body: formData\n' +
+        '    });\n' +
+        '\n' +
+        '    var prm = fetch(completeURL, config).then(this.status).then(\n' +
+        '        (ev) => ev.json(),\n' +
+        '        (ev) => {\n' +
+        '          var result = ev;\n' +
+        '          if (ev && ev.json) {\n' +
+        '            result = ev.json();\n' +
+        '            result.customError = true;\n' +
+        '          }\n' +
+        '          return result;\n' +
+        '        }\n' +
+        '    );\n' +
+        '    if (onSuccess) {\n' +
+        '      prm = prm.then(onSuccess);\n' +
+        '    }\n' +
+        '    if (onFault) {\n' +
+        '      prm = prm.catch(onFault);\n' +
+        '    }\n' +
+        '    return prm;\n' +
+        '  }\n' +
+        '\n' +
+        '  status(response) {\n' +
+        '    if (response.status >= 200 && response.status < 300) {\n' +
+        '      return Promise.resolve(response);\n' +
+        '    } else {\n' +
+        '      return Promise.reject(response);\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  toFormData(params, form, namespace) {\n' +
+        '    let formData = form || new FormData();\n' +
+        '    for (var prop in params) {\n' +
+        '      let key = namespace ? namespace + \'[\' + prop + \']\' : prop;\n' +
+        '      if ( typeof params[prop] == \'object\') {\n' +
+        '        this.toFormData(params[prop], formData, key);\n' +
+        '      } else {\n' +
+        '        formData.append(key, params[prop]);\n' +
+        '      }\n' +
+        '    }\n' +
+        '    return formData;\n' +
+        '  }\n' +
+        '\n' +
+        '}\n' +
+        '\n' +
+        'module.exports = MainService;\n' +
+        '\n'
+      },
+      {
+        file: 'userService.js',
+        language: 'javascript',
+        code: 'import MainService from \'./MainService\';\n' +
+        '\n' +
+        'class UserService extends MainService {\n' +
+        '\n' +
+        '  constructor() {\n' +
+        '    super(\'member\');\n' +
+        '  }\n' +
+        '\n' +
+        '  create(memberData, onSuccess, onFault) {\n' +
+        '    return this.makeRequest(\'create\', memberData, onSuccess, onFault);\n' +
+        '  }\n' +
+        '\n' +
+        '  update(memberData, onSuccess, onFault) {\n' +
+        '    return this.makeRequest(\'update\', memberData, onSuccess, onFault);\n' +
+        '  }\n' +
+        '\n' +
+        '  details(memberData, onSuccess) {\n' +
+        '    return this.makeRequest(\'details\', memberData, onSuccess);\n' +
+        '  }\n' +
+        '\n' +
+        '  forgotPassword(email, onSuccess, onFault) {\n' +
+        '    return this.makeRequest(\'forgot-password\', {Email: email}, onSuccess, onFault);\n' +
+        '  }\n' +
+        '\n' +
+        '  updatePassword(token, password, cfrmPasswordt, onSuccess, onFault) {\n' +
+        '    return this.makeRequest(\'update-password\', {Token: token, Password: password, ConfirmPassword: cfrmPasswordt}, onSuccess, onFault);\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'module.exports = UserService;\n'
+      },
+      {
+        file: 'devices.js',
+        language: 'javascript',
+        code: 'class Devices extends Component {\n' +
+        '  static propTypes = {\n' +
+        '    rightNav: React.PropTypes.bool,\n' +
+        '    leftNav: React.PropTypes.bool\n' +
+        '  };\n' +
+        '\n' +
+        '  static defaultProps = {\n' +
+        '    rightNav: false\n' +
+        '  };\n' +
+        '\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '    this.state = {\n' +
+        '      title: \'Device Sync\',\n' +
+        '      icon: \'information-circled\',\n' +
+        '      text: \'Keep your device sync so you can have all the benefits in the program.\',\n' +
+        '      confirmation: \'Do you use a fitness device?\',\n' +
+        '      showModal: (this.props.mode === INTRO_MODE),\n' +
+        '      showOptionsModal: false,\n' +
+        '      device: \'\',\n' +
+        '      data: userDevices\n' +
+        '    };\n' +
+        '    this.handler = this.handler.bind(this);\n' +
+        '    this.handleBackPress = this.handleBackPress.bind(this);\n' +
+        '    this._onPressContinue = this._onPressContinue.bind(this);\n' +
+        '  }\n' +
+        '\n' +
+        '  handler(value) {\n' +
+        '    var response = DevicesService.create(value);\n' +
+        '    console.log(response);\n' +
+        '    userDevices.push(value);\n' +
+        '    this.setState({\n' +
+        '      device: value,\n' +
+        '      data: userDevices\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  _removeDevice(device) {\n' +
+        '    var response = DevicesService.remove(device);\n' +
+        '    console.log(response);\n' +
+        '    var position = userDevices.indexOf(device);\n' +
+        '    userDevices.splice(position, 1);\n' +
+        '\n' +
+        '    this.setState({\n' +
+        '      device: device,\n' +
+        '      data: userDevices\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  handleBackPress() {\n' +
+        '    this.props.navigator.pop();\n' +
+        '  }\n' +
+        '\n' +
+        '  _onPressContinue() {\n' +
+        '    this.props.navigator.push({id: JOURNEY, props: {mode: this.props.mode}});\n' +
+        '  }\n' +
+        '\n' +
+        '  _onPressCloseModal() {\n' +
+        '    this.setState({showModal: false});\n' +
+        '  }\n' +
+        '\n' +
+        '  _onPressOpenOptionsModal() {\n' +
+        '    this.setState({\n' +
+        '      showOptionsModal: true\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  _onPressCloseOptionsModal() {\n' +
+        '    this.setState({showOptionsModal: false});\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderModal() {\n' +
+        '    var boundClick = this._onPressCloseModal.bind(this);\n' +
+        '    return <SyncData handleClose={boundClick} title={this.state.title} text={this.state.text} confirmation={this.state.confirmation} showModal={this.state.showModal} icon={this.state.icon} mode={this.props.mode} navigator={this.props.navigator} />;\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderOptionsModal() {\n' +
+        '    var boundClick = this._onPressCloseOptionsModal.bind(this);\n' +
+        '    return <DevicesMenu handler={this.handler} handleCloseOptions={boundClick} showOptionsModal={this.state.showOptionsModal} deviceTitle={this.state.deviceTitle} data={this.state.data}/>;\n' +
+        '  }\n' +
+        '\n' +
+        '  _getDeviceIcon(device) {\n' +
+        '    var deviceIcon = \'\';\n' +
+        '    switch (device) {\n' +
+        '      case ANDROID_WEAR:\n' +
+        '        deviceIcon = \'androidwearLogo\';\n' +
+        '        break;\n' +
+        '      case FITBIT:\n' +
+        '        deviceIcon = \'fitbitLogo\';\n' +
+        '        break;\n' +
+        '      case JAWBONE:\n' +
+        '        deviceIcon = \'jawboneLogo\';\n' +
+        '        break;\n' +
+        '      case MY_FITNESS_PAL:\n' +
+        '        deviceIcon = \'myfitnesspalLogo\';\n' +
+        '        break;\n' +
+        '      case WITHINGS:\n' +
+        '        deviceIcon = \'withingsLogo\';\n' +
+        '        break;\n' +
+        '      case UNDER_ARMOUR:\n' +
+        '        deviceIcon = \'underarmourLogo\';\n' +
+        '        break;\n' +
+        '    }\n' +
+        '    return deviceIcon;\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderDevices() {\n' +
+        '    return this.state.data.map((device, index) => {\n' +
+        '      var deviceIcon = this._getDeviceIcon(device);\n' +
+        '      return (\n' +
+        '        <View key={index}>\n' +
+        '          <View style={devicesStyles.imageWrapper}>\n' +
+        '            <Image\n' +
+        '              source={iconsMap[deviceIcon]} style={devicesStyles.deviceImage}\n' +
+        '              resizeMode={Image.resizeMode.contain}\n' +
+        '            />\n' +
+        '          </View>\n' +
+        '          <View style={devicesStyles.close}>\n' +
+        '            <IconButton name="close" style={devicesStyles.closeText}\n' +
+        '                        onPress={this._removeDevice.bind(this, device)} />\n' +
+        '          </View>\n' +
+        '        </View>\n' +
+        '      );\n' +
+        '    });\n' +
+        '  }\n' +
+        '\n' +
+        '  _header(iconName, title) {\n' +
+        '    let rightNav = this.props.mode === INTRO_MODE ?\n' +
+        '      <Icon name=\'chevron-right\' size={25} color=\'white\' onPress={this._onPressContinue}/> : null;\n' +
+        '\n' +
+        '    let leftNav = this.props.mode === INTRO_MODE ?\n' +
+        '      <Icon name=\'chevron-left\' size={25} color=\'white\' onPress={this.handleBackPress}/> : null;\n' +
+        '\n' +
+        '    return (\n' +
+        '      <View>\n' +
+        '        <View style={devicesStyles.row}>\n' +
+        '          {leftNav}\n' +
+        '          <H2 labelStyles={styles.defaultHeadingTextStyle}>\n' +
+        '            <Icon name={iconName} size={30} /> {title}\n' +
+        '          </H2>\n' +
+        '          {rightNav}\n' +
+        '        </View>\n' +
+        '      </View>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  _renderInfo() {\n' +
+        '    let continueButton = this.props.mode === INTRO_MODE ?\n' +
+        '    <Button style={[styles.defaultBtn, devicesStyles.customButton]} labelStyle={styles.defaultBtnLabel}\n' +
+        '            onPress={this._onPressContinue.bind(this)}>Continue</Button> : null;\n' +
+        '\n' +
+        '    return (\n' +
+        '      <ScrollView contentContainerStyle={devicesStyles.contentContainerStyle}>\n' +
+        '        <View>\n' +
+        '          <View style={devicesStyles.header} key=\'devices\'>\n' +
+        '            {this._header(\'android-watch\', \'Fitness Devices\')}\n' +
+        '          </View>\n' +
+        '          <View>\n' +
+        '            <View>\n' +
+        '              <View style={devicesStyles.devicesContainer}>\n' +
+        '                {this._renderDevices()}\n' +
+        '                <View style={devicesStyles.addWrapper}>\n' +
+        '                  <IconButton name="ios-plus-outline" style={devicesStyles.createIcon}\n' +
+        '                              onPress={this._onPressOpenOptionsModal.bind(this)} />\n' +
+        '                </View>\n' +
+        '              </View>\n' +
+        '            </View>\n' +
+        '            <View>\n' +
+        '              {continueButton}\n' +
+        '            </View>\n' +
+        '          </View>\n' +
+        '        </View>\n' +
+        '      </ScrollView>\n' +
+        '    );\n' +
+        '  };\n' +
+        '\n' +
+        '  render() {\n' +
+        '    let content = this.props.mode === INTRO_MODE ?\n' +
+        '    <View style={devicesStyles.cont}>\n' +
+        '      {this._renderInfo()}\n' +
+        '    </View>\n' +
+        '    :\n' +
+        '    <Home navigator={this.props.navigator}>\n' +
+        '      {this._renderInfo()}\n' +
+        '    </Home>;\n' +
+        '\n' +
+        '    return (\n' +
+        '      <View>\n' +
+        '        {content}\n' +
+        '        {this.state.showModal ? this._renderModal() : null}\n' +
+        '        {this.state.showOptionsModal ? this._renderOptionsModal() : null}\n' +
+        '      </View>\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'Devices.propTypes = {\n' +
+        '  navigator: React.PropTypes.instanceOf(React.Navigator),\n' +
+        '  mode: React.PropTypes.string\n' +
+        '};\n' +
+        '\n' +
+        'export default Devices;'
+      }
     ]
   },
   {
