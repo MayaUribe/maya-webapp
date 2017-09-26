@@ -735,16 +735,16 @@ fieldset[disabled] .btn-primary:hover {
 .btn-xl.active, .btn-xl:active,
 .open > .btn-xl.dropdown-toggle {
   color: white;
-  border-color: #f6bf01;
-  background-color: #fec503;
+  border-color: #c10244;
+  background-color: #bd0344;
 }
 .btn-xl.active.focus, .btn-xl.active:focus, .btn-xl.active:hover, .btn-xl:active.focus, .btn-xl:active:focus, .btn-xl:active:hover,
 .open > .btn-xl.dropdown-toggle.focus,
 .open > .btn-xl.dropdown-toggle:focus,
 .open > .btn-xl.dropdown-toggle:hover {
   color: white;
-  border-color: #b48b01;
-  background-color: #dcab01;
+  border-color: #c10244;
+  background-color: #bd0344;
 }
 .btn-xl.active, .btn-xl:active,
 .open > .btn-xl.dropdown-toggle {
@@ -804,10 +804,35 @@ h2.project-title {
 }
 .project-description {
   margin-bottom: 20px;
+  text-align: justify;
 }
 .bg-project {
   background-color: #c1c6da;
 }
 div#summary {
    padding: 0;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+  background-color: #71799c;
+  border-color: #71799c;
+}
+
+.back-button {
+  align-self: center;
 }

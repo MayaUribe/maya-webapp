@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import { PROJECTS } from '../../data/projects';
 import _ from 'lodash';
 import Highlight from 'react-highlight';
+import ChevronLeft from '../../../node_modules/react-icons/lib/fa/chevron-left';
 
 class Project extends Component {
   constructor(props) {
@@ -31,16 +32,25 @@ class Project extends Component {
     this.setState({project});
   }
 
+  _handleGoToPage() {
+    browserHistory.push('/');
+  }
+
   _renderHeader() {
     return (
       <section className="bg-project" id="project">
         <div className="container">
           <div className="row">
-            <div className="col-lg-12">
+            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right back-button">
+              <button type="button" className="btn btn-default btn-circle btn-xl" onClick={this._handleGoToPage.bind(this)}>
+                <ChevronLeft/>
+              </button>
+            </div>
+            <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
               <h2 className="project-title">{this.state.project.name}</h2>
+              {this._renderProjectSummary()}
             </div>
           </div>
-          {this._renderProjectSummary()}
         </div>
       </section>
     );
