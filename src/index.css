@@ -710,6 +710,11 @@ fieldset[disabled] .btn-primary:hover {
   section h2.section-heading {
     font-size: 22px;
   }
+
+  .back-button {
+    text-align: left!important;
+    margin-bottom: 10px;
+  }
 }
 .btn-xl {
   font-size: 18px;
@@ -878,6 +883,9 @@ div#summary {
   -ms-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
+}
+#return-to-top {
+  z-index: 9999;
 }
 #return-to-top:hover {
   background: rgba(0, 0, 0, 0.9);
