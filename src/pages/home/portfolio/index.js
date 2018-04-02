@@ -62,7 +62,12 @@ class Portfolio extends Component {
           <div className="row">
             <div className="col-lg-12 text-center">
               <h2 className="section-heading">Portfolio</h2>
-              <h3 className="section-subheading text-muted">Here are some samples of the work I've done.</h3>
+              <h3 className="section-subheading text-muted">
+                This is some of the projects I've worked with.
+                <div className="note">
+                  <strong>NOTE:</strong> Because of confidentiality reasons most of the project names are changed and also the variable names in the code, this is not the whole code, it's just a small sample.
+                </div>
+              </h3>
             </div>
           </div>
           <div className="row">

@@ -1,6 +1,796 @@
 export const PROJECTS = [
   {
     id: 1,
+    name: 'Online Store',
+    company: 'Scopic Software',
+    description: 'Site to buy and sell items online.',
+    thumbnail: '/img/portfolio/react-logo.png',
+    image: 'img/portfolio/react-logo.png',
+    logo: 'img/logos/scopic-logo.png.no',
+    tags: ['React JS', 'Redux', 'Electron', 'HTML', 'JS', 'SCSS'],
+    sampleCodes: [
+      {
+        file: 'home/settings/index.js',
+        language: 'JSX',
+        code: 'import React, { Component } from \'react\';\n' +
+        'import { bindActionCreators } from \'redux\';\n' +
+        'import { connect } from \'react-redux\';\n' +
+        'import { Modal, Tab, Image } from \'semantic-ui-react\';\n' +
+        'import { defineMessages, injectIntl } from \'react-intl\';\n' +
+        'import classNames from \'classnames\';\n' +
+        'import PropTypes from \'prop-types\';\n' +
+        '\n' +
+        'import UserIcon from \'../../images/th-user-white.svg\';\n' +
+        'import OmniIcon from \'../../images/th-omnicoin.svg\';\n' +
+        'import PublicData from \'./scenes/PublicData/PublicData\';\n' +
+        'import PrivateData from \'./scenes/PrivateData/PrivateData\';\n' +
+        'import RecentTransactions from \'./scenes/RecentTransactions/RecentTransactions\';\n' +
+        'import TransactionDetails from \'./scenes/RecentTransactions/components/TransactionDetails\';\n' +
+        'import Keys from \'./scenes/Keys/Keys\';\n' +
+        'import Vote from \'./scenes/Vote/Vote\';\n' +
+        '\n' +
+        'import { getCurrentUser } from \'../../../../services/blockchain/auth/authActions\';\n' +
+        'import { showDetailsModal } from \'../../../../services/accountSettings/accountActions\';\n' +
+        'import { getAccountBalance } from \'../../../../services/blockchain/wallet/walletActions\';\n' +
+        '\n' +
+        'import \'./settings.scss\';\n' +
+        '\n' +
+        'const iconSize = 20;\n' +
+        '\n' +
+        'const messages = defineMessages({\n' +
+        '  account: {\n' +
+        '    id: \'Settings.account\',\n' +
+        '    defaultMessage: \'Account\'\n' +
+        '  },\n' +
+        '  registered: {\n' +
+        '    id: \'Settings.registered\',\n' +
+        '    defaultMessage: \'REGISTERED\'\n' +
+        '  },\n' +
+        '  xom: {\n' +
+        '    id: \'Settings.xom\',\n' +
+        '    defaultMessage: \'XOM\'\n' +
+        '  },\n' +
+        '  accountId: {\n' +
+        '    id: \'Settings.accountId\',\n' +
+        '    defaultMessage: \'Account ID\'\n' +
+        '  },\n' +
+        '  currentBalance: {\n' +
+        '    id: \'Settings.currentBalance\',\n' +
+        '    defaultMessage: \'Current Balance\'\n' +
+        '  },\n' +
+        '  publicData: {\n' +
+        '    id: \'Settings.publicData\',\n' +
+        '    defaultMessage: \'Public Data\'\n' +
+        '  },\n' +
+        '  privateData: {\n' +
+        '    id: \'Settings.privateData\',\n' +
+        '    defaultMessage: \'Private Data\'\n' +
+        '  },\n' +
+        '  recentTransactions: {\n' +
+        '    id: \'Settings.recentTransactions\',\n' +
+        '    defaultMessage: \'Recent Transactions\'\n' +
+        '  }\n' +
+        '});\n' +
+        '\n' +
+        'class Settings extends Component {\n' +
+        '  constructor(props) {\n' +
+        '    super(props);\n' +
+        '\n' +
+        '    this.onCloseDetails = this.onCloseDetails.bind(this);\n' +
+        '    this.getBalance = this.getBalance.bind(this);\n' +
+        '  }\n' +
+        '\n' +
+        '  componentDidMount() {\n' +
+        '    this.props.walletActions.getAccountBalance(this.props.auth.account);\n' +
+        '  }\n' +
+        '\n' +
+        '  close = () => {\n' +
+        '    if (this.props.onClose) {\n' +
+        '      this.props.onClose();\n' +
+        '    }\n' +
+        '  };\n' +
+        '\n' +
+        '  onCloseDetails() {\n' +
+        '    this.props.accountSettingsActions.showDetailsModal();\n' +
+        '  }\n' +
+        '\n' +
+        '  getBalance() {\n' +
+        '    const { balance } = this.props.blockchainWallet;\n' +
+        '    if (balance && balance.balance) {\n' +
+        '      return balance.balance / 100000;\n' +
+        '    }\n' +
+        '    return 0;\n' +
+        '  }\n' +
+        '\n' +
+        '  sideMenu() {\n' +
+        '    const { formatMessage } = this.props.intl;\n' +
+        '    const { username } = this.props.auth.currentUser;\n' +
+        '    const { account } = this.props.auth;\n' +
+        '    return (\n' +
+        '      <div>\n' +
+        '        <div className="info">\n' +
+        '          <Image src={UserIcon} width={iconSize} height={iconSize} />\n' +
+        '          <div className="top-detail">\n' +
+        '            <div className="title">\n' +
+        '              <span>{formatMessage(messages.account)}</span>\n' +
+        '              <div className="badge-tag">{formatMessage(messages.registered)}</div>\n' +
+        '            </div>\n' +
+        '            <span className="username">{username || \'Username\'}</span>\n' +
+        '            <span className="accountId">{formatMessage(messages.accountId)}: {account.get(\'id\')}</span>\n' +
+        '          </div>\n' +
+        '        </div>\n' +
+        '        <div className="info">\n' +
+        '          <Image src={OmniIcon} width={iconSize} height={iconSize} />\n' +
+        '          <div className="top-detail">\n' +
+        '            <div className="title">\n' +
+        '              <span>{formatMessage(messages.currentBalance)}</span>\n' +
+        '            </div>\n' +
+        '            <span className="balance">\n' +
+        '              {this.getBalance()} {formatMessage(messages.xom)}\n' +
+        '            </span>\n' +
+        '          </div>\n' +
+        '        </div>\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    const { props } = this;\n' +
+        '    const { formatMessage } = this.props.intl;\n' +
+        '    const containerClass = classNames({\n' +
+        '      overlay: true,\n' +
+        '      \'details-visible\': props.account.showDetails,\n' +
+        '    });\n' +
+        '\n' +
+        '    return (\n' +
+        '      <Modal size="fullscreen" open={props.menu.showSettings} onClose={this.close}>\n' +
+        '        <Modal.Content>\n' +
+        '          <div className="modal-container settings-container">\n' +
+        '            <div className="sidebar settings visible">{this.sideMenu()}</div>\n' +
+        '            <div className="modal-content side-menu">\n' +
+        '              <Tab\n' +
+        '                className="tabs"\n' +
+        '                menu={{ secondary: true, pointing: true }}\n' +
+        '                panes={[\n' +
+        '                 {\n' +
+        '                   menuItem: formatMessage(messages.publicData),\n' +
+        '                   render: () => <Tab.Pane><PublicData /></Tab.Pane>,\n' +
+        '                 },\n' +
+        '                 {\n' +
+        '                   menuItem: formatMessage(messages.privateData),\n' +
+        '                   render: () => <Tab.Pane><PrivateData /></Tab.Pane>,\n' +
+        '                 },\n' +
+        '                 {\n' +
+        '                   menuItem: formatMessage(messages.recentTransactions),\n' +
+        '                   render: () => (\n' +
+        '                     <Tab.Pane>\n' +
+        '                       <RecentTransactions\n' +
+        '                         rowsPerPage={5}\n' +
+        '                         tableProps={{\n' +
+        '                           sortable: true,\n' +
+        '                           compact: true,\n' +
+        '                           basic: \'very\',\n' +
+        '                           striped: true,\n' +
+        '                           size: \'small\'\n' +
+        '                         }}\n' +
+        '                       />\n' +
+        '                     </Tab.Pane>),\n' +
+        '                 },\n' +
+        '                 {\n' +
+        '                   menuItem: \'Keys\',\n' +
+        '                   render: () => <Tab.Pane className="keys-tab"><Keys /></Tab.Pane>,\n' +
+        '                 },\n' +
+        '                 {\n' +
+        '                   menuItem: \'Vote\',\n' +
+        '                   render: () => (\n' +
+        '                     <Tab.Pane>\n' +
+        '                       <Vote\n' +
+        '                         rowsPerPage={5}\n' +
+        '                         tableProps={{\n' +
+        '                           sortable: true,\n' +
+        '                           compact: true,\n' +
+        '                           basic: \'very\',\n' +
+        '                           striped: true,\n' +
+        '                           size: \'small\'\n' +
+        '                         }}\n' +
+        '                       />\n' +
+        '                     </Tab.Pane>\n' +
+        '                   ),\n' +
+        '                 },\n' +
+        '                ]}\n' +
+        '              />\n' +
+        '              <div\n' +
+        '                className={containerClass}\n' +
+        '                onClick={this.onCloseDetails}\n' +
+        '                onKeyDown={this.onCloseDetails}\n' +
+        '                role="link"\n' +
+        '                tabIndex={0}\n' +
+        '              />\n' +
+        '              <TransactionDetails\n' +
+        '                showCompose={props.account.showDetails}\n' +
+        '                onClose={this.onCloseDetails}\n' +
+        '              />\n' +
+        '            </div>\n' +
+        '          </div>\n' +
+        '        </Modal.Content>\n' +
+        '      </Modal>\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'Settings.propTypes = {\n' +
+        '  accountSettingsActions: PropTypes.shape({\n' +
+        '    showDetailsModal: PropTypes.func,\n' +
+        '  }),\n' +
+        '  walletActions: PropTypes.shape({\n' +
+        '    getAccountBalance: PropTypes.func\n' +
+        '  }),\n' +
+        '  onClose: PropTypes.func,\n' +
+        '  auth: PropTypes.shape({\n' +
+        '    currentUser: PropTypes.shape({\n' +
+        '      username: PropTypes.string,\n' +
+        '    }),\n' +
+        '    account: PropTypes.shape({})\n' +
+        '  }),\n' +
+        '  blockchainWallet: PropTypes.shape({\n' +
+        '    balance: PropTypes.shape({})\n' +
+        '  }),\n' +
+        '  intl: PropTypes.shape({\n' +
+        '    formatMessage: PropTypes.func,\n' +
+        '  }),\n' +
+        '};\n' +
+        '\n' +
+        'Settings.defaultProps = {\n' +
+        '  accountSettingsActions: {},\n' +
+        '  onClose: () => {},\n' +
+        '  auth: {},\n' +
+        '  intl: {},\n' +
+        '};\n' +
+        '\n' +
+        'export default connect(\n' +
+        '  state => ({ ...state.default }),\n' +
+        '  (dispatch) => ({\n' +
+        '    accountSettingsActions: bindActionCreators({\n' +
+        '      getCurrentUser,\n' +
+        '      showDetailsModal\n' +
+        '    }, dispatch),\n' +
+        '    walletActions: bindActionCreators({\n' +
+        '      getAccountBalance\n' +
+        '    }, dispatch),\n' +
+        '  }),\n' +
+        ')(injectIntl(Settings));\n'
+      },
+      {
+        file: 'home/settings/settings.scss',
+        language: 'SCSS',
+        code: '@import \'../../../../styles/index\';\n' +
+        '\n' +
+        '$sidebar-size: 250px;\n' +
+        '\n' +
+        '.ui.modal {\n' +
+        '  border-top-left-radius: 0.4rem;\n' +
+        '  border-bottom-left-radius: 0.4rem;\n' +
+        '\n' +
+        '  .from-to {\n' +
+        '    display: flex;\n' +
+        '    align-items: center;\n' +
+        '  }\n' +
+        '\n' +
+        '  .content {\n' +
+        '    border-top-left-radius: 0.4rem!important;\n' +
+        '    border-bottom-left-radius: 0.4rem!important;\n' +
+        '    padding: 0 !important;\n' +
+        '    height: 100%;\n' +
+        '\n' +
+        '    .modal-container {\n' +
+        '      height: 100%;\n' +
+        '\n' +
+        '      .tabs {\n' +
+        '        border-bottom: none;\n' +
+        '        display: flex;\n' +
+        '        flex-direction: column;\n' +
+        '        height: 100%;\n' +
+        '\n' +
+        '        .segment.active {\n' +
+        '          height: 100%;\n' +
+        '          overflow-y: auto;\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      .bottom-detail {\n' +
+        '        display: flex;\n' +
+        '\n' +
+        '        .labels {\n' +
+        '          margin-left: 20px;\n' +
+        '          align-self: center;\n' +
+        '        }\n' +
+        '\n' +
+        '        .amount {\n' +
+        '          font-weight: bold;\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      .modal-content.side-menu {\n' +
+        '        height: 100%;\n' +
+        '        display: flex;\n' +
+        '        border-radius: 0.28rem;\n' +
+        '        margin-left: $sidebar-size;\n' +
+        '        transition: margin 0.5s ease;\n' +
+        '        background-color: $lighter-gray;\n' +
+        '      }\n' +
+        '\n' +
+        '      .info {\n' +
+        '        display: flex;\n' +
+        '        flex-direction: column;\n' +
+        '\n' +
+        '        img {\n' +
+        '          margin-right: 10px;\n' +
+        '        }\n' +
+        '\n' +
+        '        .top-detail {\n' +
+        '          display: flex;\n' +
+        '          flex-direction: column;\n' +
+        '          flex: 1;\n' +
+        '          color: $lightest-gray;\n' +
+        '\n' +
+        '          .title {\n' +
+        '            display: flex;\n' +
+        '            flex: 1;\n' +
+        '            justify-content: space-between;\n' +
+        '            align-items: center;\n' +
+        '            margin-bottom: 5px;\n' +
+        '\n' +
+        '            span {\n' +
+        '              font-weight: lighter;\n' +
+        '            }\n' +
+        '          }\n' +
+        '\n' +
+        '          .badge-tag {\n' +
+        '            color: $secondary-gray;\n' +
+        '            border-color: $secondary-gray;\n' +
+        '            padding: 2px 5px;\n' +
+        '          }\n' +
+        '\n' +
+        '          .username, .balance {\n' +
+        '            font-weight: bold;\n' +
+        '            margin-bottom: 5px;\n' +
+        '          }\n' +
+        '\n' +
+        '          .accountId {\n' +
+        '            color: $secondary-gray;\n' +
+        '            font-size: 10px;\n' +
+        '          }\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      .sidebar {\n' +
+        '        .info {\n' +
+        '          margin-bottom: 35px;\n' +
+        '          flex-direction: row;\n' +
+        '        }\n' +
+        '      }\n' +
+        '\n' +
+        '      .separator {\n' +
+        '        width: 100%;\n' +
+        '        height: 1px;\n' +
+        '        background-color: lighten($primary-gray, 20%);\n' +
+        '        margin-top: 20px;\n' +
+        '        margin-bottom: 20px;\n' +
+        '      }\n' +
+        '\n' +
+        '      .details {\n' +
+        '        .top-detail {\n' +
+        '          display: flex;\n' +
+        '          flex-direction: row;\n' +
+        '          justify-content: space-between;\n' +
+        '          align-items: center;\n' +
+        '          margin-left: 15px;\n' +
+        '          margin-right: 15px;\n' +
+        '\n' +
+        '          .button {\n' +
+        '            padding: 0.5em 1.5em 0.5em;\n' +
+        '          }\n' +
+        '        }\n' +
+        '\n' +
+        '        .code {\n' +
+        '          font-size: 17px;\n' +
+        '\n' +
+        '          &.main {\n' +
+        '            margin-bottom: 20px;\n' +
+        '          }\n' +
+        '        }\n' +
+        '\n' +
+        '        .top-container {\n' +
+        '          display: flex;\n' +
+        '          margin-bottom: 20px;\n' +
+        '        }\n' +
+        '\n' +
+        '        .info {\n' +
+        '          margin-left: 15px;\n' +
+        '          margin-right: 15px;\n' +
+        '\n' +
+        '          .item {\n' +
+        '            flex: 1;\n' +
+        '            display: flex;\n' +
+        '            flex-direction: column;\n' +
+        '\n' +
+        '            .time-zone {\n' +
+        '              color: $primary-gray;\n' +
+        '              font-size: 10px;\n' +
+        '            }\n' +
+        '\n' +
+        '            .date {\n' +
+        '              margin-top: 5px;\n' +
+        '            }\n' +
+        '          }\n' +
+        '        }\n' +
+        '\n' +
+        '        .operations {\n' +
+        '          margin-left: 15px;\n' +
+        '          margin-right: 15px;\n' +
+        '\n' +
+        '          .withdraw {\n' +
+        '            background-color: lighten($error, 27%);\n' +
+        '          }\n' +
+        '\n' +
+        '          .deposit {\n' +
+        '            background-color: lighten($success, 33%);\n' +
+        '          }\n' +
+        '\n' +
+        '          .withdraw, .deposit {\n' +
+        '            padding: 8px;\n' +
+        '            border-radius: 3px;\n' +
+        '            margin-bottom: 10px;\n' +
+        '          }\n' +
+        '        }\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  .data-table .top-detail {\n' +
+        '    flex-direction: row !important;\n' +
+        '  }\n' +
+        '\n' +
+        '  .data-table {\n' +
+        '    td.balance {\n' +
+        '      .link {\n' +
+        '        margin-left: 15px;\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '\n' +
+        '  .from-icon {\n' +
+        '    margin-right: 5px\n' +
+        '  }\n' +
+        '\n' +
+        '  .to-icon {\n' +
+        '    margin-left: 15px;\n' +
+        '    margin-right: 5px\n' +
+        '  }\n' +
+        '\n' +
+        '  .sidebar {\n' +
+        '    &.settings {\n' +
+        '      background-color: $gray;\n' +
+        '      position: fixed;\n' +
+        '      top: 0;\n' +
+        '      bottom: 0;\n' +
+        '      width: $sidebar-size;\n' +
+        '      border-top-left-radius: 0.28571429rem;\n' +
+        '      border-bottom-left-radius: 0.28571429rem;\n' +
+        '      padding: 20px 15px;\n' +
+        '    }\n' +
+        '  }\n' +
+        '}\n' +
+        '\n',
+      },
+      {
+        file: 'home/servers/index.js',
+        language: 'JSX',
+        code: 'import React, { Component } from \'react\';\n' +
+        'import { connect } from \'react-redux\';\n' +
+        '\n' +
+        'import { Tab } from \'semantic-ui-react\';\n' +
+        'import Header from \'../../../../components/Header\';\n' +
+        'import TopServers from \'./component/TopServers\';\n' +
+        'import StandByServers from \'./component/StandByServers\';\n' +
+        'import Badge from \'./component/Badge\';\n' +
+        '\n' +
+        'import \'./servers.scss\';\n' +
+        '\n' +
+        'class Servers extends Component {\n' +
+        '  static renderBadges() {\n' +
+        '    return (\n' +
+        '      <div className="badges">\n' +
+        '        <Badge title="Maximum server pay per block" value="50.00 XOM" />\n' +
+        '        <Badge title="Average active server pay rate" value="100%" />\n' +
+        '        <Badge title="Number of positive votes selected" value="0" />\n' +
+        '        <Badge title="Number of neutral votes selected" value="0" />\n' +
+        '        <Badge title="Number of negative votes selected" value="0" />\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  static renderVotes() {\n' +
+        '    return (\n' +
+        '      <div className="badges">\n' +
+        '        <Badge title="Number of positive votes selected" value="0" />\n' +
+        '        <Badge title="Number of neutral votes selected" value="0" />\n' +
+        '        <Badge title="Number of negative votes selected" value="0" />\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  static topServers() {\n' +
+        '    return (\n' +
+        '      <TopServers\n' +
+        '        rowsPerPage={5}\n' +
+        '        tableProps={{\n' +
+        '          sortable: true,\n' +
+        '          compact: true,\n' +
+        '          basic: \'very\',\n' +
+        '          striped: true,\n' +
+        '          size: \'small\'\n' +
+        '        }}\n' +
+        '      />\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  static standbyServers() {\n' +
+        '    return (\n' +
+        '      <StandByServers\n' +
+        '        rowsPerPage={4}\n' +
+        '        tableProps={{\n' +
+        '          sortable: true,\n' +
+        '          compact: true,\n' +
+        '          basic: \'very\',\n' +
+        '          striped: true,\n' +
+        '          size: \'small\'\n' +
+        '        }}\n' +
+        '      />\n' +
+        '    );\n' +
+        '  }\n' +
+        '\n' +
+        '  render() {\n' +
+        '    return (\n' +
+        '      <div ref={container => { this.container = container; }} className="container servers">\n' +
+        '        <Header className="button--green-bg" title="Servers" />\n' +
+        '        <div className="body">\n' +
+        '          <Tab\n' +
+        '            className="tabs"\n' +
+        '            menu={{ secondary: true, pointing: true }}\n' +
+        '            panes={[\n' +
+        '              {\n' +
+        '                menuItem: \'All Servers\',\n' +
+        '                render: () => <Tab.Pane>{Servers.renderBadges()}</Tab.Pane>,\n' +
+        '              },\n' +
+        '              {\n' +
+        '                menuItem: \'Votes\',\n' +
+        '                render: () => <Tab.Pane>{Servers.renderVotes()}</Tab.Pane>,\n' +
+        '              },\n' +
+        '            ]}\n' +
+        '          />\n' +
+        '          <Tab\n' +
+        '            className="tabs"\n' +
+        '            menu={{ secondary: true, pointing: true }}\n' +
+        '            panes={[\n' +
+        '              {\n' +
+        '                menuItem: \'Top Servers\',\n' +
+        '                render: () => <Tab.Pane>{Servers.topServers()}</Tab.Pane>\n' +
+        '              },\n' +
+        '              {\n' +
+        '                menuItem: \'Standby Servers\',\n' +
+        '                render: () => <Tab.Pane>{Servers.standbyServers()}</Tab.Pane>,\n' +
+        '              },\n' +
+        '            ]}\n' +
+        '          />\n' +
+        '        </div>\n' +
+        '      </div>\n' +
+        '    );\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'export default connect(state => ({ ...state.default }))(Servers);\n'
+      },
+      {
+        file: 'services/servers/serversActions.js',
+        language: 'JS',
+        code: 'import { createActions } from \'redux-actions\';\n' +
+        '\n' +
+        'const {\n' +
+        '  getTopServers,\n' +
+        '  sortDataTop,\n' +
+        '  filterDataTop,\n' +
+        '  setActivePageTop,\n' +
+        '  setPaginationTop\n' +
+        '} = createActions({\n' +
+        '  GET_TOP_SERVERS: (topServers) => ({ topServers }),\n' +
+        '  SORT_DATA_TOP: (sortColumnTop) => ({ sortColumnTop }),\n' +
+        '  FILTER_DATA_TOP: (filterTextTop) => ({ filterTextTop }),\n' +
+        '  SET_ACTIVE_PAGE_TOP: (activePageTop) => ({ activePageTop }),\n' +
+        '  SET_PAGINATION_TOP: (rowsPerPageTop) => ({ rowsPerPageTop }),\n' +
+        '});\n' +
+        '\n' +
+        'export {\n' +
+        '  getTopServers,\n' +
+        '  sortDataTop,\n' +
+        '  filterDataTop,\n' +
+        '  setActivePageTop,\n' +
+        '  setPaginationTop,\n' +
+        '};\n'
+      },
+      {
+        file: 'services/servers/serversReducer.js',
+        language: 'JS',
+        code: 'import { handleActions } from \'redux-actions\';\n' +
+        'import _ from \'lodash\';\n' +
+        '\n' +
+        'import {\n' +
+        '  getTopServers,\n' +
+        '  sortDataTop,\n' +
+        '  filterDataTop,\n' +
+        '  setActivePageTop,\n' +
+        '  setPaginationTop,\n' +
+        '} from \'./serversTopActions\';\n' +
+        '\n' +
+        'const defaultState = {\n' +
+        '  topServers: [],\n' +
+        '  topServersFiltered: [],\n' +
+        '  activePageTop: 1,\n' +
+        '  sortDirectionTop: \'descending\',\n' +
+        '  sortColumnTop: \'rank\',\n' +
+        '  totalPagesTop: 1,\n' +
+        '  rowsPerPageTop: 10,\n' +
+        '  filterTextTop: \'\',\n' +
+        '};\n' +
+        '\n' +
+        'const sliceData = (data, activePage, rowsPerPage) => (\n' +
+        '  data.slice((activePage - 1) * rowsPerPage, activePage * rowsPerPage)\n' +
+        ');\n' +
+        '\n' +
+        'const getTotalPages = (data, rowsPerPage) => (\n' +
+        '  Math.ceil(data.length / rowsPerPage)\n' +
+        ');\n' +
+        '\n' +
+        'const reducer = handleActions({\n' +
+        '  [getTopServers](state, { payload: { topServers } }) {\n' +
+        '    return {\n' +
+        '      ...state,\n' +
+        '      topServers,\n' +
+        '      topServersFiltered: topServers,\n' +
+        '    };\n' +
+        '  },\n' +
+        '  [filterDataTop](state, { payload: { filterTextTop } }) {\n' +
+        '    const data = state.topServers;\n' +
+        '    const activePageTop = 1;\n' +
+        '    const { rowsPerPageTop, totalPagesTop } = state;\n' +
+        '    let totalPages = totalPagesTop;\n' +
+        '    let currentData = [];\n' +
+        '\n' +
+        '    if (filterTextTop !== \'\') {\n' +
+        '      let filteredData = _.map(data, (o) => {\n' +
+        '        const values = Object.values(o);\n' +
+        '        const result = _.map(values, (val) => {\n' +
+        '          if (val) {\n' +
+        '            if (val.toString().indexOf(filterTextTop) !== -1) return o;\n' +
+        '          }\n' +
+        '        });\n' +
+        '        return _.without(result, undefined)[0];\n' +
+        '      });\n' +
+        '\n' +
+        '      filteredData = _.without(filteredData, undefined);\n' +
+        '      totalPages = getTotalPages(filteredData, rowsPerPageTop);\n' +
+        '      currentData = sliceData(filteredData, activePageTop, rowsPerPageTop);\n' +
+        '    } else {\n' +
+        '      currentData = data;\n' +
+        '      totalPages = getTotalPages(currentData, rowsPerPageTop);\n' +
+        '      currentData = sliceData(currentData, activePageTop, rowsPerPageTop);\n' +
+        '    }\n' +
+        '\n' +
+        '    return {\n' +
+        '      ...state,\n' +
+        '      filterTextTop,\n' +
+        '      activePageTop,\n' +
+        '      totalPagesTop: totalPages,\n' +
+        '      topServersFiltered: currentData,\n' +
+        '    };\n' +
+        '  },\n' +
+        '  [setPaginationTop](state, { payload: { rowsPerPageTop } }) {\n' +
+        '    const data = state.topServers;\n' +
+        '    const { activePageTop } = state;\n' +
+        '    const totalPagesTop = getTotalPages(data, rowsPerPageTop);\n' +
+        '    const currentData = sliceData(data, activePageTop, rowsPerPageTop);\n' +
+        '\n' +
+        '    return {\n' +
+        '      ...state,\n' +
+        '      totalPagesTop,\n' +
+        '      rowsPerPageTop,\n' +
+        '      topServersFiltered: currentData,\n' +
+        '    };\n' +
+        '  },\n' +
+        '  [setActivePageTop](state, { payload: { activePageTop } }) {\n' +
+        '    const data = state.topServers;\n' +
+        '    if (activePageTop !== state.activePageTop) {\n' +
+        '      const { rowsPerPageTop } = state;\n' +
+        '      const currentData = sliceData(data, activePageTop, rowsPerPageTop);\n' +
+        '\n' +
+        '      return {\n' +
+        '        ...state,\n' +
+        '        activePageTop,\n' +
+        '        topServersFiltered: currentData,\n' +
+        '      };\n' +
+        '    }\n' +
+        '\n' +
+        '    return {\n' +
+        '      ...state,\n' +
+        '    };\n' +
+        '  },\n' +
+        '  [sortDataTop](state, { payload: { sortColumnTop } }) {\n' +
+        '    const { filterTextTop } = state;\n' +
+        '    let sortDirectionTop = state.sortDirectionTop === \'ascending\' ? \'descending\' : \'ascending\';\n' +
+        '    const sortByFilter = _.sortBy(state.topServersFiltered, [sortColumnTop]);\n' +
+        '    const sortByData = _.sortBy(state.topServers, [sortColumnTop]);\n' +
+        '    const sortBy = filterTextTop !== \'\' ? sortByFilter : sortByData;\n' +
+        '    let sortedData = [];\n' +
+        '\n' +
+        '    if (state.sortColumnTop !== sortColumnTop) {\n' +
+        '      sortedData = sortBy.reverse();\n' +
+        '      sortDirectionTop = \'ascending\';\n' +
+        '    } else {\n' +
+        '      sortedData = sortDirectionTop === \'ascending\' ? sortBy.reverse() : sortBy;\n' +
+        '    }\n' +
+        '\n' +
+        '    const { activePageTop, rowsPerPageTop } = state;\n' +
+        '    const currentData = sliceData(sortedData, activePageTop, rowsPerPageTop);\n' +
+        '\n' +
+        '    return {\n' +
+        '      ...state,\n' +
+        '      topServersFiltered: currentData,\n' +
+        '      sortDirectionTop,\n' +
+        '      sortColumnTop,\n' +
+        '    };\n' +
+        '  },\n' +
+        '}, defaultState);\n' +
+        '\n' +
+        'export default reducer;\n'
+      },
+      {
+        file: 'services/servers/servers.scss',
+        language: 'JS',
+        code: '@import \'../../../../styles/index\';\n' +
+        '@import \'../../../../styles/datatable\';\n' +
+        '\n' +
+        '.servers {\n' +
+        '  background-color: $lighter-gray;\n' +
+        '\n' +
+        '  .tabs {\n' +
+        '    border-bottom: none;\n' +
+        '  }\n' +
+        '\n' +
+        '  .badges {\n' +
+        '    display: flex;\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        '.votes {\n' +
+        '  display: flex;\n' +
+        '\n' +
+        '  &.voted {\n' +
+        '    opacity: 0.5;\n' +
+        '  }\n' +
+        '\n' +
+        '  span {\n' +
+        '    margin-right: 22px;\n' +
+        '  }\n' +
+        '\n' +
+        '  img {\n' +
+        '    margin-right: 10px;\n' +
+        '  }\n' +
+        '}\n'
+      }
+    ]
+  },
+  {
+    id: 2,
     name: 'Fitness',
     company: 'Scopic Software',
     description: 'Fitness project to track daily exercises and synchronization with different fitness devices.',
@@ -589,7 +1379,7 @@ export const PROJECTS = [
     ]
   },
   {
-    id: 2,
+    id: 3,
     name: 'Audio Description',
     company: 'Scopic Software',
     description: 'Audio manipulation and edition with React JS and HTML5.',
@@ -1114,7 +1904,7 @@ export const PROJECTS = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     name: 'Voiceovers',
     company: 'Scopic Software',
     description: 'Mobile application dedicated to review and rate voiceovers castings for different characters and languages for a movie.',
@@ -1523,7 +2313,7 @@ export const PROJECTS = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     name: 'Canvas Handler',
     company: 'Scopic Software',
     description: 'Banner designer built with fabric JS that allow to create different shapes and add images and manipulate them.',
@@ -2950,7 +3740,7 @@ export const PROJECTS = [
     ]
   },
   {
-    id: 5,
+    id: 6,
     name: 'Cookbook App',
     company: 'Freelance Project',
     description: 'Mobile application to create and view recipes both on Android and iOS.',
@@ -3531,7 +4321,7 @@ export const PROJECTS = [
     ]
   },
   {
-    id: 6,
+    id: 7,
     name: 'Chat App',
     company: 'Scopic Software',
     description: 'Small node js application for chatting.',
@@ -3774,7 +4564,7 @@ export const PROJECTS = [
     ]
   },
   {
-    id: 7,
+    id: 8,
     name: 'Universoideas',
     company: 'Freelance Project',
     description: 'News site that includes an internal administration to add, edit and publish articles.',

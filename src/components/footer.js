@@ -18,7 +18,7 @@ class Footer extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-4">
-              <span className="copyright">Copyright &copy; Maya Uribe 2017</span>
+              <span className="copyright">Copyright &copy; Maya Uribe 2018</span>
             </div>
             <div className="col-md-4">
               <ul className="list-inline social-buttons">
